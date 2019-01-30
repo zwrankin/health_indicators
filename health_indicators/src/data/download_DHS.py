@@ -132,5 +132,7 @@ def load_SDG_indicators():
 def load_gbd_location_metadata():
     return pd.read_csv(f'{DATA_DIR}/raw/gbd_location_metadata.csv')
 
+LOCATION_METADATA=load_gbd_location_metadata()
+
 if __name__ == '__main__':
     save_DHS_data()
