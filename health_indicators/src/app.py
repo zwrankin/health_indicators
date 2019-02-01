@@ -10,13 +10,39 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 df = pd.read_hdf('../models/data_clustered.hdf').reset_index()
 available_indicators = df.columns.tolist()
+# https://www.w3schools.com/colors/colors_picker.asp
+palette = {
+    0: '#ff0000',
+    1: '#ff8000',
+    2: '#ffff00',
+    3: '#40ff00',
+    4: '#00ffff',
+    5: '#0000ff',
+    6: '#ff00ff',
+}
+colorscale = [[k/(len(palette)-1), palette[k]] for k in palette.keys()]  #choropleth colorscale seems to need 0-1 range
+df['color'] = df.cluster.map(palette)
+
+markdown_text = '''
+### Sustainable Development Goals
+
+Data is downloaded from the [Institute for Health Metrics and Evaluation](http://ghdx.healthdata.org/record/global-burden-disease-study-2017-gbd-2017-health-related-sustainable-development-goals-sdg)  
+*The United Nations established, in September 2015, the Sustainable Development Goals (SDGs), 
+which specify 17 universal goals, 169 targets, and 232 indicators leading up to 2030. 
+Drawing from GBD 2017, this dataset provides estimates on progress for 41 health-related SDG indicators 
+for 195 countries and territories from 1990 to 2017, and projections, based on past trends, for 2018 to 2030. 
+Estimates are also included for the health-related SDG index, a summary measure of overall performance across the health-related SDGs.*  
+See further visualizations [here](https://vizhub.healthdata.org/sdg/)
+'''
 
 graph_text = "Plotly graphs are interactive and responsive. \
 Hover over points to see their values, click on legend items to toggle traces, \
 click and drag to zoom, hold down shift, and click and drag to pan."
 
+
 app.layout = html.Div([
-    html.H1('SDG Clustering'),
+    # html.H1('SDG Clustering'),
+    dcc.Markdown(children=markdown_text),
 
     html.Div([
 
@@ -40,6 +66,24 @@ app.layout = html.Div([
 
     dcc.Graph(id='scatterplot'),
     html.Div(graph_text),
+
+    dcc.Graph(
+			id = 'county-choropleth',
+			figure = dict(
+				data=[dict(
+                    locations = df['ihme_loc_id'],
+                    z = df['cluster'].astype('float'),
+					text = df['location_name'],
+                    colorscale= colorscale,
+                    autocolorscale=False,
+					type = 'choropleth'
+				)],
+            layout = dict(title='Clustering countries based on SDG Indicators',
+                    geo=dict(showframe=False,
+                             projection={'type':'Mercator'})) # 'natural earth
+			)
+		),
+
 ])
 
 
@@ -59,6 +103,7 @@ def update_graph(xaxis_column_name, yaxis_column_name):
                 opacity=0.7,
                 marker={
                     'size': 15,
+                    'color': df[df['cluster'] == i]['color'], # palette[i],
                     'line': {'width': 0.5, 'color': 'white'}
                 },
                 name=f'Cluster {i}'
