@@ -8,7 +8,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-df = pd.read_hdf('../models/data_clustered.hdf').reset_index()
+df = pd.read_hdf('../models/data_clustered.hdf') #.reset_index()
+df_c = df.drop('location_id', axis=1).groupby('cluster').mean().reset_index().melt(id_vars='cluster')
 available_indicators = df.columns.tolist()
 # https://www.w3schools.com/colors/colors_picker.asp
 palette = {
@@ -22,10 +23,17 @@ palette = {
 }
 colorscale = [[k/(len(palette)-1), palette[k]] for k in palette.keys()]  #choropleth colorscale seems to need 0-1 range
 df['color'] = df.cluster.map(palette)
+df_c['color'] = df_c.cluster.map(palette)
 
-markdown_text = '''
+top_markdown_text = '''
 ### Sustainable Development Goals
 
+#### Cluster Analysis 
+Rather than using geographic regions, I have use a k-means clustering algorithm (details forthcoming) to cluster 
+countries based on their SDG indicator values.  
+'''
+
+bottom_markdown_text = '''
 Data is downloaded from the [Institute for Health Metrics and Evaluation](http://ghdx.healthdata.org/record/global-burden-disease-study-2017-gbd-2017-health-related-sustainable-development-goals-sdg)  
 *The United Nations established, in September 2015, the Sustainable Development Goals (SDGs), 
 which specify 17 universal goals, 169 targets, and 232 indicators leading up to 2030. 
@@ -42,7 +50,7 @@ click and drag to zoom, hold down shift, and click and drag to pan."
 
 app.layout = html.Div([
     # html.H1('SDG Clustering'),
-    dcc.Markdown(children=markdown_text),
+    dcc.Markdown(children=top_markdown_text),
 
     html.Div([
 
@@ -76,13 +84,50 @@ app.layout = html.Div([
 					text = df['location_name'],
                     colorscale= colorscale,
                     autocolorscale=False,
-					type = 'choropleth'
+					type = 'choropleth',
+                    # colorbar = {'title': 'Cluster'}
+                    showscale=False,
 				)],
-            layout = dict(title='Clustering countries based on SDG Indicators',
+            layout = dict(
+                    # title='Clustering countries based on SDG Indicators',
+                    height=600,
                     geo=dict(showframe=False,
                              projection={'type':'Mercator'})) # 'natural earth
 			)
 		),
+
+    dcc.Graph(id='cluster_scatter',
+              figure=
+              {
+        'data': [
+            go.Scatter(
+                x=df_c[df_c['cluster'] == i]['value'],
+                y=df_c[df_c['cluster'] == i]['variable'],
+                text=str(i),  # df[df['cluster'] == i]['location_name'],
+                mode='markers',
+                opacity=0.7,
+                marker={
+                    'size': 10,
+                    'color': df_c[df_c['cluster'] == i]['color'],  # palette[i],
+                    'line': {'width': 0.5, 'color': 'white'}
+                },
+                name=f'Cluster {i}'
+            ) for i in df_c.cluster.unique()
+        ],
+        'layout':
+            go.Layout(
+                title='SDG Indicator Index by Cluster',
+                height=1000,
+                xaxis={'title': 'Index Value'},
+                margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
+                hovermode='closest')
+    },
+              ),
+
+    dcc.Markdown(children=bottom_markdown_text),
+
+
+
 
 ])
 
