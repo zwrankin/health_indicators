@@ -10,7 +10,9 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 server = app.server
 
-df = pd.read_hdf('./models/data_clustered.hdf') #.reset_index()
+# df = pd.read_hdf('./models/data_clustered.hdf') #.reset_index()
+df = pd.read_csv('./models/data_clustered.csv')
+
 df_c = df.drop('location_id', axis=1).groupby('cluster').mean().reset_index().melt(id_vars='cluster')
 available_indicators = df.columns.tolist()
 # https://www.w3schools.com/colors/colors_picker.asp
