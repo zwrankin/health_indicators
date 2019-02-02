@@ -31,20 +31,15 @@ df_c['color'] = df_c.cluster.map(palette)
 
 top_markdown_text = '''
 ### Sustainable Development Goals
-
-#### Cluster Analysis 
-Rather than using geographic regions, I have use a k-means clustering algorithm (details forthcoming) to cluster 
-countries based on their SDG indicator values.  
+#### Zane Rankin, 2/2/2019
+In 2015, the United Nations established the Sustainable Development Goals (SDGs). 
+The Institute for Health Metrics and Evaluation (IHME) provides estimates for 41 health-related SDG indicators for 195 countries and territories, along with a [data visualization](https://vizhub.healthdata.org/sdg/) the [underlying data](http://ghdx.healthdata.org/record/global-burden-disease-study-2017-gbd-2017-health-related-sustainable-development-goals-sdg).  
+In this analysis, rather than grouping countries by geography, I have use a k-means clustering algorithm (details forthcoming) to cluster 
+countries based on their SDG indicator values. Indicators are scaled 0-100, with 0 being poor (e.g. high mortality) and 100 being excellent. 
+Visualization made using Ploty and Dash - [Github repo](https://github.com/zwrankin/health_indicators)
 '''
 
 bottom_markdown_text = '''
-Data is downloaded from the [Institute for Health Metrics and Evaluation](http://ghdx.healthdata.org/record/global-burden-disease-study-2017-gbd-2017-health-related-sustainable-development-goals-sdg)  
-*The United Nations established, in September 2015, the Sustainable Development Goals (SDGs), 
-which specify 17 universal goals, 169 targets, and 232 indicators leading up to 2030. 
-Drawing from GBD 2017, this dataset provides estimates on progress for 41 health-related SDG indicators 
-for 195 countries and territories from 1990 to 2017, and projections, based on past trends, for 2018 to 2030. 
-Estimates are also included for the health-related SDG index, a summary measure of overall performance across the health-related SDGs.*  
-See further visualizations [here](https://vizhub.healthdata.org/sdg/)
 '''
 
 graph_text = "Plotly graphs are interactive and responsive. \
