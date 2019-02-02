@@ -78,7 +78,7 @@ def query_dhs_api(indicator_id:str):
     :param indicator_id: (e.g. FE_FRTR_W_TFR)
     :return: pd.DataFrame
     """
-    url = f'https://api.dhsprogram.com/rest/dhs/data/{indicator_id}?apiKey={API_KEY}&perpage=5000'
+    url = f'https://api.dhsprogram.com/rest/dhs/data/{indicator_id}?apiKey={DHS_API_KEY}&perpage=5000'
     r = requests.get(url)
     df = pd.DataFrame(r.json()['Data'])
 
@@ -88,9 +88,8 @@ def query_dhs_api(indicator_id:str):
         if len(df.ByVariableId.unique()) > 1:
             df = df.query('ByVariableId == 14001')  # Use 5 year recall
         if df.duplicated('SurveyId').sum() > 1:
-            import pdb;
-            pdb.set_trace()
-            raise AssertionError(f'Indicator {i} is not unique by SurveyId')
+            import pdb; pdb.set_trace()
+            raise AssertionError(f'Indicator {indicator_id} is not unique by SurveyId')
 
     return df
 
