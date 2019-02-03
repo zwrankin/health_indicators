@@ -31,44 +31,9 @@ assert data.duplicated(['location_name', 'indicator_id']).sum() == 0
 data = data.pivot(index='location_name', columns='indicator_short', values='scaled_value')
 n_neighbors = 4
 
+indicators = df_all[['indicator_short', 'ihme_indicator_description']].drop_duplicates().reset_index()
+inicator_dict = pd.Series(indicators.ihme_indicator_description.values, index=indicators.indicator_short).to_dict()
 
-def make_similarity_scatterplot(location_name, comparison_type):
-    l_data = data.loc[location_name]
-    similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
-    idx_similar = similarity[:n_neighbors + 1].index
-    df_similar = data.loc[idx_similar]
-    if comparison_type == 'Value':
-        title=f'Value of {location_name} and similar countries'
-    elif comparison_type == 'Comparison':
-        df_similar = (df_similar - l_data)
-        title = f'Difference between {location_name} and similar countries'
-    df_similar = df_similar.reset_index().melt(id_vars='location_name')
-
-    # dif_similar = pd.merge(dif_similar, LOCATION_METADATA)
-    # loc_id = 2
-    return {
-        'data': [
-            go.Scatter(
-                x=df_similar[df_similar['location_name'] == i]['value'],
-                y=df_similar[df_similar['location_name'] == i]['indicator_short'],
-                text=df[df['cluster'] == i]['location_name'],
-                mode='markers',
-                opacity=0.7,
-                marker={
-                    'size': 15,
-                    # 'color': df[df['cluster'] == i]['color'],  # palette[i],
-                    'line': {'width': 0.5, 'color': 'white'}
-                },
-                name=str(i)
-            ) for i in df_similar.location_name.unique()
-        ],
-        'layout': go.Layout(
-            title=title,
-            height=1000,
-            margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
-            hovermode='closest'
-        )
-    }
 
 
 top_markdown_text = '''
@@ -81,53 +46,22 @@ countries based on their SDG indicator values. Indicators are scaled 0-100, with
 Visualization made using Ploty and Dash - [Github repo](https://github.com/zwrankin/health_indicators)
 '''
 
-bottom_markdown_text = '''
-'''
-
-graph_text = "Plotly graphs are interactive and responsive. \
-Hover over points to see their values, click on legend items to toggle traces, \
-click and drag to zoom, hold down shift, and click and drag to pan."
-
-
 app.layout = html.Div([
     # html.H1('SDG Clustering'),
     dcc.Markdown(children=top_markdown_text),
 
-    # html.Div([
 
-            # html.Div([
-            #     dcc.Dropdown(
-            #         id='xaxis-column',
-            #         options=[{'label': i, 'value': i} for i in available_indicators],
-            #         value='SDG Index'
-            #     ),
-            # ],
-            #     style={'width': '48%', 'display': 'inline-block'}),
-
-        #     html.Div([
-        #         dcc.Dropdown(
-        #             id='yaxis-column',
-        #             options=[{'label': i, 'value': i} for i in available_indicators],
-        #             value='Under-5 Mort'
-        #         ),
-        #     ], style={'width': '48%', 'float': 'right', 'display': 'inline-block'})
-        # ]),
-
-
-
-    html.Div([
-dcc.Dropdown(
-                    id='xaxis-column',
-                    options=[{'label': i, 'value': i} for i in available_indicators],
-                    value='SDG Index'
-                ),
-dcc.Dropdown(
-                    id='yaxis-column',
+html.Div([
+    dcc.Dropdown(
+                    id='indicator-dropdown',
                     options=[{'label': i, 'value': i} for i in available_indicators],
                     value='Under-5 Mort'
                 ),
-    dcc.Graph(id='scatterplot'),
-    # html.Div(graph_text),
+    dcc.Markdown(id='indicator-key')
+    ]),
+
+    html.Div([
+
     dcc.Graph(
 			id = 'county-choropleth',
 			figure = dict(
@@ -142,13 +76,23 @@ dcc.Dropdown(
                     showscale=False,
 				)],
             layout = dict(
-                    # title='Clustering countries based on SDG Indicators',
-                    height=600,
+                    title='Hover over map to select scatterplot country',
+                    height=400,
                     geo=dict(showframe=False,
                              projection={'type':'Mercator'})) # 'natural earth
 			)
 		),
-
+        dcc.Dropdown(
+                    id='xaxis-column',
+                    options=[{'label': i, 'value': i} for i in available_indicators],
+                    value='SDG Index'
+                ),
+        dcc.Dropdown(
+                    id='yaxis-column',
+                    options=[{'label': i, 'value': i} for i in available_indicators],
+                    value='Under-5 Mort'
+                ),
+    dcc.Graph(id='scatterplot'),
 
     ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
 
@@ -212,21 +156,23 @@ dcc.Dropdown(
         dcc.RadioItems(
                 id='comparison-type',
                 options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
-                value='Local Comparison',
+                value='Value',
             ),
         dcc.Graph(id='similarity_scatter',
-                figure=make_similarity_scatterplot('Somalia', 'Value')
+                #figure=make_similarity_scatterplot('Somalia', 'Value')
                   ),
 
     ], style={'display': 'inline-block', 'float': 'right', 'width': '49%'}),
 
-    dcc.Markdown(children=bottom_markdown_text),
-
-
-
 
 ])
 
+
+@app.callback(
+    dash.dependencies.Output('indicator-key', 'children'),
+    [dash.dependencies.Input('indicator-dropdown', 'value')])
+def update_graph(i):
+    return f'{inicator_dict[i]}'
 
 
 
@@ -235,10 +181,47 @@ dcc.Dropdown(
     [dash.dependencies.Input('county-choropleth', 'hoverData'),
      dash.dependencies.Input('comparison-type', 'value')])
 def update_scatterplot(hoverData, comparison_type):
-    # print(len(hoverData['points']))
-    print(hoverData['points'][0]['text'])
-    location_name = hoverData['points'][0]['text']
-    return make_similarity_scatterplot(location_name, comparison_type)
+
+    if hoverData is None:  # Initialize with country before any hovering
+        location_name = 'United States'
+    else:
+        location_name = hoverData['points'][0]['text']
+    l_data = data.loc[location_name]
+    similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
+    idx_similar = similarity[:n_neighbors + 1].index
+    df_similar = data.loc[idx_similar]
+    if comparison_type == 'Value':
+        title=f'Value of {location_name} and similar countries'
+    elif comparison_type == 'Comparison':
+        df_similar = (df_similar - l_data)
+        title = f'Difference between {location_name} and similar countries'
+    df_similar = df_similar.reset_index().melt(id_vars='location_name')
+
+    # dif_similar = pd.merge(dif_similar, LOCATION_METADATA)
+    # loc_id = 2
+    return {
+        'data': [
+            go.Scatter(
+                x=df_similar[df_similar['location_name'] == i]['value'],
+                y=df_similar[df_similar['location_name'] == i]['indicator_short'],
+                text=df[df['cluster'] == i]['location_name'],
+                mode='markers',
+                opacity=0.7,
+                marker={
+                    'size': 10,
+                    # 'color': df[df['cluster'] == i]['color'],  # palette[i],
+                    'line': {'width': 0.5, 'color': 'white'}
+                },
+                name=str(i)
+            ) for i in df_similar.location_name.unique()
+        ],
+        'layout': go.Layout(
+            title=title,
+            height=800,
+            margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
+            hovermode='closest'
+        )
+    }
 
 
 @app.callback(
@@ -256,7 +239,7 @@ def update_graph(xaxis_column_name, yaxis_column_name):
                 mode='markers',
                 opacity=0.7,
                 marker={
-                    'size': 15,
+                    'size': 12,
                     'color': df[df['cluster'] == i]['color'], # palette[i],
                     'line': {'width': 0.5, 'color': 'white'}
                 },
@@ -264,6 +247,7 @@ def update_graph(xaxis_column_name, yaxis_column_name):
             ) for i in df.cluster.unique()
         ],
         'layout': go.Layout(
+            height=400,
             xaxis={'title': xaxis_column_name},
             yaxis={'title': yaxis_column_name},
             margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
