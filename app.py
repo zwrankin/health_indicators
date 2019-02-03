@@ -27,17 +27,42 @@ df_c['color'] = df_c.cluster.map(palette)
 # LOAD FULL DATASET
 df_all = pd.read_csv(f'./data/raw/IHME_GBD_2017_HEALTH_SDG_1990_2030_SCALED_Y2018M11D08.csv')
 data = df_all.query('year_id == 2017')
-assert data.duplicated(['location_id', 'indicator_id']).sum() == 0
-data = data.pivot(index='location_id', columns='indicator_short', values='scaled_value')
-loc_id = 6
+assert data.duplicated(['location_name', 'indicator_id']).sum() == 0
+data = data.pivot(index='location_name', columns='indicator_short', values='scaled_value')
 n_neighbors = 4
-l_data = data.loc[loc_id]
-similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
-idx_similar = similarity[:n_neighbors + 1].index
-df_similar = data.loc[idx_similar]
-dif_similar = (df_similar - l_data).reset_index().melt(id_vars='location_id')
-dif_similar = pd.merge(dif_similar, LOCATION_METADATA)
 
+
+def make_similarity_scatterplot(location_name):
+    l_data = data.loc[location_name]
+    similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
+    idx_similar = similarity[:n_neighbors + 1].index
+    df_similar = data.loc[idx_similar]
+    df_similar = (df_similar - l_data).reset_index().melt(id_vars='location_name')
+    # dif_similar = pd.merge(dif_similar, LOCATION_METADATA)
+    # loc_id = 2
+    return {
+        'data': [
+            go.Scatter(
+                x=df_similar[df_similar['location_name'] == i]['value'],
+                y=df_similar[df_similar['location_name'] == i]['indicator_short'],
+                text=df[df['cluster'] == i]['location_name'],
+                mode='markers',
+                opacity=0.7,
+                marker={
+                    'size': 15,
+                    # 'color': df[df['cluster'] == i]['color'],  # palette[i],
+                    'line': {'width': 0.5, 'color': 'white'}
+                },
+                name=str(i)
+            ) for i in df_similar.location_name.unique()
+        ],
+        'layout': go.Layout(
+            title=f'Difference between {location_name} and similar countries',
+            height=1000,
+            margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
+            hovermode='closest'
+        )
+    }
 
 
 top_markdown_text = '''
@@ -95,6 +120,11 @@ dcc.Dropdown(
                     options=[{'label': i, 'value': i} for i in available_indicators],
                     value='Under-5 Mort'
                 ),
+dcc.Dropdown(
+                    id='testing',
+                    options=[{'label': i, 'value': i} for i in [1,2]],
+                    value=1
+                ),
     dcc.Graph(id='scatterplot'),
     # html.Div(graph_text),
     dcc.Graph(
@@ -150,33 +180,38 @@ dcc.Dropdown(
     #           ),
 
     html.Div([
-    dcc.Graph(id='similarity_scatter',
-              figure=
-              {
-                  'data': [
-                    go.Scatter(
-                        x=dif_similar[dif_similar['location_id'] == i]['value'],
-                        y=dif_similar[dif_similar['location_id'] == i]['indicator_short'],
-                        text=dif_similar[dif_similar['location_id'] == i]['location_name'],
-                        mode='markers',
-                        opacity=0.7,
-                        marker={
-                            'size': 10,
-                            # 'color': dif_similar[dif_similar['cluster'] == i]['color'],  # palette[i],
-                            'line': {'width': 0.5, 'color': 'white'}
-                        },
-                        name=f'Location {i}'
-                    ) for i in dif_similar.location_id.unique()
-                ],
-                  'layout':
-                      go.Layout(
-                          title=f'Difference between {loc_id} and similar countries',
-                          height=1000,
-                          xaxis={'title': 'Index Value'},
-                          margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
-                          hovermode='closest')
-              },
-              ),
+    # dcc.Graph(id='similarity_scatter',
+    #           figure=
+    #           {
+    #               'data': [
+    #                 go.Scatter(
+    #                     x=dif_similar[dif_similar['location_id'] == i]['value'],
+    #                     y=dif_similar[dif_similar['location_id'] == i]['indicator_short'],
+    #                     text=dif_similar[dif_similar['location_id'] == i]['location_name'],
+    #                     mode='markers',
+    #                     opacity=0.7,
+    #                     marker={
+    #                         'size': 10,
+    #                         # 'color': dif_similar[dif_similar['cluster'] == i]['color'],  # palette[i],
+    #                         'line': {'width': 0.5, 'color': 'white'}
+    #                     },
+    #                     name=f'Location {i}'
+    #                 ) for i in dif_similar.location_id.unique()
+    #             ],
+    #               'layout':
+    #                   go.Layout(
+    #                       title=f'Difference between {loc_id} and similar countries',
+    #                       height=1000,
+    #                       xaxis={'title': 'Index Value'},
+    #                       margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
+    #                       hovermode='closest')
+    #           },
+    #           ),
+
+        dcc.Graph(id='similarity_scatter',
+                figure=make_similarity_scatterplot('Somalia')
+                  ),
+
     ], style={'display': 'inline-block', 'width': '49%'}),
 
     dcc.Markdown(children=bottom_markdown_text),
@@ -185,6 +220,18 @@ dcc.Dropdown(
 
 
 ])
+
+
+
+
+@app.callback(
+    dash.dependencies.Output('similarity_scatter', 'figure'),
+    [dash.dependencies.Input('county-choropleth', 'hoverData'), ])
+def update_scatterplot(hoverData):
+    # print(len(hoverData['points']))
+    print(hoverData['points'][0]['text'])
+    location_name = hoverData['points'][0]['text']
+    return make_similarity_scatterplot(location_name)
 
 
 @app.callback(
