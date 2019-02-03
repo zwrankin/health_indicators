@@ -32,12 +32,18 @@ data = data.pivot(index='location_name', columns='indicator_short', values='scal
 n_neighbors = 4
 
 
-def make_similarity_scatterplot(location_name):
+def make_similarity_scatterplot(location_name, comparison_type):
     l_data = data.loc[location_name]
     similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
     idx_similar = similarity[:n_neighbors + 1].index
     df_similar = data.loc[idx_similar]
-    df_similar = (df_similar - l_data).reset_index().melt(id_vars='location_name')
+    if comparison_type == 'Value':
+        title=f'Value of {location_name} and similar countries'
+    elif comparison_type == 'Comparison':
+        df_similar = (df_similar - l_data)
+        title = f'Difference between {location_name} and similar countries'
+    df_similar = df_similar.reset_index().melt(id_vars='location_name')
+
     # dif_similar = pd.merge(dif_similar, LOCATION_METADATA)
     # loc_id = 2
     return {
@@ -57,7 +63,7 @@ def make_similarity_scatterplot(location_name):
             ) for i in df_similar.location_name.unique()
         ],
         'layout': go.Layout(
-            title=f'Difference between {location_name} and similar countries',
+            title=title,
             height=1000,
             margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
             hovermode='closest'
@@ -119,11 +125,6 @@ dcc.Dropdown(
                     id='yaxis-column',
                     options=[{'label': i, 'value': i} for i in available_indicators],
                     value='Under-5 Mort'
-                ),
-dcc.Dropdown(
-                    id='testing',
-                    options=[{'label': i, 'value': i} for i in [1,2]],
-                    value=1
                 ),
     dcc.Graph(id='scatterplot'),
     # html.Div(graph_text),
@@ -208,11 +209,16 @@ dcc.Dropdown(
     #           },
     #           ),
 
+        dcc.RadioItems(
+                id='comparison-type',
+                options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
+                value='Local Comparison',
+            ),
         dcc.Graph(id='similarity_scatter',
-                figure=make_similarity_scatterplot('Somalia')
+                figure=make_similarity_scatterplot('Somalia', 'Value')
                   ),
 
-    ], style={'display': 'inline-block', 'width': '49%'}),
+    ], style={'display': 'inline-block', 'float': 'right', 'width': '49%'}),
 
     dcc.Markdown(children=bottom_markdown_text),
 
@@ -226,12 +232,13 @@ dcc.Dropdown(
 
 @app.callback(
     dash.dependencies.Output('similarity_scatter', 'figure'),
-    [dash.dependencies.Input('county-choropleth', 'hoverData'), ])
-def update_scatterplot(hoverData):
+    [dash.dependencies.Input('county-choropleth', 'hoverData'),
+     dash.dependencies.Input('comparison-type', 'value')])
+def update_scatterplot(hoverData, comparison_type):
     # print(len(hoverData['points']))
     print(hoverData['points'][0]['text'])
     location_name = hoverData['points'][0]['text']
-    return make_similarity_scatterplot(location_name)
+    return make_similarity_scatterplot(location_name, comparison_type)
 
 
 @app.callback(
