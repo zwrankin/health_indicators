@@ -62,29 +62,41 @@ app.layout = html.Div([
     # html.H1('SDG Clustering'),
     dcc.Markdown(children=top_markdown_text),
 
-    html.Div([
+    # html.Div([
 
-            html.Div([
-                dcc.Dropdown(
+            # html.Div([
+            #     dcc.Dropdown(
+            #         id='xaxis-column',
+            #         options=[{'label': i, 'value': i} for i in available_indicators],
+            #         value='SDG Index'
+            #     ),
+            # ],
+            #     style={'width': '48%', 'display': 'inline-block'}),
+
+        #     html.Div([
+        #         dcc.Dropdown(
+        #             id='yaxis-column',
+        #             options=[{'label': i, 'value': i} for i in available_indicators],
+        #             value='Under-5 Mort'
+        #         ),
+        #     ], style={'width': '48%', 'float': 'right', 'display': 'inline-block'})
+        # ]),
+
+
+
+    html.Div([
+dcc.Dropdown(
                     id='xaxis-column',
                     options=[{'label': i, 'value': i} for i in available_indicators],
                     value='SDG Index'
                 ),
-            ],
-                style={'width': '48%', 'display': 'inline-block'}),
-
-            html.Div([
-                dcc.Dropdown(
+dcc.Dropdown(
                     id='yaxis-column',
                     options=[{'label': i, 'value': i} for i in available_indicators],
                     value='Under-5 Mort'
                 ),
-            ], style={'width': '48%', 'float': 'right', 'display': 'inline-block'})
-        ]),
-
     dcc.Graph(id='scatterplot'),
-    html.Div(graph_text),
-
+    # html.Div(graph_text),
     dcc.Graph(
 			id = 'county-choropleth',
 			figure = dict(
@@ -105,6 +117,9 @@ app.layout = html.Div([
                              projection={'type':'Mercator'})) # 'natural earth
 			)
 		),
+
+
+    ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
 
     # dcc.Graph(id='cluster_scatter',
     #           figure=
@@ -134,6 +149,7 @@ app.layout = html.Div([
     # },
     #           ),
 
+    html.Div([
     dcc.Graph(id='similarity_scatter',
               figure=
               {
@@ -161,6 +177,7 @@ app.layout = html.Div([
                           hovermode='closest')
               },
               ),
+    ], style={'display': 'inline-block', 'width': '49%'}),
 
     dcc.Markdown(children=bottom_markdown_text),
 
