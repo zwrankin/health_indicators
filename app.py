@@ -1,8 +1,11 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
+from src.visualization.utils import palette
+LOCATION_METADATA = pd.read_csv(f'./data/raw/gbd_location_metadata.csv')
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -15,19 +18,27 @@ df = pd.read_csv('./models/data_clustered.csv')
 
 df_c = df.drop('location_id', axis=1).groupby('cluster').mean().reset_index().melt(id_vars='cluster')
 available_indicators = df.columns.tolist()
-# https://www.w3schools.com/colors/colors_picker.asp
-palette = {
-    0: '#ff0000',
-    1: '#ff8000',
-    2: '#ffff00',
-    3: '#40ff00',
-    4: '#00ffff',
-    5: '#0000ff',
-    6: '#ff00ff',
-}
+
 colorscale = [[k/(len(palette)-1), palette[k]] for k in palette.keys()]  #choropleth colorscale seems to need 0-1 range
 df['color'] = df.cluster.map(palette)
 df_c['color'] = df_c.cluster.map(palette)
+
+
+# LOAD FULL DATASET
+df_all = pd.read_csv(f'./data/raw/IHME_GBD_2017_HEALTH_SDG_1990_2030_SCALED_Y2018M11D08.csv')
+data = df_all.query('year_id == 2017')
+assert data.duplicated(['location_id', 'indicator_id']).sum() == 0
+data = data.pivot(index='location_id', columns='indicator_short', values='scaled_value')
+loc_id = 6
+n_neighbors = 4
+l_data = data.loc[loc_id]
+similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
+idx_similar = similarity[:n_neighbors + 1].index
+df_similar = data.loc[idx_similar]
+dif_similar = (df_similar - l_data).reset_index().melt(id_vars='location_id')
+dif_similar = pd.merge(dif_similar, LOCATION_METADATA)
+
+
 
 top_markdown_text = '''
 ### Sustainable Development Goals
@@ -95,32 +106,60 @@ app.layout = html.Div([
 			)
 		),
 
-    dcc.Graph(id='cluster_scatter',
+    # dcc.Graph(id='cluster_scatter',
+    #           figure=
+    #           {
+    #     'data': [
+    #         go.Scatter(
+    #             x=df_c[df_c['cluster'] == i]['value'],
+    #             y=df_c[df_c['cluster'] == i]['variable'],
+    #             text=str(i),  # df[df['cluster'] == i]['location_name'],
+    #             mode='markers',
+    #             opacity=0.7,
+    #             marker={
+    #                 'size': 10,
+    #                 'color': df_c[df_c['cluster'] == i]['color'],  # palette[i],
+    #                 'line': {'width': 0.5, 'color': 'white'}
+    #             },
+    #             name=f'Cluster {i}'
+    #         ) for i in df_c.cluster.unique()
+    #     ],
+    #     'layout':
+    #         go.Layout(
+    #             title='SDG Indicator Index by Cluster',
+    #             height=1000,
+    #             xaxis={'title': 'Index Value'},
+    #             margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
+    #             hovermode='closest')
+    # },
+    #           ),
+
+    dcc.Graph(id='similarity_scatter',
               figure=
               {
-        'data': [
-            go.Scatter(
-                x=df_c[df_c['cluster'] == i]['value'],
-                y=df_c[df_c['cluster'] == i]['variable'],
-                text=str(i),  # df[df['cluster'] == i]['location_name'],
-                mode='markers',
-                opacity=0.7,
-                marker={
-                    'size': 10,
-                    'color': df_c[df_c['cluster'] == i]['color'],  # palette[i],
-                    'line': {'width': 0.5, 'color': 'white'}
-                },
-                name=f'Cluster {i}'
-            ) for i in df_c.cluster.unique()
-        ],
-        'layout':
-            go.Layout(
-                title='SDG Indicator Index by Cluster',
-                height=1000,
-                xaxis={'title': 'Index Value'},
-                margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
-                hovermode='closest')
-    },
+                  'data': [
+                    go.Scatter(
+                        x=dif_similar[dif_similar['location_id'] == i]['value'],
+                        y=dif_similar[dif_similar['location_id'] == i]['indicator_short'],
+                        text=dif_similar[dif_similar['location_id'] == i]['location_name'],
+                        mode='markers',
+                        opacity=0.7,
+                        marker={
+                            'size': 10,
+                            # 'color': dif_similar[dif_similar['cluster'] == i]['color'],  # palette[i],
+                            'line': {'width': 0.5, 'color': 'white'}
+                        },
+                        name=f'Location {i}'
+                    ) for i in dif_similar.location_id.unique()
+                ],
+                  'layout':
+                      go.Layout(
+                          title=f'Difference between {loc_id} and similar countries',
+                          height=1000,
+                          xaxis={'title': 'Index Value'},
+                          margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
+                          hovermode='closest')
+              },
               ),
 
     dcc.Markdown(children=bottom_markdown_text),
