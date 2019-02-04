@@ -96,6 +96,9 @@ app.layout = html.Div([
         html.P(' '),
         html.P(' '),
 
+        # Hidden div stores the clustering model results to share between callbacks
+        html.Div(id='clustered-data', style={'display': 'none'}),
+
         dcc.Graph(id='county-choropleth'),
         dcc.Dropdown(
             id='xaxis-column',
@@ -136,12 +139,9 @@ def update_graph(i):
     return f'{indicator_dict[i]}'
 
 
-@app.callback(
-    dash.dependencies.Output('county-choropleth', 'figure'),
-    [dash.dependencies.Input('n-clusters', 'value')])
-def update_map(n_clusters):
-    colorscale = [[k / (n_clusters - 1), palette[k]] for k in
-                  range(0, n_clusters)]  # choropleth colorscale seems to need 0-1 range
+@app.callback(dash.dependencies.Output('clustered-data', 'children'),
+              [dash.dependencies.Input('n-clusters', 'value')])
+def cluster_kmeans(n_clusters):
     INDICATORS_TO_INCLUDE = list(indicator_dict.keys())
     df_c = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
     df_c = df_c[INDICATORS_TO_INCLUDE]
@@ -150,6 +150,18 @@ def update_map(n_clusters):
     df_c['cluster'] = kmean.labels_
     df_c = pd.merge(location_metadata, df_c.reset_index())
     df_c['color'] = df_c.cluster.map(palette)
+    return df_c.to_json()
+
+
+@app.callback(
+    dash.dependencies.Output('county-choropleth', 'figure'),
+    [dash.dependencies.Input('clustered-data', 'children')])
+def update_map(data_json):
+    df_c = pd.read_json(data_json)
+    n_clusters = len(df_c.cluster.unique())
+    colorscale = [[k / (n_clusters - 1), palette[k]] for k in
+                  range(0, n_clusters)]  # choropleth colorscale seems to need 0-1 range
+
     return dict(
                 data=[dict(
                     locations=df_c['ihme_loc_id'],
@@ -172,16 +184,9 @@ def update_map(n_clusters):
     dash.dependencies.Output('scatterplot', 'figure'),
     [dash.dependencies.Input('xaxis-column', 'value'),
      dash.dependencies.Input('yaxis-column', 'value'),
-     dash.dependencies.Input('n-clusters', 'value')])
-def update_graph(xaxis_column_name, yaxis_column_name, n_clusters):
-    INDICATORS_TO_INCLUDE = list(indicator_dict.keys())
-    df_c = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
-    df_c = df_c[INDICATORS_TO_INCLUDE]
-    kmean = KMeans(n_clusters=n_clusters, random_state=0)
-    kmean.fit(df_c)
-    df_c['cluster'] = kmean.labels_
-    df_c = pd.merge(location_metadata, df_c.reset_index())
-    df_c['color'] = df_c.cluster.map(palette)
+     dash.dependencies.Input('clustered-data', 'children')])
+def update_graph(xaxis_column_name, yaxis_column_name, data_json):
+    df_c = pd.read_json(data_json)
     return {
         'data': [
             go.Scatter(
