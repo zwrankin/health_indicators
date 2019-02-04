@@ -217,8 +217,9 @@ def update_graph(xaxis_column_name, yaxis_column_name, data_json):
 @app.callback(
     dash.dependencies.Output('similarity_scatter', 'figure'),
     [dash.dependencies.Input('county-choropleth', 'hoverData'),
-     dash.dependencies.Input('comparison-type', 'value')])
-def update_scatterplot(hoverData, comparison_type):
+     dash.dependencies.Input('comparison-type', 'value'),
+     dash.dependencies.Input('clustered-data', 'children')])
+def update_scatterplot(hoverData, comparison_type, data_json):
     if hoverData is None:  # Initialize with country before any hovering
         location_name = 'United States'
     else:
@@ -235,6 +236,9 @@ def update_scatterplot(hoverData, comparison_type):
     df_similar = df_similar.reset_index().melt(id_vars='location_name')
     df_similar.sort_values(['location_name', 'indicator_short'], inplace=True, ascending=False)
 
+    df_c = pd.read_json(data_json)[['cluster'] + list(indicator_dict.keys())]
+    df_cluster = df_c.groupby('cluster').mean().reset_index().melt(id_vars='cluster')
+    df_cluster['color'] = df_cluster.cluster.map(palette)
     return {
         'data': [
             go.Scatter(
@@ -249,7 +253,21 @@ def update_scatterplot(hoverData, comparison_type):
                 },
                 name=str(i)
             ) for i in df_similar.location_name.unique()
-        ],
+        ] + [
+                    go.Scatter(
+                        x=df_cluster[df_cluster['cluster'] == i]['value'],
+                        y=df_cluster[df_cluster['cluster'] == i]['variable'],
+                        text=str(i),
+                        mode='markers',
+                        opacity=0.7,
+                        marker={
+                            'size': 10,
+                            'color': df_cluster[df_cluster['cluster'] == i]['color'],
+                            'line': {'width': 0.5, 'color': 'black'}
+                        },
+                        name=f'Cluster {i}'
+                    ) for i in df_cluster.cluster.unique()
+                ],
         'layout': go.Layout(
             title=title,
             height=850,
