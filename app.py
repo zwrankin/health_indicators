@@ -116,7 +116,12 @@ app.layout = html.Div([
 
     # RIGHT SIDE
     html.Div([
-
+        dcc.RadioItems(
+            id='entity-type',
+            options=[{'label': i, 'value': i} for i in ['Countries', 'Clusters']],
+            value='Clusters',
+            labelStyle={'display': 'inline-block'},
+        ),
         dcc.RadioItems(
             id='comparison-type',
             options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
@@ -217,57 +222,65 @@ def update_graph(xaxis_column_name, yaxis_column_name, data_json):
 @app.callback(
     dash.dependencies.Output('similarity_scatter', 'figure'),
     [dash.dependencies.Input('county-choropleth', 'hoverData'),
+     dash.dependencies.Input('entity-type', 'value'),
      dash.dependencies.Input('comparison-type', 'value'),
      dash.dependencies.Input('clustered-data', 'children')])
-def update_scatterplot(hoverData, comparison_type, data_json):
-    if hoverData is None:  # Initialize with country before any hovering
+def update_scatterplot(hoverData, entity_type, comparison_type, data_json):
+    if hoverData is None:  # Initialize before any hovering
         location_name = 'United States'
+        cluster = 0
     else:
         location_name = hoverData['points'][0]['text']
-    l_data = data.loc[location_name]
-    similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
-    idx_similar = similarity[:n_neighbors + 1].index
-    df_similar = data.loc[idx_similar]
-    if comparison_type == 'Value':
-        title = f'Indicators of {location_name} and similar countries'
-    elif comparison_type == 'Comparison':
-        df_similar = (df_similar - l_data)
-        title = f'Indicators of countries relative to {location_name}'
-    df_similar = df_similar.reset_index().melt(id_vars='location_name')
-    df_similar.sort_values(['location_name', 'indicator_short'], inplace=True, ascending=False)
+        cluster = hoverData['points'][0]['z']
 
-    df_c = pd.read_json(data_json)[['cluster'] + list(indicator_dict.keys())]
-    df_cluster = df_c.groupby('cluster').mean().reset_index().melt(id_vars='cluster')
-    df_cluster['color'] = df_cluster.cluster.map(palette)
+    if entity_type == 'Countries':
+        l_data = data.loc[location_name]
+        similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
+        idx_similar = similarity[:n_neighbors + 1].index
+        df_similar = data.loc[idx_similar]
+        if comparison_type == 'Value':
+            title = f'Indicators of {location_name} and similar countries'
+        elif comparison_type == 'Comparison':
+            df_similar = (df_similar - l_data)
+            title = f'Indicators of countries relative to {location_name}'
+        df_similar = df_similar.reset_index().melt(id_vars='location_name')
+        df_similar.sort_values(['location_name', 'indicator_short'], ascending=[True, False], inplace=True)
+
+        plot = [go.Scatter(
+            x=df_similar[df_similar['location_name'] == i]['value'],
+            y=df_similar[df_similar['location_name'] == i]['indicator_short'],
+            text=str(i),
+            mode='markers',
+            opacity=0.7,
+            marker={
+                'size': 10,
+                'line': {'width': 0.5, 'color': 'white'}
+            },
+            name=str(i)
+        ) for i in df_similar.location_name.unique()]
+
+    elif entity_type == 'Clusters':
+        df_c = pd.read_json(data_json)[['cluster'] + list(indicator_dict.keys())]
+        df_cluster = df_c.groupby('cluster').mean().reset_index().melt(id_vars='cluster')
+        df_cluster['color'] = df_cluster.cluster.map(palette)
+        df_cluster.sort_values(['cluster', 'variable'], ascending=[True, False], inplace=True)
+
+        plot = [go.Scatter(
+            x=df_cluster[df_cluster['cluster'] == i]['value'],
+            y=df_cluster[df_cluster['cluster'] == i]['variable'],
+            text=str(i),
+            mode='markers',
+            opacity=0.7,
+            marker={
+                'size': 10,
+                'color': df_cluster[df_cluster['cluster'] == i]['color'],
+                'line': {'width': 0.5, 'color': 'black'}
+            },
+            name=f'Cluster {i}'
+        ) for i in df_cluster.cluster.unique()
+        ]
     return {
-        'data': [
-            go.Scatter(
-                x=df_similar[df_similar['location_name'] == i]['value'],
-                y=df_similar[df_similar['location_name'] == i]['indicator_short'],
-                text=str(i),
-                mode='markers',
-                opacity=0.7,
-                marker={
-                    'size': 10,
-                    'line': {'width': 0.5, 'color': 'white'}
-                },
-                name=str(i)
-            ) for i in df_similar.location_name.unique()
-        ] + [
-                    go.Scatter(
-                        x=df_cluster[df_cluster['cluster'] == i]['value'],
-                        y=df_cluster[df_cluster['cluster'] == i]['variable'],
-                        text=str(i),
-                        mode='markers',
-                        opacity=0.7,
-                        marker={
-                            'size': 10,
-                            'color': df_cluster[df_cluster['cluster'] == i]['color'],
-                            'line': {'width': 0.5, 'color': 'black'}
-                        },
-                        name=f'Cluster {i}'
-                    ) for i in df_cluster.cluster.unique()
-                ],
+        'data': plot,
         'layout': go.Layout(
             title=title,
             height=850,
