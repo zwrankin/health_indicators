@@ -42,10 +42,14 @@ top_markdown_text = '''
 #### Zane Rankin, 2/2/2019
 In 2015, the United Nations established the Sustainable Development Goals (SDGs). 
 The Institute for Health Metrics and Evaluation (IHME) provides estimates for 41 health-related SDG indicators for 
-195 countries and territories, along with a [data visualization](https://vizhub.healthdata.org/sdg/) the 
+195 countries and territories, along with a [data visualization](https://vizhub.healthdata.org/sdg/) and the 
 [underlying data](http://ghdx.healthdata.org/record/global-burden-disease-study-2017-gbd-2017-health-related-sustainable-development-goals-sdg).  
-In this analysis, rather than grouping countries by geography, I have use a k-means clustering algorithm (details forthcoming) to cluster 
-countries based on their SDG indicator values. Indicators are scaled 0-100, with 0 being poor (e.g. high mortality) and 100 being excellent.  
+Indicators are scaled 0-100, with 0 being poor (e.g. high mortality) and 100 being excellent.  
+In this analysis, rather than grouping countries by geography, I have use a k-means clustering algorithm to group countries 
+into 7 clusters based on similarity of all 41 indicators. While cluster composition is sensitive to parameters (e.g. number of clusters), 
+this method highlights similarities that defy geography.   
+Hover over the map to select a country to compare to similar countries. 
+Similarity is calculated as the sum of square differences of all indicators of two countries.  
 Visualization made using Ploty and Dash - [Github repo](https://github.com/zwrankin/health_indicators)
 '''
 
