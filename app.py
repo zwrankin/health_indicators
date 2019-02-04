@@ -150,7 +150,7 @@ def update_graph(xaxis_column_name, yaxis_column_name):
                 opacity=0.7,
                 marker={
                     'size': 12,
-                    'color': df_c[df_c['cluster'] == i]['color'],  # palette[i],
+                    'color': palette[i], # df_c[df_c['cluster'] == i]['color'],
                     'line': {'width': 0.5, 'color': 'white'}
                 },
                 name=f'Cluster {i}'
@@ -181,10 +181,10 @@ def update_scatterplot(hoverData, comparison_type):
     idx_similar = similarity[:n_neighbors + 1].index
     df_similar = data.loc[idx_similar]
     if comparison_type == 'Value':
-        title = f'Value of {location_name} and similar countries'
+        title = f'Indicators of {location_name} and similar countries'
     elif comparison_type == 'Comparison':
         df_similar = (df_similar - l_data)
-        title = f'Difference between {location_name} and similar countries'
+        title = f'Indicators of countries relative to {location_name}'
     df_similar = df_similar.reset_index().melt(id_vars='location_name')
     df_similar.sort_values(['location_name', 'indicator_short'], inplace=True, ascending=False)
 
