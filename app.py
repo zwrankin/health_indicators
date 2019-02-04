@@ -51,7 +51,7 @@ In 2015, the United Nations established the Sustainable Development Goals (SDGs)
 The Institute for Health Metrics and Evaluation (IHME) provides estimates for 41 health-related SDG indicators for 
 195 countries and territories, along with a [data visualization](https://vizhub.healthdata.org/sdg/) and the 
 [underlying data](http://ghdx.healthdata.org/record/global-burden-disease-study-2017-gbd-2017-health-related-sustainable-development-goals-sdg).  
-Indicators are scaled 0-100, with 0 being poor (e.g. high mortality) and 100 being excellent.  
+**Indicators are scaled 0-100, with 0 being worst observed (e.g. highest mortality) and 100 being best.**  
 In this analysis, rather than grouping countries by geography, I have use a k-means clustering algorithm to group countries 
 into 7 clusters based on similarity of all 41 indicators. While cluster composition is sensitive to parameters (e.g. number of clusters), 
 this method highlights similarities that defy geography.   
@@ -178,7 +178,7 @@ def update_map(data_json):
                     showscale=False,  # Color key unnecessary since clusters are arbitrary and have key in scatterplot
                 )],
                 layout=dict(
-                    title='Hover over map to select scatterplot country',
+                    title='Hover over map to select scatterplot country or cluster',
                     height=400,
                     geo=dict(showframe=False,
                              projection={'type': 'Mercator'}))  # 'natural earth
@@ -261,7 +261,15 @@ def update_scatterplot(hoverData, entity_type, comparison_type, data_json):
 
     elif entity_type == 'Clusters':
         df_c = pd.read_json(data_json)[['cluster'] + list(indicator_dict.keys())]
-        df_cluster = df_c.groupby('cluster').mean().reset_index().melt(id_vars='cluster')
+        df_cluster = df_c.groupby('cluster').mean()\
+
+        if comparison_type == 'Value':
+            title = 'Cluster means'
+        elif comparison_type == 'Comparison':
+            df_cluster = (df_cluster - df_cluster.loc[cluster])
+            title = f'Clusters relative to cluster {cluster}'
+
+        df_cluster = df_cluster.reset_index().melt(id_vars='cluster')
         df_cluster['color'] = df_cluster.cluster.map(palette)
         df_cluster.sort_values(['cluster', 'variable'], ascending=[True, False], inplace=True)
 
@@ -274,7 +282,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, data_json):
             marker={
                 'size': 10,
                 'color': df_cluster[df_cluster['cluster'] == i]['color'],
-                'line': {'width': 0.5, 'color': 'black'}
+                'line': {'width': 0.5, 'color': 'white'}
             },
             name=f'Cluster {i}'
         ) for i in df_cluster.cluster.unique()
