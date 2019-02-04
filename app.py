@@ -20,7 +20,6 @@ server = app.server
 
 # Load
 df = load_2017_sdg_data()
-clusters = pd.read_csv('./models/clusters.csv')
 location_metadata = pd.read_csv('./data/metadata/gbd_location_metadata.csv')
 with open('./data/metadata/indicator_dictionary.pickle', 'rb') as handle:
     indicator_dict = pickle.load(handle)
