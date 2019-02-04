@@ -1,11 +1,10 @@
 import pandas as pd
 import requests
-from pathlib import Path
 import yaml
+from .utils import CREDENTIALS, DATA_DIR
 
-DATA_DIR = str(Path(__file__).parent.parent.parent/'data')
-CREDENTIALS = str(Path(__file__).parent/'credentials.yaml')
 
+# NOTE - I'm not moving this to utils to keep yaml from being a heroku dependency
 def get_api_key(source):
     with open(CREDENTIALS, 'r') as stream:
         cred = yaml.load(stream)
@@ -125,13 +124,10 @@ def save_DHS_data(indicators=INDICATORS, noisy=True, errors='warn', save=True, r
 def load_DHS_data():
     return pd.read_hdf(f'{DATA_DIR}/raw/DHS_data.hdf')
 
+
 def load_SDG_indicators():
     return pd.read_csv(f'{DATA_DIR}/raw/IHME_GBD_2017_HEALTH_SDG_1990_2030_SCALED_Y2018M11D08.csv')
 
-def load_gbd_location_metadata():
-    return pd.read_csv(f'{DATA_DIR}/raw/gbd_location_metadata.csv')
-
-LOCATION_METADATA=load_gbd_location_metadata()
 
 if __name__ == '__main__':
     save_DHS_data()
