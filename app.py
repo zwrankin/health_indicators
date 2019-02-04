@@ -3,6 +3,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import numpy as np
 import pandas as pd
+from sklearn.cluster import KMeans
 import pickle
 import plotly.graph_objs as go
 from src.visualization.utils import palette
@@ -23,14 +24,20 @@ clusters = pd.read_csv('./models/clusters.csv')
 location_metadata = pd.read_csv('./data/metadata/gbd_location_metadata.csv')
 with open('./data/metadata/indicator_dictionary.pickle', 'rb') as handle:
     indicator_dict = pickle.load(handle)
-colorscale = [[k/(len(palette)-1), palette[k]] for k in palette.keys()]  #choropleth colorscale seems to need 0-1 range
 n_neighbors = 4  # Number of neighbors to plot
 
-# Indicator Values in wide format with cluster
+# Run kmeans clustering and output indicators in wide format with cluster number
+N_CLUSTERS = 5
+INDICATORS_TO_INCLUDE = list(indicator_dict.keys())
 df_c = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
+df_c = df_c[INDICATORS_TO_INCLUDE]
+kmean = KMeans(n_clusters=N_CLUSTERS, random_state=0)
+kmean.fit(df_c)
+df_c['cluster'] = kmean.labels_
 df_c = pd.merge(location_metadata, df_c.reset_index())
-df_c = pd.merge(clusters, df_c)
 df_c['color'] = df_c.cluster.map(palette)
+colorscale = [[k/(N_CLUSTERS-1), palette[k]] for k in range(0, N_CLUSTERS)]  #choropleth colorscale seems to need 0-1 range
+
 
 # Indicator Value by country in wide format
 data = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
@@ -150,7 +157,7 @@ def update_graph(xaxis_column_name, yaxis_column_name):
                 opacity=0.7,
                 marker={
                     'size': 12,
-                    'color': palette[i], # df_c[df_c['cluster'] == i]['color'],
+                    'color': df_c[df_c['cluster'] == i]['color'],  #palette[i], #
                     'line': {'width': 0.5, 'color': 'white'}
                 },
                 name=f'Cluster {i}'
