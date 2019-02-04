@@ -26,19 +26,6 @@ with open('./data/metadata/indicator_dictionary.pickle', 'rb') as handle:
     indicator_dict = pickle.load(handle)
 n_neighbors = 4  # Number of neighbors to plot
 
-# Run kmeans clustering and output indicators in wide format with cluster number
-# N_CLUSTERS = 5
-# INDICATORS_TO_INCLUDE = list(indicator_dict.keys())
-# df_c = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
-# df_c = df_c[INDICATORS_TO_INCLUDE]
-# kmean = KMeans(n_clusters=N_CLUSTERS, random_state=0)
-# kmean.fit(df_c)
-# df_c['cluster'] = kmean.labels_
-# df_c = pd.merge(location_metadata, df_c.reset_index())
-# df_c['color'] = df_c.cluster.map(palette)
-# colorscale = [[k/(N_CLUSTERS-1), palette[k]] for k in range(0, N_CLUSTERS)]  #choropleth colorscale seems to need 0-1 range
-
-
 # Indicator Value by country in wide format
 data = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
 ################################################################################################################
@@ -88,10 +75,10 @@ app.layout = html.Div([
         dcc.Slider(
             id='n-clusters',
             min=2,
-            max=7,
+            max=8,
             step=1,
-            marks={i: str(i) for i in range(2, 7 + 1)},
-            value=5,
+            marks={i: str(i) for i in range(2, 8 + 1)},
+            value=7,
         ),
         html.P(' '),
         html.P(' '),
@@ -125,7 +112,7 @@ app.layout = html.Div([
         dcc.RadioItems(
             id='comparison-type',
             options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
-            value='Value',
+            value='Comparison',
             labelStyle={'display': 'inline-block'},
         ),
         dcc.Graph(id='similarity_scatter'),
@@ -147,6 +134,7 @@ def update_graph(i):
 @app.callback(dash.dependencies.Output('clustered-data', 'children'),
               [dash.dependencies.Input('n-clusters', 'value')])
 def cluster_kmeans(n_clusters):
+    # Eventually, could give interactivity of choosing which indicators to include in the clustering
     INDICATORS_TO_INCLUDE = list(indicator_dict.keys())
     df_c = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
     df_c = df_c[INDICATORS_TO_INCLUDE]
@@ -191,7 +179,7 @@ def update_map(data_json):
      dash.dependencies.Input('yaxis-column', 'value'),
      dash.dependencies.Input('clustered-data', 'children')])
 def update_graph(xaxis_column_name, yaxis_column_name, data_json):
-    df_c = pd.read_json(data_json)
+    df_c = pd.read_json(data_json).sort_values('cluster')
     return {
         'data': [
             go.Scatter(
@@ -261,7 +249,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, data_json):
 
     elif entity_type == 'Clusters':
         df_c = pd.read_json(data_json)[['cluster'] + list(indicator_dict.keys())]
-        df_cluster = df_c.groupby('cluster').mean()\
+        df_cluster = df_c.groupby('cluster').mean()
 
         if comparison_type == 'Value':
             title = 'Cluster means'

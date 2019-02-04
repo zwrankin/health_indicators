@@ -8,4 +8,4 @@ Sustainable Development Goals data visualization at https://sdg-indicators.herok
 
 ### Next Steps: 
 - Add time series plots
-- Interactive clustering - allow users to select indicators to include in clustering 
+- Interactive clustering - allow users to select indicators & whether or not to use PCA before kmeans
