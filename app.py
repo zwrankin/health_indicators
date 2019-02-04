@@ -27,16 +27,16 @@ with open('./data/metadata/indicator_dictionary.pickle', 'rb') as handle:
 n_neighbors = 4  # Number of neighbors to plot
 
 # Run kmeans clustering and output indicators in wide format with cluster number
-N_CLUSTERS = 5
-INDICATORS_TO_INCLUDE = list(indicator_dict.keys())
-df_c = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
-df_c = df_c[INDICATORS_TO_INCLUDE]
-kmean = KMeans(n_clusters=N_CLUSTERS, random_state=0)
-kmean.fit(df_c)
-df_c['cluster'] = kmean.labels_
-df_c = pd.merge(location_metadata, df_c.reset_index())
-df_c['color'] = df_c.cluster.map(palette)
-colorscale = [[k/(N_CLUSTERS-1), palette[k]] for k in range(0, N_CLUSTERS)]  #choropleth colorscale seems to need 0-1 range
+# N_CLUSTERS = 5
+# INDICATORS_TO_INCLUDE = list(indicator_dict.keys())
+# df_c = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
+# df_c = df_c[INDICATORS_TO_INCLUDE]
+# kmean = KMeans(n_clusters=N_CLUSTERS, random_state=0)
+# kmean.fit(df_c)
+# df_c['cluster'] = kmean.labels_
+# df_c = pd.merge(location_metadata, df_c.reset_index())
+# df_c['color'] = df_c.cluster.map(palette)
+# colorscale = [[k/(N_CLUSTERS-1), palette[k]] for k in range(0, N_CLUSTERS)]  #choropleth colorscale seems to need 0-1 range
 
 
 # Indicator Value by country in wide format
@@ -84,25 +84,19 @@ app.layout = html.Div([
     # LEFT SIDE
     html.Div([
 
-        dcc.Graph(
-            id='county-choropleth',
-            figure=dict(
-                data=[dict(
-                    locations=df_c['ihme_loc_id'],
-                    z=df_c['cluster'].astype('float'),
-                    text=df_c['location_name'],
-                    colorscale=colorscale,
-                    autocolorscale=False,
-                    type='choropleth',
-                    showscale=False,  # Color key unnecessary since clusters are arbitrary and have key in scatterplot
-                )],
-                layout=dict(
-                    title='Hover over map to select scatterplot country',
-                    height=400,
-                    geo=dict(showframe=False,
-                             projection={'type': 'Mercator'}))  # 'natural earth
-            )
+        html.P('Number of clusters'),
+        dcc.Slider(
+            id='n-clusters',
+            min=2,
+            max=7,
+            step=1,
+            marks={i: str(i) for i in range(2, 7 + 1)},
+            value=5,
         ),
+        html.P(' '),
+        html.P(' '),
+
+        dcc.Graph(id='county-choropleth'),
         dcc.Dropdown(
             id='xaxis-column',
             options=[{'label': i, 'value': i} for i in indicator_dict.keys()],
@@ -143,10 +137,51 @@ def update_graph(i):
 
 
 @app.callback(
+    dash.dependencies.Output('county-choropleth', 'figure'),
+    [dash.dependencies.Input('n-clusters', 'value')])
+def update_map(n_clusters):
+    colorscale = [[k / (n_clusters - 1), palette[k]] for k in
+                  range(0, n_clusters)]  # choropleth colorscale seems to need 0-1 range
+    INDICATORS_TO_INCLUDE = list(indicator_dict.keys())
+    df_c = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
+    df_c = df_c[INDICATORS_TO_INCLUDE]
+    kmean = KMeans(n_clusters=n_clusters, random_state=0)
+    kmean.fit(df_c)
+    df_c['cluster'] = kmean.labels_
+    df_c = pd.merge(location_metadata, df_c.reset_index())
+    df_c['color'] = df_c.cluster.map(palette)
+    return dict(
+                data=[dict(
+                    locations=df_c['ihme_loc_id'],
+                    z=df_c['cluster'].astype('float'),
+                    text=df_c['location_name'],
+                    colorscale=colorscale,
+                    autocolorscale=False,
+                    type='choropleth',
+                    showscale=False,  # Color key unnecessary since clusters are arbitrary and have key in scatterplot
+                )],
+                layout=dict(
+                    title='Hover over map to select scatterplot country',
+                    height=400,
+                    geo=dict(showframe=False,
+                             projection={'type': 'Mercator'}))  # 'natural earth
+            )
+
+
+@app.callback(
     dash.dependencies.Output('scatterplot', 'figure'),
     [dash.dependencies.Input('xaxis-column', 'value'),
-     dash.dependencies.Input('yaxis-column', 'value')])
-def update_graph(xaxis_column_name, yaxis_column_name):
+     dash.dependencies.Input('yaxis-column', 'value'),
+     dash.dependencies.Input('n-clusters', 'value')])
+def update_graph(xaxis_column_name, yaxis_column_name, n_clusters):
+    INDICATORS_TO_INCLUDE = list(indicator_dict.keys())
+    df_c = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
+    df_c = df_c[INDICATORS_TO_INCLUDE]
+    kmean = KMeans(n_clusters=n_clusters, random_state=0)
+    kmean.fit(df_c)
+    df_c['cluster'] = kmean.labels_
+    df_c = pd.merge(location_metadata, df_c.reset_index())
+    df_c['color'] = df_c.cluster.map(palette)
     return {
         'data': [
             go.Scatter(
@@ -164,7 +199,7 @@ def update_graph(xaxis_column_name, yaxis_column_name):
             ) for i in df_c.cluster.unique()
         ],
         'layout': go.Layout(
-            height=400,
+            height=350,
             xaxis={'title': xaxis_column_name},
             yaxis={'title': yaxis_column_name},
             margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
