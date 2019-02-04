@@ -17,7 +17,6 @@ server = app.server
 df = pd.read_csv('./models/data_clustered.csv')
 
 df_c = df.drop('location_id', axis=1).groupby('cluster').mean().reset_index().melt(id_vars='cluster')
-available_indicators = df.columns.tolist()
 
 colorscale = [[k/(len(palette)-1), palette[k]] for k in palette.keys()]  #choropleth colorscale seems to need 0-1 range
 df['color'] = df.cluster.map(palette)
@@ -31,8 +30,8 @@ assert data.duplicated(['location_name', 'indicator_id']).sum() == 0
 data = data.pivot(index='location_name', columns='indicator_short', values='scaled_value')
 n_neighbors = 4
 
-indicators = df_all[['indicator_short', 'ihme_indicator_description']].drop_duplicates().reset_index()
-inicator_dict = pd.Series(indicators.ihme_indicator_description.values, index=indicators.indicator_short).to_dict()
+indicators = df_all[['indicator_short', 'ihme_indicator_description']].drop_duplicates().sort_values('indicator_short')
+indicator_dict = pd.Series(indicators.ihme_indicator_description.values, index=indicators.indicator_short).to_dict()
 
 
 
@@ -42,7 +41,7 @@ top_markdown_text = '''
 In 2015, the United Nations established the Sustainable Development Goals (SDGs). 
 The Institute for Health Metrics and Evaluation (IHME) provides estimates for 41 health-related SDG indicators for 195 countries and territories, along with a [data visualization](https://vizhub.healthdata.org/sdg/) the [underlying data](http://ghdx.healthdata.org/record/global-burden-disease-study-2017-gbd-2017-health-related-sustainable-development-goals-sdg).  
 In this analysis, rather than grouping countries by geography, I have use a k-means clustering algorithm (details forthcoming) to cluster 
-countries based on their SDG indicator values. Indicators are scaled 0-100, with 0 being poor (e.g. high mortality) and 100 being excellent. 
+countries based on their SDG indicator values. Indicators are scaled 0-100, with 0 being poor (e.g. high mortality) and 100 being excellent.  
 Visualization made using Ploty and Dash - [Github repo](https://github.com/zwrankin/health_indicators)
 '''
 
@@ -52,9 +51,10 @@ app.layout = html.Div([
 
 
 html.Div([
+    dcc.Markdown('*Indicator abbreviation lookup*'),
     dcc.Dropdown(
                     id='indicator-dropdown',
-                    options=[{'label': i, 'value': i} for i in available_indicators],
+                    options=[{'label': i, 'value': i} for i in indicator_dict.keys()],
                     value='Under-5 Mort'
                 ),
     dcc.Markdown(id='indicator-key')
@@ -84,12 +84,12 @@ html.Div([
 		),
         dcc.Dropdown(
                     id='xaxis-column',
-                    options=[{'label': i, 'value': i} for i in available_indicators],
+                    options=[{'label': i, 'value': i} for i in indicator_dict.keys()],
                     value='SDG Index'
                 ),
         dcc.Dropdown(
                     id='yaxis-column',
-                    options=[{'label': i, 'value': i} for i in available_indicators],
+                    options=[{'label': i, 'value': i} for i in indicator_dict.keys()],
                     value='Under-5 Mort'
                 ),
     dcc.Graph(id='scatterplot'),
@@ -157,6 +157,7 @@ html.Div([
                 id='comparison-type',
                 options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
                 value='Value',
+                labelStyle={'display': 'inline-block'},
             ),
         dcc.Graph(id='similarity_scatter',
                 #figure=make_similarity_scatterplot('Somalia', 'Value')
@@ -172,7 +173,7 @@ html.Div([
     dash.dependencies.Output('indicator-key', 'children'),
     [dash.dependencies.Input('indicator-dropdown', 'value')])
 def update_graph(i):
-    return f'{inicator_dict[i]}'
+    return f'{indicator_dict[i]}'
 
 
 
