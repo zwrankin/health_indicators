@@ -18,8 +18,10 @@ server = app.server
 
 # Load
 df = pd.read_csv('./data/processed/GBD_child_health_indicators.csv')
+df['val'] = df.val
 location_metadata = pd.read_csv('./data/metadata/gbd_location_metadata.csv')
 indicators = list(df.indicator.unique())
+n_neighbors = 4
 
 # Indicator Value by country in wide format
 df_wide = df.pivot(index='location_id', columns='indicator', values='val').reset_index()
@@ -30,7 +32,11 @@ df_wide = pd.merge(location_metadata, df_wide)
 top_markdown_text = '''
 ### Global Burden of Disease - Child Health Indicators
 #### Zane Rankin, 2/5/2019
-**Indicators are scaled 0-100, with 0 being worst observed (e.g. highest mortality) and 100 being best.**  
+The Global Burden of Disease produces many indicators relevant to child health. Results from the GBD 2016 study can 
+be downloaded [here](http://ghdx.healthdata.org/gbd-2016).  
+**Indicators values are scaled 0-100, with 0 as lowest risk and 100 being highest.**  
+In this clustering analysis, I examine how epidemiologic patterns can both follow and defy geographic proximity.  
+Clusters are assigned by a k-means clustering algorithm using the user's selected indicators and number of clusters.  
 Visualization made using Ploty and Dash - [Github repo](https://github.com/zwrankin/health_indicators)
 '''
 
@@ -45,11 +51,7 @@ app.layout = html.Div([
     # HEADER
     dcc.Markdown(children=top_markdown_text),
 
-
-    # LEFT SIDE
-    html.Div([
-
-        html.P('Number of clusters'),
+    html.P('Number of clusters'),
         dcc.Slider(
             id='n-clusters',
             min=2,
@@ -61,6 +63,18 @@ app.layout = html.Div([
         html.P(' '),
         html.P(' '),
 
+    html.P('Indicators to include in clustering algorithm'),
+    dcc.Dropdown(
+        id='indicators',
+        options=[{'label':i, 'value': i} for i in indicators],
+        multi=True,
+        value=[i for i in indicators]
+    ),
+
+    # LEFT SIDE
+    html.Div([
+
+
         # Hidden div stores the clustering model results to share between callbacks
         html.Div(id='clustered-data', style={'display': 'none'}),
 
@@ -68,46 +82,45 @@ app.layout = html.Div([
         dcc.Dropdown(
             id='xaxis-column',
             options=[{'label': i, 'value': i} for i in indicators],
-            value='Child stunting'
+            value='Child underweight'
         ),
         dcc.Dropdown(
             id='yaxis-column',
             options=[{'label': i, 'value': i} for i in indicators],
-            value='Child stunting'
+            value='Neonatal preterm birth'
         ),
         dcc.Graph(id='scatterplot'),
 
     ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
 
-    # # RIGHT SIDE
-    # html.Div([
-    #     dcc.RadioItems(
-    #         id='entity-type',
-    #         options=[{'label': i, 'value': i} for i in ['Countries', 'Clusters']],
-    #         value='Clusters',
-    #         labelStyle={'display': 'inline-block'},
-    #     ),
-    #     dcc.RadioItems(
-    #         id='comparison-type',
-    #         options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
-    #         value='Comparison',
-    #         labelStyle={'display': 'inline-block'},
-    #     ),
-    #     dcc.Graph(id='similarity_scatter'),
-    #
-    # ], style={'display': 'inline-block', 'float': 'right', 'width': '49%'}),
-    #
-    # dcc.Markdown(children=bottom_markdown_text),
+    # RIGHT SIDE
+    html.Div([
+        dcc.RadioItems(
+            id='entity-type',
+            options=[{'label': i, 'value': i} for i in ['Countries', 'Clusters']],
+            value='Clusters',
+            labelStyle={'display': 'inline-block'},
+        ),
+        dcc.RadioItems(
+            id='comparison-type',
+            options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
+            value='Value',
+            labelStyle={'display': 'inline-block'},
+        ),
+        dcc.Graph(id='similarity_scatter'),
+
+    ], style={'display': 'inline-block', 'float': 'right', 'width': '49%'}),
+
+    dcc.Markdown(children=bottom_markdown_text),
 
 ])
 
 
 @app.callback(dash.dependencies.Output('clustered-data', 'children'),
-              [dash.dependencies.Input('n-clusters', 'value')])
-def cluster_kmeans(n_clusters):
-    # Eventually, could give interactivity of choosing which indicators to include in the clustering
-    INDICATORS_TO_INCLUDE = indicators
-    df_c = df_wide[['location_id'] + INDICATORS_TO_INCLUDE]
+              [dash.dependencies.Input('n-clusters', 'value'),
+               dash.dependencies.Input('indicators', 'value')])
+def cluster_kmeans(n_clusters, indicators):
+    df_c = df_wide[['location_name'] + indicators].set_index('location_name')
     kmean = KMeans(n_clusters=n_clusters, random_state=0)
     kmean.fit(df_c)
     df_c['cluster'] = kmean.labels_
@@ -176,84 +189,86 @@ def update_graph(xaxis_column_name, yaxis_column_name, data_json):
         )
     }
 
-#
-# @app.callback(
-#     dash.dependencies.Output('similarity_scatter', 'figure'),
-#     [dash.dependencies.Input('county-choropleth', 'hoverData'),
-#      dash.dependencies.Input('entity-type', 'value'),
-#      dash.dependencies.Input('comparison-type', 'value'),
-#      dash.dependencies.Input('clustered-data', 'children')])
-# def update_scatterplot(hoverData, entity_type, comparison_type, data_json):
-#     if hoverData is None:  # Initialize before any hovering
-#         location_name = 'United States'
-#         cluster = 0
-#     else:
-#         location_name = hoverData['points'][0]['text']
-#         cluster = hoverData['points'][0]['z']
-#
-#     if entity_type == 'Countries':
-#         l_data = data.loc[location_name]
-#         similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
-#         idx_similar = similarity[:n_neighbors + 1].index
-#         df_similar = data.loc[idx_similar]
-#         if comparison_type == 'Value':
-#             title = f'Indicators of {location_name} and similar countries'
-#         elif comparison_type == 'Comparison':
-#             df_similar = (df_similar - l_data)
-#             title = f'Indicators of countries relative to {location_name}'
-#         df_similar = df_similar.reset_index().melt(id_vars='location_name')
-#         df_similar.sort_values(['location_name', 'indicator_short'], ascending=[True, False], inplace=True)
-#
-#         plot = [go.Scatter(
-#             x=df_similar[df_similar['location_name'] == i]['value'],
-#             y=df_similar[df_similar['location_name'] == i]['indicator_short'],
-#             text=str(i),
-#             mode='markers',
-#             opacity=0.7,
-#             marker={
-#                 'size': 10,
-#                 'line': {'width': 0.5, 'color': 'white'}
-#             },
-#             name=str(i)
-#         ) for i in df_similar.location_name.unique()]
-#
-#     elif entity_type == 'Clusters':
-#         df_c = pd.read_json(data_json)[['cluster'] + list(indicator_dict.keys())]
-#         df_cluster = df_c.groupby('cluster').mean()
-#
-#         if comparison_type == 'Value':
-#             title = 'Cluster means'
-#         elif comparison_type == 'Comparison':
-#             df_cluster = (df_cluster - df_cluster.loc[cluster])
-#             title = f'Clusters relative to cluster {cluster}'
-#
-#         df_cluster = df_cluster.reset_index().melt(id_vars='cluster')
-#         df_cluster['color'] = df_cluster.cluster.map(palette)
-#         df_cluster.sort_values(['cluster', 'variable'], ascending=[True, False], inplace=True)
-#
-#         plot = [go.Scatter(
-#             x=df_cluster[df_cluster['cluster'] == i]['value'],
-#             y=df_cluster[df_cluster['cluster'] == i]['variable'],
-#             text=str(i),
-#             mode='markers',
-#             opacity=0.7,
-#             marker={
-#                 'size': 10,
-#                 'color': df_cluster[df_cluster['cluster'] == i]['color'],
-#                 'line': {'width': 0.5, 'color': 'white'}
-#             },
-#             name=f'Cluster {i}'
-#         ) for i in df_cluster.cluster.unique()
-#         ]
-#     return {
-#         'data': plot,
-#         'layout': go.Layout(
-#             title=title,
-#             height=850,
-#             margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
-#             hovermode='closest'
-#         )
-#     }
+
+@app.callback(
+    dash.dependencies.Output('similarity_scatter', 'figure'),
+    [dash.dependencies.Input('county-choropleth', 'hoverData'),
+     dash.dependencies.Input('entity-type', 'value'),
+     dash.dependencies.Input('comparison-type', 'value'),
+     dash.dependencies.Input('indicators', 'value'),
+     dash.dependencies.Input('clustered-data', 'children')])
+def update_scatterplot(hoverData, entity_type, comparison_type, indicators, data_json):
+    if hoverData is None:  # Initialize before any hovering
+        location_name = 'United States'
+        cluster = 0
+    else:
+        location_name = hoverData['points'][0]['text']
+        cluster = hoverData['points'][0]['z']
+
+    if entity_type == 'Countries':
+        data = df_wide[['location_name'] + indicators].set_index('location_name')
+        l_data = data.loc[location_name]
+        similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
+        idx_similar = similarity[:n_neighbors + 1].index
+        df_similar = data.loc[idx_similar]
+        if comparison_type == 'Value':
+            title = f'Indicators of {location_name} and similar countries'
+        elif comparison_type == 'Comparison':
+            df_similar = (df_similar - l_data)
+            title = f'Indicators of countries relative to {location_name}'
+        df_similar = df_similar.reset_index().melt(id_vars='location_name', var_name='indicator')
+        df_similar.sort_values(['location_name', 'indicator'], ascending=[True, False], inplace=True)
+
+        plot = [go.Scatter(
+            x=df_similar[df_similar['location_name'] == i]['value'],
+            y=df_similar[df_similar['location_name'] == i]['indicator'],
+            text=str(i),
+            mode='markers',
+            opacity=0.7,
+            marker={
+                'size': 10,
+                'line': {'width': 0.5, 'color': 'white'}
+            },
+            name=str(i)
+        ) for i in df_similar.location_name.unique()]
+
+    elif entity_type == 'Clusters':
+        df_c = pd.read_json(data_json)[['cluster'] + indicators]
+        df_cluster = df_c.groupby('cluster').mean()
+
+        if comparison_type == 'Value':
+            title = 'Cluster means'
+        elif comparison_type == 'Comparison':
+            df_cluster = (df_cluster - df_cluster.loc[cluster])
+            title = f'Clusters relative to cluster {cluster}'
+
+        df_cluster = df_cluster.reset_index().melt(id_vars='cluster')
+        df_cluster['color'] = df_cluster.cluster.map(palette)
+        df_cluster.sort_values(['cluster', 'variable'], ascending=[True, False], inplace=True)
+
+        plot = [go.Scatter(
+            x=df_cluster[df_cluster['cluster'] == i]['value'],
+            y=df_cluster[df_cluster['cluster'] == i]['variable'],
+            text=str(i),
+            mode='markers',
+            opacity=0.7,
+            marker={
+                'size': 10,
+                'color': df_cluster[df_cluster['cluster'] == i]['color'],
+                'line': {'width': 0.5, 'color': 'white'}
+            },
+            name=f'Cluster {i}'
+        ) for i in df_cluster.cluster.unique()
+        ]
+    return {
+        'data': plot,
+        'layout': go.Layout(
+            title=title,
+            height=850,
+            margin={'l': 220, 'b': 40, 't': 40, 'r': 0},
+            hovermode='closest'
+        )
+    }
 
 
 if __name__ == '__main__':
