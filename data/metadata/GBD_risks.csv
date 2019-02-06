@@ -1,0 +1,66 @@
+rei_id,rei_name,include
+83,Unsafe water source,1
+84,Unsafe sanitation,1
+86,Ambient particulate matter pollution,1
+87,Household air pollution from solid fuels,1
+88,Ambient ozone pollution,
+90,Residential radon,
+91,Lead exposure,
+94,Child underweight,1
+95,Iron deficiency,
+96,Vitamin A deficiency,1
+97,Zinc deficiency,
+99,Smoking,
+100,Secondhand smoke,
+102,Alcohol use,
+103,Drug use,
+105,High fasting plasma glucose,
+106,High total cholesterol,
+107,High systolic blood pressure,
+108,High body-mass index,
+109,Low bone mineral density,
+111,Diet low in fruits,
+112,Diet low in vegetables,
+113,Diet low in whole grains,
+114,Diet low in nuts and seeds,
+115,Diet low in milk,
+116,Diet high in red meat,
+117,Diet high in processed meat,
+118,Diet high in sugar-sweetened beverages,
+119,Diet low in fiber,
+121,Diet low in seafood omega-3 fatty acids,
+122,Diet low in polyunsaturated fatty acids,
+123,Diet high in trans fatty acids,
+124,Diet high in sodium,
+125,Low physical activity,
+128,Occupational asthmagens,
+129,"Occupational particulate matter, gases, and fumes",
+130,Occupational noise,
+132,Occupational ergonomic factors,
+134,Childhood sexual abuse,
+135,Intimate partner violence,
+136,Non-exclusive breastfeeding,1
+137,Discontinued breastfeeding,1
+147,Diet low in calcium,
+150,Occupational exposure to asbestos,
+151,Occupational exposure to arsenic,
+152,Occupational exposure to benzene,
+153,Occupational exposure to beryllium,
+154,Occupational exposure to cadmium,
+155,Occupational exposure to chromium,
+156,Occupational exposure to diesel engine exhaust,
+157,Occupational exposure to secondhand smoke,
+158,Occupational exposure to formaldehyde,
+159,Occupational exposure to nickel,
+160,Occupational exposure to polycyclic aromatic hydrocarbons,
+161,Occupational exposure to silica,
+162,Occupational exposure to sulfuric acid,
+237,Occupational exposure to trichloroethylene,
+238,No access to handwashing facility,
+240,Child wasting,1
+241,Child stunting,1
+332,Smokeless tobacco,
+333,Diet low in legumes,
+334,Short gestation for birth weight,1
+335,Low birth weight for gestation,1
+341,Impaired kidney function,
