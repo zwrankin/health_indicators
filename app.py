@@ -98,7 +98,7 @@ app.layout = html.Div([
         dcc.RadioItems(
             id='entity-type',
             options=[{'label': i, 'value': i} for i in ['Countries', 'Clusters']],
-            value='Clusters',
+            value='Countries',
             labelStyle={'display': 'inline-block'},
         ),
         dcc.RadioItems(
@@ -199,7 +199,7 @@ def update_graph(xaxis_column_name, yaxis_column_name, data_json):
      dash.dependencies.Input('clustered-data', 'children')])
 def update_scatterplot(hoverData, entity_type, comparison_type, indicators, data_json):
     if hoverData is None:  # Initialize before any hovering
-        location_name = 'United States'
+        location_name = 'Nigeria'
         cluster = 0
     else:
         location_name = hoverData['points'][0]['text']
