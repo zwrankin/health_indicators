@@ -4,10 +4,8 @@ import dash_html_components as html
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
-import pickle
 import plotly.graph_objs as go
 from src.visualization.utils import palette
-from src.data.process_SDG import load_2017_sdg_data
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -19,30 +17,26 @@ server = app.server
 # LOAD AND PROCESS DATA
 
 # Load
-df = load_2017_sdg_data()
+df = pd.read_csv('./data/processed/GBD_child_health_indicators.csv')
+df['val'] = df.val
 location_metadata = pd.read_csv('./data/metadata/gbd_location_metadata.csv')
-with open('./data/metadata/indicator_dictionary.pickle', 'rb') as handle:
-    indicator_dict = pickle.load(handle)
-n_neighbors = 4  # Number of neighbors to plot
+indicators = list(df.indicator.unique())
+n_neighbors = 4
 
 # Indicator Value by country in wide format
-data = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
+df_wide = df.pivot(index='location_id', columns='indicator', values='val').reset_index()
+df_wide = pd.merge(location_metadata, df_wide)
 ################################################################################################################
 
 
 top_markdown_text = '''
-### Sustainable Development Goals
-#### Zane Rankin, 2/2/2019
-In 2015, the United Nations established the Sustainable Development Goals (SDGs). 
-The Institute for Health Metrics and Evaluation (IHME) provides estimates for 41 health-related SDG indicators for 
-195 countries and territories, along with a [data visualization](https://vizhub.healthdata.org/sdg/) and the 
-[underlying data](http://ghdx.healthdata.org/record/global-burden-disease-study-2017-gbd-2017-health-related-sustainable-development-goals-sdg).  
-**Indicators are scaled 0-100, with 0 being worst observed (e.g. highest mortality) and 100 being best.**  
-In this analysis, rather than grouping countries by geography, I have use a k-means clustering algorithm to group countries 
-into 7 clusters based on similarity of all 41 indicators. While cluster composition is sensitive to parameters (e.g. number of clusters), 
-this method highlights similarities that defy geography.   
-Hover over the map to select a country to compare to similar countries. 
-Similarity is calculated as the sum of square differences of all indicators of two countries.  
+### Global Burden of Disease - Child Health Indicators
+#### Zane Rankin, 2/5/2019
+The Global Burden of Disease produces many indicators relevant to child health. Results from the GBD 2016 study can 
+be downloaded [here](http://ghdx.healthdata.org/gbd-2016).  
+**Indicators values are scaled 0-100, with 0 as lowest risk and 100 being highest.**  
+In this clustering analysis, I examine how epidemiologic patterns can both follow and defy geographic proximity.  
+Clusters are assigned by a k-means clustering algorithm using the user's selected indicators and number of clusters.  
 Visualization made using Ploty and Dash - [Github repo](https://github.com/zwrankin/health_indicators)
 '''
 
@@ -57,20 +51,7 @@ app.layout = html.Div([
     # HEADER
     dcc.Markdown(children=top_markdown_text),
 
-    html.Div([
-        dcc.Markdown('*Indicator abbreviation lookup*'),
-        dcc.Dropdown(
-            id='indicator-dropdown',
-            options=[{'label': i, 'value': i} for i in indicator_dict.keys()],
-            value='Under-5 Mort'
-        ),
-        dcc.Markdown(id='indicator-key')
-    ]),
-
-    # LEFT SIDE
-    html.Div([
-
-        html.P('Number of clusters'),
+    html.P('Number of clusters'),
         dcc.Slider(
             id='n-clusters',
             min=2,
@@ -82,19 +63,31 @@ app.layout = html.Div([
         html.P(' '),
         html.P(' '),
 
+    html.P('Indicators to include in clustering algorithm'),
+    dcc.Dropdown(
+        id='indicators',
+        options=[{'label':i, 'value': i} for i in indicators],
+        multi=True,
+        value=[i for i in indicators]
+    ),
+
+    # LEFT SIDE
+    html.Div([
+
+
         # Hidden div stores the clustering model results to share between callbacks
         html.Div(id='clustered-data', style={'display': 'none'}),
 
         dcc.Graph(id='county-choropleth'),
         dcc.Dropdown(
             id='xaxis-column',
-            options=[{'label': i, 'value': i} for i in indicator_dict.keys()],
-            value='SDG Index'
+            options=[{'label': i, 'value': i} for i in indicators],
+            value='Child underweight'
         ),
         dcc.Dropdown(
             id='yaxis-column',
-            options=[{'label': i, 'value': i} for i in indicator_dict.keys()],
-            value='Under-5 Mort'
+            options=[{'label': i, 'value': i} for i in indicators],
+            value='Neonatal preterm birth'
         ),
         dcc.Graph(id='scatterplot'),
 
@@ -111,7 +104,7 @@ app.layout = html.Div([
         dcc.RadioItems(
             id='comparison-type',
             options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
-            value='Comparison',
+            value='Value',
             labelStyle={'display': 'inline-block'},
         ),
         dcc.Graph(id='similarity_scatter'),
@@ -123,20 +116,11 @@ app.layout = html.Div([
 ])
 
 
-@app.callback(
-    dash.dependencies.Output('indicator-key', 'children'),
-    [dash.dependencies.Input('indicator-dropdown', 'value')])
-def update_graph(i):
-    return f'{indicator_dict[i]}'
-
-
 @app.callback(dash.dependencies.Output('clustered-data', 'children'),
-              [dash.dependencies.Input('n-clusters', 'value')])
-def cluster_kmeans(n_clusters):
-    # Eventually, could give interactivity of choosing which indicators to include in the clustering
-    INDICATORS_TO_INCLUDE = list(indicator_dict.keys())
-    df_c = df.pivot(index='location_name', columns='indicator_short', values='scaled_value')
-    df_c = df_c[INDICATORS_TO_INCLUDE]
+              [dash.dependencies.Input('n-clusters', 'value'),
+               dash.dependencies.Input('indicators', 'value')])
+def cluster_kmeans(n_clusters, indicators):
+    df_c = df_wide[['location_name'] + indicators].set_index('location_name')
     kmean = KMeans(n_clusters=n_clusters, random_state=0)
     kmean.fit(df_c)
     df_c['cluster'] = kmean.labels_
@@ -211,8 +195,9 @@ def update_graph(xaxis_column_name, yaxis_column_name, data_json):
     [dash.dependencies.Input('county-choropleth', 'hoverData'),
      dash.dependencies.Input('entity-type', 'value'),
      dash.dependencies.Input('comparison-type', 'value'),
+     dash.dependencies.Input('indicators', 'value'),
      dash.dependencies.Input('clustered-data', 'children')])
-def update_scatterplot(hoverData, entity_type, comparison_type, data_json):
+def update_scatterplot(hoverData, entity_type, comparison_type, indicators, data_json):
     if hoverData is None:  # Initialize before any hovering
         location_name = 'United States'
         cluster = 0
@@ -221,6 +206,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, data_json):
         cluster = hoverData['points'][0]['z']
 
     if entity_type == 'Countries':
+        data = df_wide[['location_name'] + indicators].set_index('location_name')
         l_data = data.loc[location_name]
         similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
         idx_similar = similarity[:n_neighbors + 1].index
@@ -230,12 +216,12 @@ def update_scatterplot(hoverData, entity_type, comparison_type, data_json):
         elif comparison_type == 'Comparison':
             df_similar = (df_similar - l_data)
             title = f'Indicators of countries relative to {location_name}'
-        df_similar = df_similar.reset_index().melt(id_vars='location_name')
-        df_similar.sort_values(['location_name', 'indicator_short'], ascending=[True, False], inplace=True)
+        df_similar = df_similar.reset_index().melt(id_vars='location_name', var_name='indicator')
+        df_similar.sort_values(['location_name', 'indicator'], ascending=[True, False], inplace=True)
 
         plot = [go.Scatter(
             x=df_similar[df_similar['location_name'] == i]['value'],
-            y=df_similar[df_similar['location_name'] == i]['indicator_short'],
+            y=df_similar[df_similar['location_name'] == i]['indicator'],
             text=str(i),
             mode='markers',
             opacity=0.7,
@@ -247,7 +233,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, data_json):
         ) for i in df_similar.location_name.unique()]
 
     elif entity_type == 'Clusters':
-        df_c = pd.read_json(data_json)[['cluster'] + list(indicator_dict.keys())]
+        df_c = pd.read_json(data_json)[['cluster'] + indicators]
         df_cluster = df_c.groupby('cluster').mean()
 
         if comparison_type == 'Value':
@@ -279,7 +265,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, data_json):
         'layout': go.Layout(
             title=title,
             height=850,
-            margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
+            margin={'l': 220, 'b': 40, 't': 40, 'r': 0},
             hovermode='closest'
         )
     }
