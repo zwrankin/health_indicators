@@ -35,8 +35,8 @@ def send_query(url):
     df =  pd.DataFrame(r.json()['data'], columns=cols)
     return df.apply(pd.to_numeric)
 
-def min_max_scaler(values):
-    return (values - values.min())/(values.max() - values.min())
+def min_max_scaler(values, multiplier=100):
+    return (values - values.min())/(values.max() - values.min())*multiplier
 
 def query_cause(cause_id, age_group_id=1, measure='CSMR'):
     if measure == 'CSMR':
