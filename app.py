@@ -18,13 +18,13 @@ server = app.server
 
 # Load
 df = pd.read_csv('./data/processed/GBD_child_health_indicators.csv')
-df['val'] = df.val
 location_metadata = pd.read_csv('./data/metadata/gbd_location_metadata.csv')
 indicators = list(df.indicator.unique())
 n_neighbors = 4
 
 # Indicator Value by country in wide format
-df_wide = df.pivot(index='location_id', columns='indicator', values='val').reset_index()
+index_vars = ['location_name', 'year_id']
+df_wide = df.pivot_table(index=index_vars, columns='indicator', values='val').reset_index()
 df_wide = pd.merge(location_metadata, df_wide)
 ################################################################################################################
 
@@ -70,6 +70,13 @@ app.layout = html.Div([
         multi=True,
         value=[i for i in indicators]
     ),
+
+dcc.RadioItems(
+            id='year',
+            options=[{'label': i, 'value': i} for i in [1990, 2000, 2016]],
+            value=2016,
+            labelStyle={'display': 'inline-block'},
+        ),
 
     # LEFT SIDE
     html.Div([
@@ -118,9 +125,10 @@ app.layout = html.Div([
 
 @app.callback(dash.dependencies.Output('clustered-data', 'children'),
               [dash.dependencies.Input('n-clusters', 'value'),
-               dash.dependencies.Input('indicators', 'value')])
-def cluster_kmeans(n_clusters, indicators):
-    df_c = df_wide[['location_name'] + indicators].set_index('location_name')
+               dash.dependencies.Input('indicators', 'value'),
+               dash.dependencies.Input('year', 'value')])
+def cluster_kmeans(n_clusters, indicators, year):
+    df_c = df_wide.query(f'year_id == {year}')[['location_name'] + indicators].set_index('location_name')
     kmean = KMeans(n_clusters=n_clusters, random_state=0)
     kmean.fit(df_c)
     df_c['cluster'] = kmean.labels_
@@ -134,6 +142,8 @@ def cluster_kmeans(n_clusters, indicators):
     [dash.dependencies.Input('clustered-data', 'children')])
 def update_map(data_json):
     df_c = pd.read_json(data_json)
+    # print(len(df_c.ihme_loc_id.unique()))
+    print(df_c.head())
     n_clusters = len(df_c.cluster.unique())
     colorscale = [[k / (n_clusters - 1), palette[k]] for k in
                   range(0, n_clusters)]  # choropleth colorscale seems to need 0-1 range
@@ -196,8 +206,9 @@ def update_graph(xaxis_column_name, yaxis_column_name, data_json):
      dash.dependencies.Input('entity-type', 'value'),
      dash.dependencies.Input('comparison-type', 'value'),
      dash.dependencies.Input('indicators', 'value'),
+     dash.dependencies.Input('year', 'value'),
      dash.dependencies.Input('clustered-data', 'children')])
-def update_scatterplot(hoverData, entity_type, comparison_type, indicators, data_json):
+def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year, data_json):
     if hoverData is None:  # Initialize before any hovering
         location_name = 'Nigeria'
         cluster = 0
@@ -206,7 +217,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, data
         cluster = hoverData['points'][0]['z']
 
     if entity_type == 'Countries':
-        data = df_wide[['location_name'] + indicators].set_index('location_name')
+        data = df_wide.query(f'year_id == {year}')[['location_name'] + indicators].set_index('location_name')
         l_data = data.loc[location_name]
         similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
         idx_similar = similarity[:n_neighbors + 1].index
