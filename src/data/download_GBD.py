@@ -11,6 +11,7 @@ location_metadata = load_gbd_location_metadata()
 
 risk_metadata = pd.read_csv(f'{DATA_DIR}/metadata/GBD_risks.csv')
 risk_dict = risk_metadata.set_index('rei_id')['rei_name'].to_dict()
+YEARS='1990,2000,2016'
 
 def get_risk_ids():
     df = pd.read_csv(f'{DATA_DIR}/metadata/GBD_risks.csv')
@@ -40,19 +41,19 @@ def min_max_scaler(values, multiplier=100):
 
 def query_cause(cause_id, age_group_id=1, measure='CSMR'):
     if measure == 'CSMR':
-        url = f'{URL}/cause/?cause_id={cause_id}&measure_id=1&metric_id=3&age_group_id={age_group_id}&sex_id=3&year_id=2016&authorization={GBD_API_KEY}'
+        url = f'{URL}/cause/?cause_id={cause_id}&measure_id=1&metric_id=3&age_group_id={age_group_id}&sex_id=3&year_id={YEARS}&authorization={GBD_API_KEY}'
     else:
         raise NotImplementedError(f'{measure} not implemented')
 
     df = send_query(url)
     df['indicator'] = cause_dict[cause_id]
     df['val'] = min_max_scaler(df.val)
-    return df[['location_id', 'indicator', 'val']]
+    return df[['location_id', 'year_id', 'indicator', 'val']]
 
 
 def query_risk(risk_id, age_group_id=1, measure='SEV'):
     if measure == 'SEV':
-        url = f'{URL}/sev/?risk_id={risk_id}&measure_id=29&age_group_id={age_group_id}&sex_id=3&year_id=2016&authorization={GBD_API_KEY}'
+        url = f'{URL}/sev/?risk_id={risk_id}&measure_id=29&age_group_id={age_group_id}&sex_id=3&year_id={YEARS}&authorization={GBD_API_KEY}'
 
     else:
         raise AssertionError(f'{measure} not implemented')
@@ -61,7 +62,7 @@ def query_risk(risk_id, age_group_id=1, measure='SEV'):
     df['indicator'] = risk_dict[risk_id]
     df['val'] = min_max_scaler(df.val)
 
-    return df[['location_id', 'indicator', 'val']]
+    return df[['location_id', 'year_id', 'indicator', 'val']]
 
 
 def download_GBD_data(save=True):
@@ -72,7 +73,7 @@ def download_GBD_data(save=True):
     df_cause = pd.concat([query_cause(i) for i in cause_ids])
 
     df = pd.concat([df_risk, df_cause])
-    df = df.sort_values(['location_id', 'indicator'])
+    df = df.sort_values(['location_id', 'year_id', 'indicator'])
     df = pd.merge(location_metadata, df)
 
     # HACK to only keep countries (which have true ISO-3 codes)
