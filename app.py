@@ -118,6 +118,8 @@ dcc.RadioItems(
 
     ], style={'display': 'inline-block', 'float': 'right', 'width': '49%'}),
 
+    dcc.Graph(id='time-series'),
+
     dcc.Markdown(children=bottom_markdown_text),
 
 ])
@@ -142,8 +144,6 @@ def cluster_kmeans(n_clusters, indicators, year):
     [dash.dependencies.Input('clustered-data', 'children')])
 def update_map(data_json):
     df_c = pd.read_json(data_json)
-    # print(len(df_c.ihme_loc_id.unique()))
-    print(df_c.head())
     n_clusters = len(df_c.cluster.unique())
     colorscale = [[k / (n_clusters - 1), palette[k]] for k in
                   range(0, n_clusters)]  # choropleth colorscale seems to need 0-1 range
@@ -278,6 +278,40 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
             height=850,
             margin={'l': 220, 'b': 40, 't': 40, 'r': 0},
             hovermode='closest'
+        )
+    }
+
+
+@app.callback(
+    dash.dependencies.Output('time-series', 'figure'),
+    [dash.dependencies.Input('county-choropleth', 'hoverData')])
+def update_scatterplot(hoverData):
+    if hoverData is None:  # Initialize before any hovering
+        location_name = 'Nigeria'
+    else:
+        location_name = hoverData['points'][0]['text']
+    df_l = df.query(f'location_name == "{location_name}"')
+    return {
+        'data': [
+            go.Scatter(
+                x=df_l[df_l['indicator'] == i]['year_id'],
+                y=df_l[df_l['indicator'] == i]['val'],
+                # text=df_l[df_l['location_id'] == i]['location_name'],
+                mode='lines+markers',
+                opacity=0.7,
+                marker={
+                    'size': 10,
+                    # 'color': dif_similar[dif_similar['cluster'] == i]['color'],  # palette[i],
+                    'line': {'width': 0.5, 'color': 'white'}
+                },
+                name=str(i)
+            ) for i in df.indicator.unique()
+        ],
+        'layout': go.Layout(
+            title=location_name,
+            height=600,
+            margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
+            hovermode='closest',
         )
     }
 
