@@ -112,9 +112,8 @@ def download_GBD_data(save=True):
     df = df.sort_values(['location_id', 'year_id', 'indicator'])
     df = pd.merge(location_metadata, df)
 
-    # HACK to only keep countries (which have true ISO-3 codes)
-    df['is_country'] = df.ihme_loc_id.transform(lambda x: len(x) == 3)
-    df = df[df.is_country].drop(columns='is_country')
+    # Keep countries
+    df = df.query('level == 3').drop(columns='level')
 
     if save:
         df.to_csv(f'{DATA_DIR}/processed/GBD_child_health_indicators.csv', index=False)
