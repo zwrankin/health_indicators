@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import requests
 from .utils import DATA_DIR, load_gbd_location_metadata
@@ -96,8 +97,18 @@ def load_covariates():
     """
     df = pd.read_csv(f'{DATA_DIR}/raw/gbd_covariate_estimates.csv')
     df = df.query(f'year_id in {YEAR_IDS}')
-    df['val'] = df.mean_value
-    return df[['location_id', 'year_id', 'indicator', 'val']]
+
+    # Log transform LDI
+    df.loc[df.indicator == 'LDI', 'mean_value'] = np.log(df.loc[df.indicator == 'LDI', 'mean_value'])
+    df.loc[df.indicator == 'LDI', 'indicator'] = 'log_LDI'
+
+    # Scaling
+    output = pd.DataFrame()
+    for i in df.indicator.unique():
+        data = df.loc[df.indicator == i]
+        data['val'] = min_max_scaler(data.mean_value)
+        output = pd.concat([output, data])
+    return output[['location_id', 'year_id', 'indicator', 'val']]
 
 
 def download_GBD_data(save=True):
