@@ -21,6 +21,7 @@ df = pd.read_csv('./data/processed/GBD_child_health_indicators.csv')
 location_metadata = pd.read_csv('./data/metadata/gbd_location_metadata.csv')
 indicators = list(df.indicator.unique())
 n_neighbors = 4
+year_ids = list(df.year_id.unique())
 
 # Indicator Value by country in wide format
 index_vars = ['location_name', 'year_id']
@@ -73,7 +74,7 @@ app.layout = html.Div([
 
 dcc.RadioItems(
             id='year',
-            options=[{'label': i, 'value': i} for i in [1990, 2000, 2016]],
+            options=[{'label': i, 'value': i} for i in year_ids],
             value=2016,
             labelStyle={'display': 'inline-block'},
         ),
@@ -89,12 +90,12 @@ dcc.RadioItems(
         dcc.Dropdown(
             id='xaxis-column',
             options=[{'label': i, 'value': i} for i in indicators],
-            value='Child underweight'
+            value='log_LDI'
         ),
         dcc.Dropdown(
             id='yaxis-column',
             options=[{'label': i, 'value': i} for i in indicators],
-            value='Neonatal preterm birth'
+            value='U5MR'
         ),
         dcc.Graph(id='scatterplot'),
 
@@ -297,7 +298,7 @@ def update_scatterplot(hoverData):
                 x=df_l[df_l['indicator'] == i]['year_id'],
                 y=df_l[df_l['indicator'] == i]['val'],
                 # text=df_l[df_l['location_id'] == i]['location_name'],
-                mode='lines+markers',
+                mode='lines',
                 opacity=0.7,
                 marker={
                     'size': 10,
