@@ -32,27 +32,31 @@ df_wide = pd.merge(location_metadata, df_wide)
 
 top_markdown_text = '''
 ### Global Burden of Disease - Child Health Indicators
-#### Zane Rankin, 2/5/2019
+'''
+
+overview_markdown_text = '''
 The Global Burden of Disease produces many indicators relevant to child health. Results from the GBD 2016 study can 
 be downloaded [here](http://ghdx.healthdata.org/gbd-2016).  
-**Indicators values are scaled 0-100, with 0 as lowest risk and 100 being highest.**  
+**Indicators values are scaled 0-100**. For risks and diseases, 0 represents the lowest burden observed and 100 the highest. 
+For other quantities (e.g. Socio-Demographic Index), higher values are better.  
 In this clustering analysis, I examine how epidemiologic patterns can both follow and defy geographic proximity.  
 Clusters are assigned by a k-means clustering algorithm using the user's selected indicators and number of clusters.  
-Visualization made using Ploty and Dash - [Github repo](https://github.com/zwrankin/health_indicators)
 '''
 
 bottom_markdown_text = '''
-*Plotly interaction tips*  
-*Hover over points to see their values, click on legend items to toggle traces,* 
-*click and drag to zoom (double click to unzoom), hold down shift, and click and drag to pan.*
+Estimates by the [Institute for Health Metrics and Evaluation](http://www.healthdata.org/) and available 
+[here](http://ghdx.healthdata.org/gbd-2016)  
+Visualization by [Zane Rankin](https://github.com/zwrankin/health_indicators)
 '''
 
 app.layout = html.Div([
 
-    # HEADER
-    dcc.Markdown(children=top_markdown_text),
+    # LEFT - Global options and map
+    html.Div([
 
-    html.P('Number of clusters'),
+        dcc.Markdown(children=top_markdown_text),
+
+        html.P('Number of clusters'),
         dcc.Slider(
             id='n-clusters',
             min=2,
@@ -61,67 +65,84 @@ app.layout = html.Div([
             marks={i: str(i) for i in range(2, 8 + 1)},
             value=7,
         ),
-        html.P(' '),
-        html.P(' '),
-
-    html.P('Indicators to include in clustering algorithm'),
-    dcc.Dropdown(
-        id='indicators',
-        options=[{'label':i, 'value': i} for i in indicators],
-        multi=True,
-        value=[i for i in indicators]
-    ),
-
-dcc.RadioItems(
+        html.P('_'),
+        dcc.RadioItems(
             id='year',
             options=[{'label': i, 'value': i} for i in year_ids],
             value=2016,
             labelStyle={'display': 'inline-block'},
         ),
 
-    # LEFT SIDE
-    html.Div([
-
-
-        # Hidden div stores the clustering model results to share between callbacks
-        html.Div(id='clustered-data', style={'display': 'none'}),
+        html.P('Indicators to include in clustering algorithm'),
+        dcc.Dropdown(
+            id='indicators',
+            options=[{'label': i, 'value': i} for i in indicators],
+            multi=True,
+            value=[i for i in indicators]
+        ),
 
         dcc.Graph(id='county-choropleth'),
-        dcc.Dropdown(
-            id='xaxis-column',
-            options=[{'label': i, 'value': i} for i in indicators],
-            value='log_LDI'
-        ),
-        dcc.Dropdown(
-            id='yaxis-column',
-            options=[{'label': i, 'value': i} for i in indicators],
-            value='U5MR'
-        ),
-        dcc.Graph(id='scatterplot'),
+    ], style={'float': 'left', 'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
 
-    ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
-
-    # RIGHT SIDE
+    # RIGHT - Tabs
     html.Div([
-        dcc.RadioItems(
-            id='entity-type',
-            options=[{'label': i, 'value': i} for i in ['Countries', 'Clusters']],
-            value='Countries',
-            labelStyle={'display': 'inline-block'},
-        ),
-        dcc.RadioItems(
-            id='comparison-type',
-            options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
-            value='Value',
-            labelStyle={'display': 'inline-block'},
-        ),
-        dcc.Graph(id='similarity_scatter'),
+        dcc.Tabs(id="tabs", style={
+            'textAlign': 'left', 'margin': '48px 0', 'fontFamily': 'system-ui'}, children=[
 
-    ], style={'display': 'inline-block', 'float': 'right', 'width': '49%'}),
+            dcc.Tab(label='Clustering', children=[
 
-    dcc.Graph(id='time-series'),
+                # Hidden div stores the clustering model results to share between callbacks
+                html.Div(id='clustered-data', style={'display': 'none'}),
 
-    dcc.Markdown(children=bottom_markdown_text),
+                html.Div([
+                    dcc.Markdown(children=overview_markdown_text),
+
+                    dcc.Dropdown(
+                        id='xaxis-column',
+                        options=[{'label': i, 'value': i} for i in indicators],
+                        value='log_LDI'
+                    ),
+                    dcc.Dropdown(
+                        id='yaxis-column',
+                        options=[{'label': i, 'value': i} for i in indicators],
+                        value='U5MR'
+                    ),
+                ]),
+
+                html.Div([
+                    dcc.Graph(id='scatterplot'),
+                ]),
+
+            ]),
+            dcc.Tab(label='Comparisons', children=[
+                # RIGHT SIDE
+                # html.Div([
+                dcc.RadioItems(
+                    id='entity-type',
+                    options=[{'label': i, 'value': i} for i in ['Countries', 'Clusters']],
+                    value='Countries',
+                    labelStyle={'display': 'inline-block'},
+                ),
+                dcc.RadioItems(
+                    id='comparison-type',
+                    options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
+                    value='Value',
+                    labelStyle={'display': 'inline-block'},
+                ),
+                dcc.Graph(id='similarity_scatter'),
+
+            ]),
+
+            dcc.Tab(label='Time Trends', children=[
+                dcc.Graph(id='time-series'),
+            ]),
+
+        ]),
+    ], style={'float': 'right', 'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
+
+    html.Div([
+        dcc.Markdown(children=bottom_markdown_text),
+    ], style={'float': 'left'}),
 
 ])
 
@@ -150,21 +171,21 @@ def update_map(data_json):
                   range(0, n_clusters)]  # choropleth colorscale seems to need 0-1 range
 
     return dict(
-                data=[dict(
-                    locations=df_c['ihme_loc_id'],
-                    z=df_c['cluster'].astype('float'),
-                    text=df_c['location_name'],
-                    colorscale=colorscale,
-                    autocolorscale=False,
-                    type='choropleth',
-                    showscale=False,  # Color key unnecessary since clusters are arbitrary and have key in scatterplot
-                )],
-                layout=dict(
-                    title='Hover over map to select scatterplot country or cluster',
-                    height=400,
-                    geo=dict(showframe=False,
-                             projection={'type': 'Mercator'}))  # 'natural earth
-            )
+        data=[dict(
+            locations=df_c['ihme_loc_id'],
+            z=df_c['cluster'].astype('float'),
+            text=df_c['location_name'],
+            colorscale=colorscale,
+            autocolorscale=False,
+            type='choropleth',
+            showscale=False,  # Color key unnecessary since clusters are arbitrary and have key in scatterplot
+        )],
+        layout=dict(
+            title='Hover over map to select scatterplot country or cluster',
+            height=400,
+            geo=dict(showframe=False,
+                     projection={'type': 'Mercator'}))  # 'natural earth
+    )
 
 
 @app.callback(
@@ -184,14 +205,14 @@ def update_graph(xaxis_column_name, yaxis_column_name, data_json):
                 opacity=0.7,
                 marker={
                     'size': 12,
-                    'color': df_c[df_c['cluster'] == i]['color'],  #palette[i], #
+                    'color': df_c[df_c['cluster'] == i]['color'],  # palette[i], #
                     'line': {'width': 0.5, 'color': 'white'}
                 },
                 name=f'Cluster {i}'
             ) for i in df_c.cluster.unique()
         ],
         'layout': go.Layout(
-            height=350,
+            height=450,
             xaxis={'title': xaxis_column_name},
             yaxis={'title': yaxis_column_name},
             margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
@@ -276,8 +297,8 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
         'data': plot,
         'layout': go.Layout(
             title=title,
-            height=850,
-            margin={'l': 220, 'b': 40, 't': 40, 'r': 0},
+            height=50 + 20 * len(indicators),
+            margin={'l': 220, 'b': 30, 't': 30, 'r': 0},
             hovermode='closest'
         )
     }
@@ -286,7 +307,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
 @app.callback(
     dash.dependencies.Output('time-series', 'figure'),
     [dash.dependencies.Input('county-choropleth', 'hoverData'),
-     dash.dependencies.Input('indicators', 'value'),])
+     dash.dependencies.Input('indicators', 'value'), ])
 def update_timeseries(hoverData, indicators):
     if hoverData is None:  # Initialize before any hovering
         location_name = 'Nigeria'
@@ -299,12 +320,10 @@ def update_timeseries(hoverData, indicators):
             go.Scatter(
                 x=df_l[df_l['indicator'] == i]['year_id'],
                 y=df_l[df_l['indicator'] == i]['val'],
-                # text=df_l[df_l['location_id'] == i]['location_name'],
                 mode='lines',
                 opacity=0.7,
                 marker={
                     'size': 10,
-                    # 'color': dif_similar[dif_similar['cluster'] == i]['color'],  # palette[i],
                     'line': {'width': 0.5, 'color': 'white'}
                 },
                 name=str(i)
@@ -312,8 +331,8 @@ def update_timeseries(hoverData, indicators):
         ],
         'layout': go.Layout(
             title=location_name,
-            height=600,
-            margin={'l': 120, 'b': 40, 't': 40, 'r': 0},
+            height=550,
+            margin={'l': 22, 'b': 30, 't': 30, 'r': 0},
             hovermode='closest',
         )
     }
