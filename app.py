@@ -35,12 +35,11 @@ top_markdown_text = '''
 '''
 
 overview_markdown_text = '''
-The Global Burden of Disease produces many indicators relevant to child health. Results from the GBD 2016 study can 
-be downloaded [here](http://ghdx.healthdata.org/gbd-2016).  
-**Indicators values are scaled 0-100**. For risks and diseases, 0 represents the lowest burden observed and 100 the highest. 
-For other quantities (e.g. Socio-Demographic Index), higher values are better.  
-In this clustering analysis, I examine how epidemiologic patterns can both follow and defy geographic proximity.  
-Clusters are assigned by a k-means clustering algorithm using the user's selected indicators and number of clusters.  
+The Global Burden of Disease estimates many indicators relevant to child health. Understanding temporal and geographic 
+patterns can provide insights to attaining Sustainable Development Goal 3.2 (reduce child mortality to <25 per 100K births).  
+This clustering analysis examines how epidemiologic patterns can both follow and defy geographic proximity. 
+Clusters are assigned by a k-means clustering algorithm using selected indicators and number of clusters.  
+**Indicators values are scaled 0-100**: 0 represents the lowest globally observed value and 100 the highest.
 '''
 
 bottom_markdown_text = '''
@@ -63,7 +62,7 @@ app.layout = html.Div([
             max=7,
             step=1,
             marks={i: str(i) for i in range(2, 7 + 1)},
-            value=5,
+            value=3,
         ),
         html.P('_'),
         dcc.RadioItems(
@@ -319,7 +318,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
         'data': plot,
         'layout': go.Layout(
             title=title,
-            height=50 + 20 * len(indicators),
+            height=150 + 20 * len(indicators),
             margin={'l': 220, 'b': 30, 't': 30, 'r': 0},
             hovermode='closest'
         )
