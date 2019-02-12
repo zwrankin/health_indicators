@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 import plotly.graph_objs as go
-from src.visualization.utils import palette
+from src.visualization.utils import get_palette, palette
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -60,10 +60,10 @@ app.layout = html.Div([
         dcc.Slider(
             id='n-clusters',
             min=2,
-            max=8,
+            max=7,
             step=1,
-            marks={i: str(i) for i in range(2, 8 + 1)},
-            value=7,
+            marks={i: str(i) for i in range(2, 7 + 1)},
+            value=5,
         ),
         html.P('_'),
         dcc.RadioItems(
@@ -166,9 +166,19 @@ def cluster_kmeans(n_clusters, indicators, year):
     df_c = df_wide.query(f'year_id == {year}')[['location_name'] + indicators].set_index('location_name')
     kmean = KMeans(n_clusters=n_clusters, random_state=0)
     kmean.fit(df_c)
-    df_c['cluster'] = kmean.labels_
-    df_c = pd.merge(location_metadata, df_c.reset_index())
-    df_c['color'] = df_c.cluster.map(palette)
+
+    # Get U5MR by cluster and map cluster number to rank
+    df_ordered = df_wide.query(f'year_id == {year}')
+    df_ordered['cluster'] = kmean.labels_
+    df_ordered = df_ordered.groupby('cluster')['U5MR'].mean().reset_index()
+    df_ordered['U5MR_rank'] = df_ordered['U5MR'].rank().astype('int') - 1  # rank starts at 1, we want 0-indexed
+    cluster_map = df_ordered.set_index('cluster')['U5MR_rank'].to_dict()
+
+    # Set cluster equal to U5MR rank
+    df_c.reset_index(inplace=True)
+    df_c['cluster'] = pd.Series(kmean.labels_).map(cluster_map)
+    df_c = pd.merge(location_metadata, df_c)
+    df_c['color'] = df_c.cluster.map(get_palette(n_clusters))
     return df_c.to_json()
 
 
@@ -178,7 +188,7 @@ def cluster_kmeans(n_clusters, indicators, year):
 def update_map(data_json):
     df_c = pd.read_json(data_json)
     n_clusters = len(df_c.cluster.unique())
-    colorscale = [[k / (n_clusters - 1), palette[k]] for k in
+    colorscale = [[k / (n_clusters - 1), get_palette(n_clusters)[k]] for k in
                   range(0, n_clusters)]  # choropleth colorscale seems to need 0-1 range
 
     return dict(
@@ -287,7 +297,8 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
             title = f'Clusters relative to cluster {cluster}'
 
         df_cluster = df_cluster.reset_index().melt(id_vars='cluster')
-        df_cluster['color'] = df_cluster.cluster.map(palette)
+        n_clusters = len(df_c.cluster.unique())
+        df_cluster['color'] = df_cluster.cluster.map(get_palette(n_clusters))
         df_cluster.sort_values(['cluster', 'variable'], ascending=[True, False], inplace=True)
 
         plot = [go.Scatter(
