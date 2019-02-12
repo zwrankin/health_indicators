@@ -97,14 +97,13 @@ app.layout = html.Div([
                 html.Div([
                     dcc.Markdown(children=overview_markdown_text),
 
+                    # Dropdown options are set dynamically through callback
                     dcc.Dropdown(
                         id='xaxis-column',
-                        options=[{'label': i, 'value': i} for i in indicators],
                         value='log_LDI'
                     ),
                     dcc.Dropdown(
                         id='yaxis-column',
-                        options=[{'label': i, 'value': i} for i in indicators],
                         value='U5MR'
                     ),
                 ]),
@@ -147,6 +146,18 @@ app.layout = html.Div([
 ])
 
 
+@app.callback(dash.dependencies.Output('xaxis-column', 'options'),
+              [dash.dependencies.Input('indicators', 'value')])
+def set_xaxis_options(indicators):
+    return [{'label': i, 'value': i} for i in indicators]
+
+
+@app.callback(dash.dependencies.Output('yaxis-column', 'options'),
+              [dash.dependencies.Input('indicators', 'value')])
+def set_yaxis_options(indicators):
+    return [{'label': i, 'value': i} for i in indicators]
+
+
 @app.callback(dash.dependencies.Output('clustered-data', 'children'),
               [dash.dependencies.Input('n-clusters', 'value'),
                dash.dependencies.Input('indicators', 'value'),
@@ -182,7 +193,7 @@ def update_map(data_json):
         )],
         layout=dict(
             title='Hover over map to select scatterplot country or cluster',
-            height=400,
+            height=500,
             geo=dict(showframe=False,
                      projection={'type': 'Mercator'}))  # 'natural earth
     )
@@ -212,7 +223,7 @@ def update_graph(xaxis_column_name, yaxis_column_name, data_json):
             ) for i in df_c.cluster.unique()
         ],
         'layout': go.Layout(
-            height=450,
+            height=500,
             xaxis={'title': xaxis_column_name},
             yaxis={'title': yaxis_column_name},
             margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
