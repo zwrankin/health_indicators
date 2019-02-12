@@ -127,6 +127,13 @@ app.layout = html.Div([
                     value='Value',
                     labelStyle={'display': 'inline-block'},
                 ),
+        html.P('Additional countries'),
+            dcc.Dropdown(
+            id='countries',
+            options=[{'label': i, 'value': i} for i in df_wide.location_name.unique()],
+            multi=True,
+            # value=[i for i in indicators]
+        ),
                 dcc.Graph(id='similarity_scatter'),
 
             ]),
@@ -249,8 +256,9 @@ def update_graph(xaxis_column_name, yaxis_column_name, data_json):
      dash.dependencies.Input('comparison-type', 'value'),
      dash.dependencies.Input('indicators', 'value'),
      dash.dependencies.Input('year', 'value'),
+     dash.dependencies.Input('countries', 'value'),
      dash.dependencies.Input('clustered-data', 'children')])
-def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year, data_json):
+def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year, countries, data_json):
     if hoverData is None:  # Initialize before any hovering
         location_name = 'Nigeria'
         cluster = 0
@@ -262,8 +270,10 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
         data = df_wide.query(f'year_id == {year}')[['location_name'] + indicators].set_index('location_name')
         l_data = data.loc[location_name]
         similarity = np.abs(data ** 2 - l_data ** 2).sum(axis=1).sort_values()
-        idx_similar = similarity[:n_neighbors + 1].index
-        df_similar = data.loc[idx_similar]
+        locs = similarity[:n_neighbors + 1].index.tolist()
+        if countries is not None:
+            locs += countries
+        df_similar = data.loc[locs]
         if comparison_type == 'Value':
             title = f'Indicators of {location_name} and similar countries'
         elif comparison_type == 'Comparison':
