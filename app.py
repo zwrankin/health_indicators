@@ -285,13 +285,15 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
 
 @app.callback(
     dash.dependencies.Output('time-series', 'figure'),
-    [dash.dependencies.Input('county-choropleth', 'hoverData')])
-def update_scatterplot(hoverData):
+    [dash.dependencies.Input('county-choropleth', 'hoverData'),
+     dash.dependencies.Input('indicators', 'value'),])
+def update_timeseries(hoverData, indicators):
     if hoverData is None:  # Initialize before any hovering
         location_name = 'Nigeria'
     else:
         location_name = hoverData['points'][0]['text']
     df_l = df.query(f'location_name == "{location_name}"')
+    df_l = df_l.query(f'indicator in {indicators}')
     return {
         'data': [
             go.Scatter(
