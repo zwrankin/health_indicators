@@ -13,6 +13,13 @@ GBD_ROUND_ID = 5
 
 
 def get_top_cause_ids(level=3, n=15, gbd_round_id=GBD_ROUND_ID):
+    """
+    Gets the cause_ids of the causes with the highest mortality burden in 2017
+    :param level: level of the GBD cause hieracy
+    :param n: number of causes to return
+    :param gbd_round_id: GBD round ID
+    :return: list of cause_ids
+    """
     # Get cause ids of chosen level of the hierarchy
     cause_meta = get_cause_metadata(cause_set_id=3, gbd_round_id=gbd_round_id)
     level_3_cause_ids = cause_meta.query(f'level == {level}').cause_id.unique().tolist()
@@ -31,7 +38,11 @@ def get_top_cause_ids(level=3, n=15, gbd_round_id=GBD_ROUND_ID):
 
 def get_top_risk_ids(n=14, gbd_round_id=GBD_ROUND_ID):
     """
+    Gets the risk_ids of the risks with the highest mortality burden in 2017
     Note that only most-detailed risks have SEVs
+    :param n: number of risks to return
+    :param gbd_round_id:
+    :return: list of risk_ids
     """
     # Get risk ids of chosen level of the hierarchy
     risk_meta = get_rei_metadata(rei_set_id=1, gbd_round_id=gbd_round_id)
@@ -49,6 +60,11 @@ def get_top_risk_ids(n=14, gbd_round_id=GBD_ROUND_ID):
 
 
 def download_cause_data(include_all_cause=True):
+    """
+    Downloads mortality rate of top causes
+    :param include_all_cause: whether to get all-cause mortality
+    :return: None
+    """
     cause_ids = get_top_cause_ids()
     if include_all_cause:
         cause_ids.append(294)
@@ -58,6 +74,10 @@ def download_cause_data(include_all_cause=True):
 
 
 def download_risk_data():
+    """
+    Downloads summary exposure variable (SEV) of top risks
+    :return: None
+    """
     risk_ids = get_top_risk_ids()
     df = go("rei", rei_id=risk_ids, location_id='all', age_group_id=1, sex_id=3, metric_id=[3], measure_id=[29],
             year_id=YEAR_IDS, gbd_round_id=GBD_ROUND_ID)
@@ -65,6 +85,7 @@ def download_risk_data():
 
 
 def download_covariate_data():
+    """Downloads custom list of covariates"""
     cov_key = {7: 'Low ANC coverage',
                # 881: 'Socio-Demographic Index',
                57: 'Low GDP per capita',  # Technically LDI
@@ -112,6 +133,7 @@ def download_GBD_data():
 
 
 def process_GBD_data(save=True):
+    """"Custom processing of GBD results, including subsetting, scaling, and renaming"""
     df_risk = load_risk_data()
     df_cause = load_cause_data()
     df_covariate = load_covariate_data()
