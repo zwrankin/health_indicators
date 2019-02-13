@@ -1,130 +1,138 @@
 import numpy as np
 import pandas as pd
-import requests
-from .utils import DATA_DIR, load_gbd_location_metadata
-from .download_DHS import GBD_API_KEY
+from db_queries import get_location_metadata
+from db_queries import get_cause_metadata, get_rei_metadata, get_covariate_estimates
+from db_queries import get_outputs as go
+from .utils import DATA_DIR, min_max_scaler_df
 
 URL = 'https://api.healthdata.org/healthdata/v1/data/gbd'
 
-cause_metadata = pd.read_csv(f'{DATA_DIR}/metadata/GBD_causes.csv')
-cause_dict = cause_metadata.set_index('cause_id')['cause_name'].to_dict()
-location_metadata = load_gbd_location_metadata()
-
-risk_metadata = pd.read_csv(f'{DATA_DIR}/metadata/GBD_risks.csv')
-risk_dict = risk_metadata.set_index('rei_id')['rei_name'].to_dict()
-YEARS='1990,1995,2000,2005,2010,2016'
-YEAR_IDS = [1990,1995,2000,2005,2010,2016]
+location_metadata = get_location_metadata(location_set_id=35)
+YEAR_IDS = [1990, 1995, 2000, 2005, 2010, 2017]
+GBD_ROUND_ID = 5
 
 
-def get_risk_ids():
-    df = pd.read_csv(f'{DATA_DIR}/metadata/GBD_risks.csv')
-    return df[df.include == 1].rei_id.unique()
+def get_top_cause_ids(level=3, n=15, gbd_round_id=GBD_ROUND_ID):
+    # Get cause ids of chosen level of the hierarchy
+    cause_meta = get_cause_metadata(cause_set_id=3, gbd_round_id=gbd_round_id)
+    level_3_cause_ids = cause_meta.query(f'level == {level}').cause_id.unique().tolist()
+
+    # cause specific deaths
+    df = go("cause", cause_id=level_3_cause_ids, location_id=1, age_group_id=1, sex_id=3, metric_id=[1], measure_id=[1],
+            year_id=2017, gbd_round_id=gbd_round_id)
+
+    # Assing rank and return top cause ids
+    df.dropna(inplace=True)
+    df['rank'] = df['val'].rank(ascending=False).astype('int')
+    df.sort_values('rank', inplace=True)
+
+    return df.query(f'rank <= {n}').cause_id.unique().tolist()
 
 
-def get_cause_ids():
-    df = pd.read_csv(f'{DATA_DIR}/metadata/GBD_causes.csv')
-    return df[df.include == 1].cause_id.unique()
-
-
-def check_status(r):
-    status = r.json()['meta']['status']
-    if status['code'] != '200':
-        raise AssertionError(f'Failed HealthData API query - {status["message"]}')
-
-
-def send_query(url):
-    r = requests.get(url)
-    check_status(r)
-    cols = r.json()['meta']['fields']
-    df =  pd.DataFrame(r.json()['data'], columns=cols)
-    return df.apply(pd.to_numeric)
-
-
-def min_max_scaler(values, multiplier=100):
-    return (values - values.min())/(values.max() - values.min())*multiplier
-
-
-def query_cause(cause_id, age_group_id=1, measure='CSMR'):
-    if measure == 'CSMR':
-        url = f'{URL}/cause/?cause_id={cause_id}&measure_id=1&metric_id=3&age_group_id={age_group_id}&sex_id=3&year_id={YEARS}&authorization={GBD_API_KEY}'
-    else:
-        raise NotImplementedError(f'{measure} not implemented')
-
-    df = send_query(url)
-    indicator = cause_dict[cause_id]
-    if indicator == 'All causes':
-        df['indicator'] = 'U5MR'
-    else:
-        df['indicator'] = indicator
-    df['val'] = min_max_scaler(df.val)
-    return df[['location_id', 'year_id', 'indicator', 'val']]
-
-
-def query_risk(risk_id, age_group_id=1, measure='SEV'):
-    if measure == 'SEV':
-        url = f'{URL}/sev/?risk_id={risk_id}&measure_id=29&age_group_id={age_group_id}&sex_id=3&year_id={YEARS}&authorization={GBD_API_KEY}'
-
-    else:
-        raise AssertionError(f'{measure} not implemented')
-
-    df = send_query(url)
-    df['indicator'] = risk_dict[risk_id]
-    df['val'] = min_max_scaler(df.val)
-
-    return df[['location_id', 'year_id', 'indicator', 'val']]
-
-
-def download_covariates():
+def get_top_risk_ids(level=4, n=14, gbd_round_id=GBD_ROUND_ID):
     """
-    THIS IS NOT RUN IN THIS ENVIRONMENT
-    Covariate estimates are not available in the GBD API.
-    Here is the script to download them from IHME's internal databases
+    Note that risk level 3 cannot return composite SEVs
     """
-    from db_queries import get_covariate_estimates
-    cov_key = {7: 'Antenatal Care (4+ visits)',
-               881: 'Socio-Demographic Index',
-               57: 'LDI',
-               32: 'DTP3 coverage'}
+    # Get risk ids of chosen level of the hierarchy
+    risk_meta = get_rei_metadata(rei_set_id=1, gbd_round_id=gbd_round_id)
+    level_3_risk_ids = risk_meta.query(f'level == {level}').rei_id.unique().tolist()
+
+    # Attributable burden for all causes and risks (as counts)
+    df = go("rei", cause_id=294, rei_id=level_3_risk_ids, location_id=1, age_group_id=1, sex_id=3, metric_id=[1],
+            measure_id=[1], gbd_round_id=gbd_round_id)
+
+    df.dropna(inplace=True)
+    df['rank'] = df['val'].rank(ascending=False).astype('int')
+    df.sort_values('rank', inplace=True)
+
+    return df.query(f'rank <= {n}').rei_id.unique().tolist()
+
+
+def download_cause_data(include_all_cause=True):
+    cause_ids = get_top_cause_ids()
+    if include_all_cause:
+        cause_ids.append(294)
+    df = go("cause", cause_id=cause_ids, location_id='all', age_group_id=1, sex_id=3, metric_id=[3], measure_id=[1],
+            year_id=YEAR_IDS, gbd_round_id=GBD_ROUND_ID)
+    df.to_csv(f'{DATA_DIR}/raw/gbd_cause_data.csv', index=False)
+
+
+def download_risk_data():
+    risk_ids = get_top_risk_ids()
+    df = go("rei", rei_id=risk_ids, location_id='all', age_group_id=1, sex_id=3, metric_id=[3], measure_id=[29],
+            year_id=YEAR_IDS, gbd_round_id=GBD_ROUND_ID)
+    df.to_csv(f'{DATA_DIR}/raw/gbd_risk_data.csv', index=False)
+
+
+def download_covariate_data():
+    cov_key = {7: 'Low ANC coverage',
+               # 881: 'Socio-Demographic Index',
+               57: 'Low GDP per capita',  # Technically LDI
+               32: 'Low DTP3 coverage'}
     cov_ids = list(cov_key.keys())
-    df = pd.concat([get_covariate_estimates(covariate_id=i, gbd_round_id=5) for i in cov_ids])
+    df = pd.concat(
+        [get_covariate_estimates(covariate_id=i, year_id=YEAR_IDS, gbd_round_id=GBD_ROUND_ID) for i in cov_ids])
     df['indicator'] = df.covariate_id.map(cov_key)
-    # SAVE
+    df.to_csv(f'{DATA_DIR}/raw/gbd_covariate_data.csv', index=False)
 
 
-def load_covariates():
-    """
-    Load raw covariate estimates
-    """
-    df = pd.read_csv(f'{DATA_DIR}/raw/gbd_covariate_estimates.csv')
-    df = df.query(f'year_id in {YEAR_IDS}')
+def load_cause_data():
+    df = pd.read_csv(f'{DATA_DIR}/raw/gbd_cause_data.csv')
+    df['indicator'] = df.cause_name
+    df.loc[df.cause_name == "All causes", 'indicator'] = 'Under-5 Mortality Rate'
+    return df[['location_id', 'year_id', 'indicator', 'val']]
+
+
+def load_risk_data():
+    df = pd.read_csv(f'{DATA_DIR}/raw/gbd_risk_data.csv')
+    df['indicator'] = df.rei_name
+    return df[['location_id', 'year_id', 'indicator', 'val']]
+
+
+def load_covariate_data():
+    df = pd.read_csv(f'{DATA_DIR}/raw/gbd_covariate_data.csv')
 
     # Log transform LDI
-    df.loc[df.indicator == 'LDI', 'mean_value'] = np.log(df.loc[df.indicator == 'LDI', 'mean_value'])
-    df.loc[df.indicator == 'LDI', 'indicator'] = 'log_LDI'
+    df.loc[df.indicator == 'Low GDP per capita', 'mean_value'] = np.log(
+        df.loc[df.indicator == 'Low GDP per capita', 'mean_value'])
 
-    # Scaling
+    # Ensure same directionality as risks & causes (higher is higher risk)
     output = pd.DataFrame()
     for i in df.indicator.unique():
         data = df.loc[df.indicator == i]
-        data['val'] = min_max_scaler(data.mean_value)
+        data['val'] = data.mean_value.max() - data.mean_value
         output = pd.concat([output, data])
     return output[['location_id', 'year_id', 'indicator', 'val']]
 
 
-def download_GBD_data(save=True):
-    risk_ids = get_risk_ids()
-    df_risk = pd.concat([query_risk(i) for i in risk_ids])
+def download_GBD_data():
+    download_cause_data()
+    download_risk_data()
+    download_covariate_data()
 
-    cause_ids = get_cause_ids()
-    df_cause = pd.concat([query_cause(i) for i in cause_ids])
 
-    df_covariate = load_covariates()
+def process_GBD_data(save=True):
+    df_risk = load_risk_data()
+    df_cause = load_cause_data()
+    df_covariate = load_covariate_data()
+
     df = pd.concat([df_risk, df_cause, df_covariate])
-    df = df.sort_values(['location_id', 'year_id', 'indicator'])
-    df = pd.merge(location_metadata, df)
 
     # Keep countries
+    df = pd.merge(location_metadata, df)
     df = df.query('level == 3').drop(columns='level')
+
+    # Scale
+    df = min_max_scaler_df(df, 'val', 'indicator')
+
+    # Custom Renaming of some indicators
+    rename_map = {'Household air pollution from solid fuels': 'Household air pollution',
+                  'Sexually transmitted infections excluding HIV': 'STDs excluding HIV',
+                  'Ambient particulate matter pollution': 'Ambient air pollution'}
+    df.indicator.replace(rename_map, inplace=True)
+
+    df = df[['location_name', 'year_id', 'indicator', 'val']]
+    df.sort_values(['location_name', 'year_id', 'indicator'], inplace=True)
 
     if save:
         df.to_csv(f'{DATA_DIR}/processed/GBD_child_health_indicators.csv', index=False)
@@ -134,3 +142,4 @@ def download_GBD_data(save=True):
 
 if __name__ == '__main__':
     download_GBD_data()
+    process_GBD_data()
