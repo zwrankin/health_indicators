@@ -29,16 +29,16 @@ def get_top_cause_ids(level=3, n=15, gbd_round_id=GBD_ROUND_ID):
     return df.query(f'rank <= {n}').cause_id.unique().tolist()
 
 
-def get_top_risk_ids(level=4, n=14, gbd_round_id=GBD_ROUND_ID):
+def get_top_risk_ids(n=14, gbd_round_id=GBD_ROUND_ID):
     """
-    Note that risk level 3 cannot return composite SEVs
+    Note that only most-detailed risks have SEVs
     """
     # Get risk ids of chosen level of the hierarchy
     risk_meta = get_rei_metadata(rei_set_id=1, gbd_round_id=gbd_round_id)
-    level_3_risk_ids = risk_meta.query(f'level == {level}').rei_id.unique().tolist()
+    risk_ids = risk_meta.query('most_detailed == 1').rei_id.unique().tolist()
 
     # Attributable burden for all causes and risks (as counts)
-    df = go("rei", cause_id=294, rei_id=level_3_risk_ids, location_id=1, age_group_id=1, sex_id=3, metric_id=[1],
+    df = go("rei", cause_id=294, rei_id=risk_ids, location_id=1, age_group_id=1, sex_id=3, metric_id=[1],
             measure_id=[1], gbd_round_id=gbd_round_id)
 
     df.dropna(inplace=True)
