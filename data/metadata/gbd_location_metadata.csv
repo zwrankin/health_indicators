@@ -1,1083 +1,1083 @@
-location_id,ihme_loc_id,location_name
-1,G,Global
-31,S2,"Central Europe, Eastern Europe, and Central Asia"
-32,R2,Central Asia
-33,ARM,Armenia
-34,AZE,Azerbaijan
-35,GEO,Georgia
-36,KAZ,Kazakhstan
-37,KGZ,Kyrgyzstan
-38,MNG,Mongolia
-39,TJK,Tajikistan
-40,TKM,Turkmenistan
-41,UZB,Uzbekistan
-42,R8,Central Europe
-43,ALB,Albania
-44,BIH,Bosnia and Herzegovina
-45,BGR,Bulgaria
-46,HRV,Croatia
-47,CZE,Czech Republic
-48,HUN,Hungary
-49,MKD,Macedonia
-50,MNE,Montenegro
-51,POL,Poland
-53660,POL_53660,Dolnośląskie
-53661,POL_53661,Kujawsko-Pomorskie
-53662,POL_53662,Łódzkie
-53663,POL_53663,Lubelskie
-53664,POL_53664,Lubuskie
-53665,POL_53665,Małopolskie
-53666,POL_53666,Mazowieckie
-53667,POL_53667,Opolskie
-53668,POL_53668,Podkarpackie
-53669,POL_53669,Podlaskie
-53670,POL_53670,Pomorskie
-53671,POL_53671,Śląskie
-53672,POL_53672,Świętokrzyskie
-53673,POL_53673,Warmińsko-Mazurskie
-53674,POL_53674,Wielkopolskie
-53675,POL_53675,Zachodniopomorskie
-52,ROU,Romania
-53,SRB,Serbia
-54,SVK,Slovakia
-55,SVN,Slovenia
-56,R9,Eastern Europe
-57,BLR,Belarus
-58,EST,Estonia
-59,LVA,Latvia
-60,LTU,Lithuania
-61,MDA,Moldova
-62,RUS,Russian Federation
-44971,RUS_44971,Altai kray
-44983,RUS_44983,Amur oblast
-44924,RUS_44924,Arkhangelsk oblast without Nenets autonomous district
-44936,RUS_44936,Astrakhan oblast
-44903,RUS_44903,Belgorod oblast
-44904,RUS_44904,Bryansk oblast
-44945,RUS_44945,Chechen Republic
-44966,RUS_44966,Chelyabinsk oblast
-44987,RUS_44987,Chukchi autonomous area
-44952,RUS_44952,Chuvash Republic
-44974,RUS_44974,Irkutsk oblast
-44907,RUS_44907,Ivanovo oblast
-44986,RUS_44986,Jewish autonomous oblast
-44942,RUS_44942,Kabardian-Balkar Republic
-44926,RUS_44926,Kaliningrad oblast
-44908,RUS_44908,Kaluga oblast
-44980,RUS_44980,Kamchatka kray
-44943,RUS_44943,Karachaev-Chercassian Republic
-44975,RUS_44975,Kemerovo oblast
-44982,RUS_44982,Khabarovsk kray
-44963,RUS_44963,Khanty-Mansi autonomous area
-44954,RUS_44954,Kirov oblast
-44922,RUS_44922,Komi Republic
-44909,RUS_44909,Kostroma oblast
-44935,RUS_44935,Krasnodar kray
-44973,RUS_44973,Krasnoyarsk kray
-44961,RUS_44961,Kurgan oblast
-44910,RUS_44910,Kursk oblast
-44927,RUS_44927,Leningrad oblast
-44911,RUS_44911,Lipetzk oblast
-44984,RUS_44984,Magadan oblast
-44920,RUS_44920,Moscow City
-44912,RUS_44912,Moscow oblast
-44928,RUS_44928,Murmansk oblast
-44923,RUS_44923,Nenets autonomous district
-44955,RUS_44955,Nizhny Novgorod oblast
-44929,RUS_44929,Novgorod oblast
-44976,RUS_44976,Novosibirsk oblast
-44977,RUS_44977,Omsk oblast
-44956,RUS_44956,Orenburg oblast
-44913,RUS_44913,Oryol oblast
-44957,RUS_44957,Penza oblast
-44953,RUS_44953,Perm kray
-44981,RUS_44981,Primorsky kray
-44930,RUS_44930,Pskov oblast
-44932,RUS_44932,Republic of Adygeya
-44967,RUS_44967,Republic of Altai
-44947,RUS_44947,Republic of Bashkortostan
-44968,RUS_44968,Republic of Buryatia
-44940,RUS_44940,Republic of Dagestan
-44941,RUS_44941,Republic of Ingushetia
-44933,RUS_44933,Republic of Kalmykia
-44921,RUS_44921,Republic of Karelia
-44970,RUS_44970,Republic of Khakasia
-44948,RUS_44948,Republic of Mariy El
-44949,RUS_44949,Republic of Mordovia
-44944,RUS_44944,Republic of North Ossetia-Alania
-44979,RUS_44979,Republic of Sakha (Yakutia)
-44950,RUS_44950,Republic of Tatarstan
-44969,RUS_44969,Republic of Tuva
-44938,RUS_44938,Rostov oblast
-44914,RUS_44914,Ryazan oblast
-44985,RUS_44985,Sakhalin oblast
-44958,RUS_44958,Samara oblast
-44931,RUS_44931,Sankt-Petersburg
-44959,RUS_44959,Saratov oblast
-44915,RUS_44915,Smolensk oblast
-44946,RUS_44946,Stavropol kray
-44962,RUS_44962,Sverdlovsk oblast
-44916,RUS_44916,Tambov oblast
-44978,RUS_44978,Tomsk oblast
-44918,RUS_44918,Tula oblast
-44917,RUS_44917,Tver oblast
-44965,RUS_44965,Tyumen oblast without autonomous areas
-44951,RUS_44951,Udmurt Republic
-44960,RUS_44960,Ulyanovsk oblast
-44905,RUS_44905,Vladimir oblast
-44937,RUS_44937,Volgograd oblast
-44925,RUS_44925,Vologda oblast
-44906,RUS_44906,Voronezh oblast
-44964,RUS_44964,Yamalo-Nenets autonomous area
-44919,RUS_44919,Yaroslavl oblast
-44972,RUS_44972,Zabaikalsk kray
-63,UKR,Ukraine
-44934,UKR_44934,Republic of Crimea
-44939,UKR_44939,Sevastopol
-50559,UKR_50559,Ukraine (without Crimea & Sevastopol)
-64,S1,High-income
-70,R6,Australasia
-71,AUS,Australia
-72,NZL,New Zealand
-44850,NZL_44850,New Zealand Maori population
-44851,NZL_44851,New Zealand non-Maori population
-65,R1,High-income Asia Pacific
-66,BRN,Brunei
-67,JPN,Japan
-35446,JPN_35446,Aichi
-35428,JPN_35428,Akita
-35425,JPN_35425,Aomori
-35435,JPN_35435,Chiba
-35461,JPN_35461,Ehime
-35441,JPN_35441,Fukui
-35463,JPN_35463,Fukuoka
-35430,JPN_35430,Fukushima
-35444,JPN_35444,Gifu
-35433,JPN_35433,Gunma
-35457,JPN_35457,Hiroshima
-35424,JPN_35424,Hokkaidō
-35451,JPN_35451,Hyōgo
-35431,JPN_35431,Ibaraki
-35440,JPN_35440,Ishikawa
-35426,JPN_35426,Iwate
-35460,JPN_35460,Kagawa
-35469,JPN_35469,Kagoshima
-35437,JPN_35437,Kanagawa
-35462,JPN_35462,Kōchi
-35466,JPN_35466,Kumamoto
-35449,JPN_35449,Kyōto
-35447,JPN_35447,Mie
-35427,JPN_35427,Miyagi
-35468,JPN_35468,Miyazaki
-35443,JPN_35443,Nagano
-35465,JPN_35465,Nagasaki
-35452,JPN_35452,Nara
-35438,JPN_35438,Niigata
-35467,JPN_35467,Ōita
-35456,JPN_35456,Okayama
-35470,JPN_35470,Okinawa
-35450,JPN_35450,Ōsaka
-35464,JPN_35464,Saga
-35434,JPN_35434,Saitama
-35448,JPN_35448,Shiga
-35455,JPN_35455,Shimane
-35445,JPN_35445,Shizuoka
-35432,JPN_35432,Tochigi
-35459,JPN_35459,Tokushima
-35436,JPN_35436,Tōkyō
-35454,JPN_35454,Tottori
-35439,JPN_35439,Toyama
-35453,JPN_35453,Wakayama
-35429,JPN_35429,Yamagata
-35458,JPN_35458,Yamaguchi
-35442,JPN_35442,Yamanashi
-68,KOR,South Korea
-69,SGP,Singapore
-100,R16,High-income North America
-101,CAN,Canada
-349,GRL,Greenland
-102,USA,United States
-523,USA_523,Alabama
-524,USA_524,Alaska
-525,USA_525,Arizona
-526,USA_526,Arkansas
-527,USA_527,California
-528,USA_528,Colorado
-529,USA_529,Connecticut
-530,USA_530,Delaware
-531,USA_531,District of Columbia
-532,USA_532,Florida
-533,USA_533,Georgia
-534,USA_534,Hawaii
-535,USA_535,Idaho
-536,USA_536,Illinois
-537,USA_537,Indiana
-538,USA_538,Iowa
-539,USA_539,Kansas
-540,USA_540,Kentucky
-541,USA_541,Louisiana
-542,USA_542,Maine
-543,USA_543,Maryland
-544,USA_544,Massachusetts
-545,USA_545,Michigan
-546,USA_546,Minnesota
-547,USA_547,Mississippi
-548,USA_548,Missouri
-549,USA_549,Montana
-550,USA_550,Nebraska
-551,USA_551,Nevada
-552,USA_552,New Hampshire
-553,USA_553,New Jersey
-554,USA_554,New Mexico
-555,USA_555,New York
-556,USA_556,North Carolina
-557,USA_557,North Dakota
-558,USA_558,Ohio
-559,USA_559,Oklahoma
-560,USA_560,Oregon
-561,USA_561,Pennsylvania
-562,USA_562,Rhode Island
-563,USA_563,South Carolina
-564,USA_564,South Dakota
-565,USA_565,Tennessee
-566,USA_566,Texas
-567,USA_567,Utah
-568,USA_568,Vermont
-569,USA_569,Virginia
-570,USA_570,Washington
-571,USA_571,West Virginia
-572,USA_572,Wisconsin
-573,USA_573,Wyoming
-96,R13,Southern Latin America
-97,ARG,Argentina
-98,CHL,Chile
-99,URY,Uruguay
-73,R10,Western Europe
-74,AND,Andorra
-75,AUT,Austria
-76,BEL,Belgium
-77,CYP,Cyprus
-78,DNK,Denmark
-79,FIN,Finland
-80,FRA,France
-81,DEU,Germany
-82,GRC,Greece
-83,ISL,Iceland
-84,IRL,Ireland
-85,ISR,Israel
-86,ITA,Italy
-35507,ITA_35507,Abruzzo
-35511,ITA_35511,Basilicata
-35512,ITA_35512,Calabria
-35509,ITA_35509,Campania
-35502,ITA_35502,Emilia-Romagna
-35501,ITA_35501,Friuli-Venezia Giulia
-35506,ITA_35506,Lazio
-35496,ITA_35496,Liguria
-35497,ITA_35497,Lombardia
-35505,ITA_35505,Marche
-35508,ITA_35508,Molise
-35494,ITA_35494,Piemonte
-35498,ITA_35498,Provincia autonoma di Bolzano
-35499,ITA_35499,Provincia autonoma di Trento
-35510,ITA_35510,Puglia
-35514,ITA_35514,Sardegna
-35513,ITA_35513,Sicilia
-35503,ITA_35503,Toscana
-35504,ITA_35504,Umbria
-35495,ITA_35495,Valle d'Aosta
-35500,ITA_35500,Veneto
-87,LUX,Luxembourg
-88,MLT,Malta
-89,NLD,Netherlands
-90,NOR,Norway
-4914,NOR_4914,Østfold
-4911,NOR_4911,Akershus
-4918,NOR_4918,Aust-Agder
-4915,NOR_4915,Buskerud
-4928,NOR_4928,Finnmark
-4912,NOR_4912,Hedmark
-4921,NOR_4921,Hordaland
-4923,NOR_4923,Møre og Romsdal
-4926,NOR_4926,Nordland
-4913,NOR_4913,Oppland
-4910,NOR_4910,Oslo
-4920,NOR_4920,Rogaland
-4922,NOR_4922,Sogn og Fjordane
-4917,NOR_4917,Telemark
-53432,NOR_53432,Trøndelag
-4927,NOR_4927,Troms
-4919,NOR_4919,Vest-Agder
-4916,NOR_4916,Vestfold
-91,PRT,Portugal
-367,MCO,Monaco
-92,ESP,Spain
-93,SWE,Sweden
-4944,SWE_4944,Stockholm
-4940,SWE_4940,Sweden except Stockholm
-94,CHE,Switzerland
-396,SMR,San Marino
-95,GBR,United Kingdom
-4749,GBR_4749,England
-4621,GBR_4621,East Midlands
-44697,GBR_44697,Derby
-44698,GBR_44698,Derbyshire
-44701,GBR_44701,Leicester
-44694,GBR_44694,Leicestershire
-44695,GBR_44695,Lincolnshire
-44693,GBR_44693,Northamptonshire
-44700,GBR_44700,Nottingham
-44699,GBR_44699,Nottinghamshire
-44696,GBR_44696,Rutland
-4623,GBR_4623,East of England
-44716,GBR_44716,Bedford
-44721,GBR_44721,Cambridgeshire
-44717,GBR_44717,Central Bedfordshire
-44720,GBR_44720,Essex
-44719,GBR_44719,Hertfordshire
-44726,GBR_44726,Luton
-44723,GBR_44723,Norfolk
-44725,GBR_44725,Peterborough
-44724,GBR_44724,Southend-on-Sea
-44718,GBR_44718,Suffolk
-44722,GBR_44722,Thurrock
-4624,GBR_4624,Greater London
-44754,GBR_44754,Barking and Dagenham
-44729,GBR_44729,Barnet
-44732,GBR_44732,Bexley
-44735,GBR_44735,Brent
-44731,GBR_44731,Bromley
-44748,GBR_44748,Camden
-44742,GBR_44742,Croydon
-44744,GBR_44744,Ealing
-44741,GBR_44741,Enfield
-44745,GBR_44745,Greenwich
-44756,GBR_44756,Hackney
-44743,GBR_44743,Hammersmith and Fulham
-44755,GBR_44755,Haringey
-44740,GBR_44740,Harrow
-44737,GBR_44737,Havering
-44736,GBR_44736,Hillingdon
-44751,GBR_44751,Hounslow
-44757,GBR_44757,Islington
-44728,GBR_44728,Kensington and Chelsea
-44738,GBR_44738,Kingston upon Thames
-44749,GBR_44749,Lambeth
-44750,GBR_44750,Lewisham
-44734,GBR_44734,Merton
-44753,GBR_44753,Newham
-44733,GBR_44733,Redbridge
-44727,GBR_44727,Richmond upon Thames
-44752,GBR_44752,Southwark
-44739,GBR_44739,Sutton
-44758,GBR_44758,Tower Hamlets
-44747,GBR_44747,Waltham Forest
-44746,GBR_44746,Wandsworth
-44730,GBR_44730,Westminster
-4618,GBR_4618,North East England
-44649,GBR_44649,County Durham
-44643,GBR_44643,Darlington
-44650,GBR_44650,Gateshead
-44654,GBR_44654,Hartlepool
-44651,GBR_44651,Middlesbrough
-44646,GBR_44646,Newcastle upon Tyne
-44647,GBR_44647,North Tyneside
-44644,GBR_44644,Northumberland
-44648,GBR_44648,Redcar and Cleveland
-44652,GBR_44652,South Tyneside
-44645,GBR_44645,Stockton-on-Tees
-44653,GBR_44653,Sunderland
-4619,GBR_4619,North West England
-44674,GBR_44674,Blackburn with Darwen
-44676,GBR_44676,Blackpool
-44662,GBR_44662,Bolton
-44664,GBR_44664,Bury
-44655,GBR_44655,Cheshire East
-44658,GBR_44658,Cheshire West and Chester
-44661,GBR_44661,Cumbria
-44670,GBR_44670,Halton
-44675,GBR_44675,Knowsley
-44660,GBR_44660,Lancashire
-44671,GBR_44671,Liverpool
-44677,GBR_44677,Manchester
-44667,GBR_44667,Oldham
-44668,GBR_44668,Rochdale
-44673,GBR_44673,Salford
-44659,GBR_44659,Sefton
-44665,GBR_44665,St Helens
-44656,GBR_44656,Stockport
-44672,GBR_44672,Tameside
-44657,GBR_44657,Trafford
-44666,GBR_44666,Warrington
-44669,GBR_44669,Wigan
-44663,GBR_44663,Wirral
-4625,GBR_4625,South East England
-44765,GBR_44765,Bracknell Forest
-44770,GBR_44770,Brighton and Hove
-44760,GBR_44760,Buckinghamshire
-44772,GBR_44772,East Sussex
-44764,GBR_44764,Hampshire
-44774,GBR_44774,Isle of Wight
-44769,GBR_44769,Kent
-44771,GBR_44771,Medway
-44775,GBR_44775,Milton Keynes
-44767,GBR_44767,Oxfordshire
-44773,GBR_44773,Portsmouth
-44768,GBR_44768,Reading
-44777,GBR_44777,Slough
-44776,GBR_44776,Southampton
-44761,GBR_44761,Surrey
-44763,GBR_44763,West Berkshire
-44766,GBR_44766,West Sussex
-44762,GBR_44762,Windsor and Maidenhead
-44759,GBR_44759,Wokingham
-4626,GBR_4626,South West England
-44784,GBR_44784,Bath and North East Somerset
-44790,GBR_44790,Bournemouth
-44789,GBR_44789,"Bristol, City of"
-44791,GBR_44791,Cornwall
-44782,GBR_44782,Devon
-44779,GBR_44779,Dorset
-44785,GBR_44785,Gloucestershire
-44781,GBR_44781,North Somerset
-44792,GBR_44792,Plymouth
-44783,GBR_44783,Poole
-44786,GBR_44786,Somerset
-44778,GBR_44778,South Gloucestershire
-44787,GBR_44787,Swindon
-44788,GBR_44788,Torbay
-44780,GBR_44780,Wiltshire
-4622,GBR_4622,West Midlands
-44714,GBR_44714,Birmingham
-44709,GBR_44709,Coventry
-44708,GBR_44708,Dudley
-44703,GBR_44703,"Herefordshire, County of"
-44715,GBR_44715,Sandwell
-44705,GBR_44705,Shropshire
-44704,GBR_44704,Solihull
-44707,GBR_44707,Staffordshire
-44711,GBR_44711,Stoke-on-Trent
-44710,GBR_44710,Telford and Wrekin
-44712,GBR_44712,Walsall
-44702,GBR_44702,Warwickshire
-44713,GBR_44713,Wolverhampton
-44706,GBR_44706,Worcestershire
-4620,GBR_4620,Yorkshire and the Humber
-44692,GBR_44692,Barnsley
-44684,GBR_44684,Bradford
-44682,GBR_44682,Calderdale
-44690,GBR_44690,Doncaster
-44679,GBR_44679,East Riding of Yorkshire
-44691,GBR_44691,"Kingston upon Hull, City of"
-44685,GBR_44685,Kirklees
-44686,GBR_44686,Leeds
-44681,GBR_44681,North East Lincolnshire
-44683,GBR_44683,North Lincolnshire
-44678,GBR_44678,North Yorkshire
-44689,GBR_44689,Rotherham
-44687,GBR_44687,Sheffield
-44688,GBR_44688,Wakefield
-44680,GBR_44680,York
-433,GBR_433,Northern Ireland
-434,GBR_434,Scotland
-4636,GBR_4636,Wales
-103,S7,Latin America and Caribbean
-120,R11,Andean Latin America
-121,BOL,Bolivia
-122,ECU,Ecuador
-123,PER,Peru
-104,R7,Caribbean
-105,ATG,Antigua and Barbuda
-106,BHS,The Bahamas
-107,BRB,Barbados
-108,BLZ,Belize
-305,BMU,Bermuda
-109,CUB,Cuba
-110,DMA,Dominica
-111,DOM,Dominican Republic
-112,GRD,Grenada
-113,GUY,Guyana
-114,HTI,Haiti
-115,JAM,Jamaica
-385,PRI,Puerto Rico
-393,KNA,Saint Kitts and Nevis
-116,LCA,Saint Lucia
-117,VCT,Saint Vincent and the Grenadines
-118,SUR,Suriname
-119,TTO,Trinidad and Tobago
-422,VIR,"Virgin Islands, U.S."
-124,R12,Central Latin America
-125,COL,Colombia
-126,CRI,Costa Rica
-127,SLV,El Salvador
-128,GTM,Guatemala
-129,HND,Honduras
-130,MEX,Mexico
-4643,MEX_4643,Aguascalientes
-4644,MEX_4644,Baja California
-4645,MEX_4645,Baja California Sur
-4646,MEX_4646,Campeche
-4649,MEX_4649,Chiapas
-4650,MEX_4650,Chihuahua
-4647,MEX_4647,Coahuila
-4648,MEX_4648,Colima
-4652,MEX_4652,Durango
-4653,MEX_4653,Guanajuato
-4654,MEX_4654,Guerrero
-4655,MEX_4655,Hidalgo
-4656,MEX_4656,Jalisco
-4657,MEX_4657,México
-4651,MEX_4651,Mexico City
-4658,MEX_4658,Michoacán de Ocampo
-4659,MEX_4659,Morelos
-4660,MEX_4660,Nayarit
-4661,MEX_4661,Nuevo León
-4662,MEX_4662,Oaxaca
-4663,MEX_4663,Puebla
-4664,MEX_4664,Querétaro
-4665,MEX_4665,Quintana Roo
-4666,MEX_4666,San Luis Potosí
-4667,MEX_4667,Sinaloa
-4668,MEX_4668,Sonora
-4669,MEX_4669,Tabasco
-4670,MEX_4670,Tamaulipas
-4671,MEX_4671,Tlaxcala
-4672,MEX_4672,Veracruz de Ignacio de la Llave
-4673,MEX_4673,Yucatán
-4674,MEX_4674,Zacatecas
-131,NIC,Nicaragua
-132,PAN,Panama
-133,VEN,Venezuela
-134,R14,Tropical Latin America
-135,BRA,Brazil
-4750,BRA_4750,Acre
-4751,BRA_4751,Alagoas
-4753,BRA_4753,Amapá
-4752,BRA_4752,Amazonas
-4754,BRA_4754,Bahia
-4755,BRA_4755,Ceará
-4756,BRA_4756,Distrito Federal
-4757,BRA_4757,Espírito Santo
-4758,BRA_4758,Goiás
-4759,BRA_4759,Maranhão
-4762,BRA_4762,Mato Grosso
-4761,BRA_4761,Mato Grosso do Sul
-4760,BRA_4760,Minas Gerais
-4763,BRA_4763,Pará
-4764,BRA_4764,Paraíba
-4765,BRA_4765,Paraná
-4766,BRA_4766,Pernambuco
-4767,BRA_4767,Piaui
-4768,BRA_4768,Rio de Janeiro
-4769,BRA_4769,Rio Grande do Norte
-4772,BRA_4772,Rio Grande do Sul
-4770,BRA_4770,Rondônia
-4771,BRA_4771,Roraima
-4773,BRA_4773,Santa Catarina
-4775,BRA_4775,São Paulo
-4774,BRA_4774,Sergipe
-4776,BRA_4776,Tocantins
-136,PRY,Paraguay
-137,S4,North Africa and Middle East
-138,R15,North Africa and Middle East
-160,AFG,Afghanistan
-139,DZA,Algeria
-140,BHR,Bahrain
-141,EGY,Egypt
-142,IRN,Iran
-44864,IRN_44864,Alborz
-44865,IRN_44865,Ardebil
-44868,IRN_44868,Bushehr
-44869,IRN_44869,Chahar Mahaal and Bakhtiari
-44866,IRN_44866,East Azarbayejan
-44870,IRN_44870,Fars
-44871,IRN_44871,Gilan
-44872,IRN_44872,Golestan
-44873,IRN_44873,Hamadan
-44874,IRN_44874,Hormozgan
-44875,IRN_44875,Ilam
-44876,IRN_44876,Isfahan
-44877,IRN_44877,Kerman
-44878,IRN_44878,Kermanshah
-44880,IRN_44880,Khorasan-e-Razavi
-44882,IRN_44882,Khuzestan
-44883,IRN_44883,Kohgiluyeh and Boyer-Ahmad
-44884,IRN_44884,Kurdistan
-44885,IRN_44885,Lorestan
-44886,IRN_44886,Markazi
-44887,IRN_44887,Mazandaran
-44879,IRN_44879,North Khorasan
-44888,IRN_44888,Qazvin
-44889,IRN_44889,Qom
-44890,IRN_44890,Semnan
-44891,IRN_44891,Sistan and Baluchistan
-44881,IRN_44881,South Khorasan
-44892,IRN_44892,Tehran
-44867,IRN_44867,West Azarbayejan
-44893,IRN_44893,Yazd
-44894,IRN_44894,Zanjan
-143,IRQ,Iraq
-144,JOR,Jordan
-145,KWT,Kuwait
-146,LBN,Lebanon
-147,LBY,Libya
-148,MAR,Morocco
-149,PSE,Palestine
-150,OMN,Oman
-151,QAT,Qatar
-152,SAU,Saudi Arabia
-522,SDN,Sudan
-153,SYR,Syria
-154,TUN,Tunisia
-155,TUR,Turkey
-156,ARE,United Arab Emirates
-157,YEM,Yemen
-158,S5,South Asia
-159,R4,South Asia
-161,BGD,Bangladesh
-162,BTN,Bhutan
-163,IND,India
-4841,IND_4841,Andhra Pradesh
-43908,IND_43908,"Andhra Pradesh, Rural"
-43872,IND_43872,"Andhra Pradesh, Urban"
-4842,IND_4842,Arunachal Pradesh
-43909,IND_43909,"Arunachal Pradesh, Rural"
-43873,IND_43873,"Arunachal Pradesh, Urban"
-4843,IND_4843,Assam
-43910,IND_43910,"Assam, Rural"
-43874,IND_43874,"Assam, Urban"
-4844,IND_4844,Bihar
-43911,IND_43911,"Bihar, Rural"
-43875,IND_43875,"Bihar, Urban"
-4846,IND_4846,Chhattisgarh
-43913,IND_43913,"Chhattisgarh, Rural"
-43877,IND_43877,"Chhattisgarh, Urban"
-4849,IND_4849,Delhi
-43916,IND_43916,"Delhi, Rural"
-43880,IND_43880,"Delhi, Urban"
-4850,IND_4850,Goa
-43917,IND_43917,"Goa, Rural"
-43881,IND_43881,"Goa, Urban"
-4851,IND_4851,Gujarat
-43918,IND_43918,"Gujarat, Rural"
-43882,IND_43882,"Gujarat, Urban"
-4852,IND_4852,Haryana
-43919,IND_43919,"Haryana, Rural"
-43883,IND_43883,"Haryana, Urban"
-4853,IND_4853,Himachal Pradesh
-43920,IND_43920,"Himachal Pradesh, Rural"
-43884,IND_43884,"Himachal Pradesh, Urban"
-4854,IND_4854,Jammu and Kashmir
-43921,IND_43921,"Jammu and Kashmir, Rural"
-43885,IND_43885,"Jammu and Kashmir, Urban"
-4855,IND_4855,Jharkhand
-43922,IND_43922,"Jharkhand, Rural"
-43886,IND_43886,"Jharkhand, Urban"
-4856,IND_4856,Karnataka
-43923,IND_43923,"Karnataka, Rural"
-43887,IND_43887,"Karnataka, Urban"
-4857,IND_4857,Kerala
-43924,IND_43924,"Kerala, Rural"
-43888,IND_43888,"Kerala, Urban"
-4859,IND_4859,Madhya Pradesh
-43926,IND_43926,"Madhya Pradesh, Rural"
-43890,IND_43890,"Madhya Pradesh, Urban"
-4860,IND_4860,Maharashtra
-43927,IND_43927,"Maharashtra, Rural"
-43891,IND_43891,"Maharashtra, Urban"
-4861,IND_4861,Manipur
-43928,IND_43928,"Manipur, Rural"
-43892,IND_43892,"Manipur, Urban"
-4862,IND_4862,Meghalaya
-43929,IND_43929,"Meghalaya, Rural"
-43893,IND_43893,"Meghalaya, Urban"
-4863,IND_4863,Mizoram
-43930,IND_43930,"Mizoram, Rural"
-43894,IND_43894,"Mizoram, Urban"
-4864,IND_4864,Nagaland
-43931,IND_43931,"Nagaland, Rural"
-43895,IND_43895,"Nagaland, Urban"
-4865,IND_4865,Odisha
-43932,IND_43932,"Odisha, Rural"
-43896,IND_43896,"Odisha, Urban"
-4867,IND_4867,Punjab
-43934,IND_43934,"Punjab, Rural"
-43898,IND_43898,"Punjab, Urban"
-4868,IND_4868,Rajasthan
-43935,IND_43935,"Rajasthan, Rural"
-43899,IND_43899,"Rajasthan, Urban"
-4869,IND_4869,Sikkim
-43936,IND_43936,"Sikkim, Rural"
-43900,IND_43900,"Sikkim, Urban"
-4870,IND_4870,Tamil Nadu
-43937,IND_43937,"Tamil Nadu, Rural"
-43901,IND_43901,"Tamil Nadu, Urban"
-4871,IND_4871,Telangana
-43938,IND_43938,"Telangana, Rural"
-43902,IND_43902,"Telangana, Urban"
-4872,IND_4872,Tripura
-43939,IND_43939,"Tripura, Rural"
-43903,IND_43903,"Tripura, Urban"
-44538,IND_44538,Union Territories other than Delhi
-44539,IND_44539,"Union Territories other than Delhi, Rural"
-44540,IND_44540,"Union Territories other than Delhi, Urban"
-4873,IND_4873,Uttar Pradesh
-43940,IND_43940,"Uttar Pradesh, Rural"
-43904,IND_43904,"Uttar Pradesh, Urban"
-4874,IND_4874,Uttarakhand
-43941,IND_43941,"Uttarakhand, Rural"
-43905,IND_43905,"Uttarakhand, Urban"
-4875,IND_4875,West Bengal
-43942,IND_43942,"West Bengal, Rural"
-43906,IND_43906,"West Bengal, Urban"
-164,NPL,Nepal
-165,PAK,Pakistan
-53615,PAK_53615,Azad Jammu & Kashmir
-53616,PAK_53616,Balochistan
-53617,PAK_53617,Gilgit-Baltistan
-53618,PAK_53618,Islamabad Capital Territory
-53619,PAK_53619,Khyber Pakhtunkhwa
-53620,PAK_53620,Punjab
-53621,PAK_53621,Sindh
-4,S6,"Southeast Asia, East Asia, and Oceania"
-5,R3,East Asia
-6,CHN,China
-491,CHN_491,Anhui
-492,CHN_492,Beijing
-493,CHN_493,Chongqing
-494,CHN_494,Fujian
-495,CHN_495,Gansu
-496,CHN_496,Guangdong
-497,CHN_497,Guangxi
-498,CHN_498,Guizhou
-499,CHN_499,Hainan
-500,CHN_500,Hebei
-501,CHN_501,Heilongjiang
-502,CHN_502,Henan
-354,CHN_354,Hong Kong Special Administrative Region of China
-503,CHN_503,Hubei
-504,CHN_504,Hunan
-505,CHN_505,Inner Mongolia
-506,CHN_506,Jiangsu
-507,CHN_507,Jiangxi
-508,CHN_508,Jilin
-509,CHN_509,Liaoning
-361,CHN_361,Macao Special Administrative Region of China
-510,CHN_510,Ningxia
-511,CHN_511,Qinghai
-512,CHN_512,Shaanxi
-513,CHN_513,Shandong
-514,CHN_514,Shanghai
-515,CHN_515,Shanxi
-516,CHN_516,Sichuan
-517,CHN_517,Tianjin
-518,CHN_518,Tibet
-519,CHN_519,Xinjiang
-520,CHN_520,Yunnan
-521,CHN_521,Zhejiang
-7,PRK,North Korea
-8,TWN,Taiwan
-21,R17,Oceania
-298,ASM,American Samoa
-320,COK,Cook Islands
-25,FSM,Federated States of Micronesia
-22,FJI,Fiji
-351,GUM,Guam
-23,KIR,Kiribati
-24,MHL,Marshall Islands
-376,MNP,Northern Mariana Islands
-26,PNG,Papua New Guinea
-369,NRU,Nauru
-374,NIU,Niue
-380,PLW,Palau
-27,WSM,Samoa
-28,SLB,Solomon Islands
-413,TKL,Tokelau
-29,TON,Tonga
-416,TUV,Tuvalu
-30,VUT,Vanuatu
-9,R5,Southeast Asia
-10,KHM,Cambodia
-11,IDN,Indonesia
-4709,IDN_4709,Aceh
-4726,IDN_4726,Bali
-4717,IDN_4717,Bangka-Belitung Islands
-4725,IDN_4725,Banten
-4715,IDN_4715,Bengkulu
-4737,IDN_4737,Gorontalo
-4720,IDN_4720,Jakarta
-4713,IDN_4713,Jambi
-4721,IDN_4721,West Java
-4722,IDN_4722,Central Java
-4724,IDN_4724,East Java
-4729,IDN_4729,West Kalimantan
-4731,IDN_4731,South Kalimantan
-4730,IDN_4730,Central Kalimantan
-4732,IDN_4732,East Kalimantan
-4719,IDN_4719,North Kalimantan
-4718,IDN_4718,Riau Islands
-4716,IDN_4716,Lampung
-4739,IDN_4739,Maluku
-4740,IDN_4740,North Maluku
-4727,IDN_4727,West Nusa Tenggara
-4728,IDN_4728,East Nusa Tenggara
-4742,IDN_4742,Papua
-4741,IDN_4741,West Papua
-4712,IDN_4712,Riau
-4738,IDN_4738,West Sulawesi
-4735,IDN_4735,South Sulawesi
-4734,IDN_4734,Central Sulawesi
-4736,IDN_4736,Southeast Sulawesi
-4733,IDN_4733,North Sulawesi
-4711,IDN_4711,West Sumatra
-4714,IDN_4714,South Sumatra
-4710,IDN_4710,North Sumatra
-4723,IDN_4723,Yogyakarta
-12,LAO,Laos
-13,MYS,Malaysia
-14,MDV,Maldives
-183,MUS,Mauritius
-15,MMR,Myanmar
-16,PHL,Philippines
-53536,PHL_53536,Abra
-53604,PHL_53604,Agusan Del Norte
-53605,PHL_53605,Agusan Del Sur
-53572,PHL_53572,Aklan
-53568,PHL_53568,Albay
-53573,PHL_53573,Antique
-53537,PHL_53537,Apayao
-53554,PHL_53554,Aurora
-53610,PHL_53610,Basilan
-53548,PHL_53548,Bataan
-53547,PHL_53547,Batanes
-53558,PHL_53558,Batangas
-53535,PHL_53535,Benguet
-53586,PHL_53586,Biliran
-53579,PHL_53579,Bohol
-53591,PHL_53591,Bukidnon
-53552,PHL_53552,Bulacan
-53544,PHL_53544,Cagayan
-53566,PHL_53566,Camarines Norte
-53570,PHL_53570,Camarines Sur
-53594,PHL_53594,Camiguin
-53571,PHL_53571,Capiz
-53565,PHL_53565,Catanduanes
-53556,PHL_53556,Cavite
-53578,PHL_53578,Cebu
-53596,PHL_53596,Compostela Valley
-53602,PHL_53602,Cotabato (North Cotabato)
-53599,PHL_53599,Davao Del Norte
-53597,PHL_53597,Davao Del Sur
-53598,PHL_53598,Davao Occidental
-53595,PHL_53595,Davao Oriental
-53608,PHL_53608,Dinagat Islands
-53582,PHL_53582,Eastern Samar
-53576,PHL_53576,Guimaras
-53534,PHL_53534,Ifugao
-53540,PHL_53540,Ilocos Norte
-53541,PHL_53541,Ilocos Sur
-53575,PHL_53575,Iloilo
-53545,PHL_53545,Isabela
-53538,PHL_53538,Kalinga
-53539,PHL_53539,La Union
-53557,PHL_53557,Laguna
-53592,PHL_53592,Lanao Del Norte
-53613,PHL_53613,Lanao Del Sur
-53585,PHL_53585,Leyte
-53612,PHL_53612,Maguindanao
-53564,PHL_53564,Marinduque
-53569,PHL_53569,Masbate
-53590,PHL_53590,Misamis Occidental
-53593,PHL_53593,Misamis Oriental
-53533,PHL_53533,Mountain Province
-53614,PHL_53614,National Capital Region
-53574,PHL_53574,Negros Occidental
-53577,PHL_53577,Negros Oriental
-53583,PHL_53583,Northern Samar
-53553,PHL_53553,Nueva Ecija
-53543,PHL_53543,Nueva Vizcaya
-53560,PHL_53560,Occidental Mindoro
-53561,PHL_53561,Oriental Mindoro
-53563,PHL_53563,Palawan
-53551,PHL_53551,Pampanga
-53542,PHL_53542,Pangasinan
-53559,PHL_53559,Quezon
-53546,PHL_53546,Quirino
-53555,PHL_53555,Rizal
-53562,PHL_53562,Romblon
-53584,PHL_53584,Samar (Western Samar)
-53603,PHL_53603,Sarangani
-53580,PHL_53580,Siquijor
-53567,PHL_53567,Sorsogon
-53600,PHL_53600,South Cotabato
-53581,PHL_53581,Southern Leyte
-53601,PHL_53601,Sultan Kudarat
-53611,PHL_53611,Sulu
-53607,PHL_53607,Surigao Del Norte
-53606,PHL_53606,Surigao Del Sur
-53550,PHL_53550,Tarlac
-53609,PHL_53609,Tawi-Tawi
-53549,PHL_53549,Zambales
-53588,PHL_53588,Zamboanga Del Norte
-53589,PHL_53589,Zamboanga Del Sur
-53587,PHL_53587,Zamboanga Sibugay
-17,LKA,Sri Lanka
-186,SYC,Seychelles
-18,THA,Thailand
-19,TLS,Timor-Leste
-20,VNM,Vietnam
-166,S3,Sub-Saharan Africa
-167,R18,Central Sub-Saharan Africa
-168,AGO,Angola
-169,CAF,Central African Republic
-170,COG,Congo
-171,COD,Democratic Republic of the Congo
-172,GNQ,Equatorial Guinea
-173,GAB,Gabon
-174,R19,Eastern Sub-Saharan Africa
-175,BDI,Burundi
-176,COM,Comoros
-177,DJI,Djibouti
-178,ERI,Eritrea
-179,ETH,Ethiopia
-44861,ETH_44861,Addis Ababa
-44853,ETH_44853,Afar
-44854,ETH_44854,Amhara
-44857,ETH_44857,Benishangul-Gumuz
-44862,ETH_44862,Dire Dawa
-44860,ETH_44860,Gambella
-44859,ETH_44859,Harari
-44855,ETH_44855,Oromia
-44856,ETH_44856,Somali
-44858,ETH_44858,"Southern Nations, Nationalities, and Peoples"
-44852,ETH_44852,Tigray
-180,KEN,Kenya
-35617,KEN_35617,Baringo
-35618,KEN_35618,Bomet
-35619,KEN_35619,Bungoma
-35620,KEN_35620,Busia
-35621,KEN_35621,Elgeyo-Marakwet
-35622,KEN_35622,Embu
-35623,KEN_35623,Garissa
-35624,KEN_35624,HomaBay
-35625,KEN_35625,Isiolo
-35626,KEN_35626,Kajiado
-35627,KEN_35627,Kakamega
-35628,KEN_35628,Kericho
-35629,KEN_35629,Kiambu
-35630,KEN_35630,Kilifi
-35631,KEN_35631,Kirinyaga
-35632,KEN_35632,Kisii
-35633,KEN_35633,Kisumu
-35634,KEN_35634,Kitui
-35635,KEN_35635,Kwale
-35636,KEN_35636,Laikipia
-35637,KEN_35637,Lamu
-35638,KEN_35638,Machakos
-35639,KEN_35639,Makueni
-35640,KEN_35640,Mandera
-35641,KEN_35641,Marsabit
-35642,KEN_35642,Meru
-35643,KEN_35643,Migori
-35644,KEN_35644,Mombasa
-35645,KEN_35645,Murang’a
-35646,KEN_35646,Nairobi
-35647,KEN_35647,Nakuru
-35648,KEN_35648,Nandi
-35649,KEN_35649,Narok
-35650,KEN_35650,Nyamira
-35651,KEN_35651,Nyandarua
-35652,KEN_35652,Nyeri
-35653,KEN_35653,Samburu
-35654,KEN_35654,Siaya
-35655,KEN_35655,TaitaTaveta
-35656,KEN_35656,TanaRiver
-35657,KEN_35657,TharakaNithi
-35658,KEN_35658,TransNzoia
-35659,KEN_35659,Turkana
-35660,KEN_35660,UasinGishu
-35661,KEN_35661,Vihiga
-35662,KEN_35662,Wajir
-35663,KEN_35663,WestPokot
-181,MDG,Madagascar
-182,MWI,Malawi
-184,MOZ,Mozambique
-185,RWA,Rwanda
-187,SOM,Somalia
-435,SSD,South Sudan
-189,TZA,Tanzania
-190,UGA,Uganda
-191,ZMB,Zambia
-192,R20,Southern Sub-Saharan Africa
-193,BWA,Botswana
-194,LSO,Lesotho
-195,NAM,Namibia
-196,ZAF,South Africa
-482,ZAF_482,Eastern Cape
-483,ZAF_483,Free State
-484,ZAF_484,Gauteng
-485,ZAF_485,KwaZulu-Natal
-486,ZAF_486,Limpopo
-487,ZAF_487,Mpumalanga
-488,ZAF_488,North-West
-489,ZAF_489,Northern Cape
-490,ZAF_490,Western Cape
-197,SWZ,Swaziland
-198,ZWE,Zimbabwe
-199,R21,Western Sub-Saharan Africa
-200,BEN,Benin
-201,BFA,Burkina Faso
-202,CMR,Cameroon
-203,CPV,Cape Verde
-204,TCD,Chad
-205,CIV,Cote d'Ivoire
-206,GMB,The Gambia
-207,GHA,Ghana
-208,GIN,Guinea
-209,GNB,Guinea-Bissau
-210,LBR,Liberia
-211,MLI,Mali
-212,MRT,Mauritania
-213,NER,Niger
-214,NGA,Nigeria
-25318,NGA_25318,Abia
-25319,NGA_25319,Adamawa
-25320,NGA_25320,Akwa Ibom
-25321,NGA_25321,Anambra
-25322,NGA_25322,Bauchi
-25323,NGA_25323,Bayelsa
-25324,NGA_25324,Benue
-25325,NGA_25325,Borno
-25326,NGA_25326,Cross River
-25327,NGA_25327,Delta
-25328,NGA_25328,Ebonyi
-25329,NGA_25329,Edo
-25330,NGA_25330,Ekiti
-25331,NGA_25331,Enugu
-25332,NGA_25332,FCT (Abuja)
-25333,NGA_25333,Gombe
-25334,NGA_25334,Imo
-25335,NGA_25335,Jigawa
-25336,NGA_25336,Kaduna
-25337,NGA_25337,Kano
-25338,NGA_25338,Katsina
-25339,NGA_25339,Kebbi
-25340,NGA_25340,Kogi
-25341,NGA_25341,Kwara
-25342,NGA_25342,Lagos
-25343,NGA_25343,Nasarawa
-25344,NGA_25344,Niger
-25345,NGA_25345,Ogun
-25346,NGA_25346,Ondo
-25347,NGA_25347,Osun
-25348,NGA_25348,Oyo
-25349,NGA_25349,Plateau
-25350,NGA_25350,Rivers
-25351,NGA_25351,Sokoto
-25352,NGA_25352,Taraba
-25353,NGA_25353,Yobe
-25354,NGA_25354,Zamfara
-215,STP,Sao Tome and Principe
-216,SEN,Senegal
-217,SLE,Sierra Leone
-218,TGO,Togo
+location_id,ihme_loc_id,location_name,level
+1,G,Global,0
+31,S2,"Central Europe, Eastern Europe, and Central Asia",1
+32,R2,Central Asia,2
+33,ARM,Armenia,3
+34,AZE,Azerbaijan,3
+35,GEO,Georgia,3
+36,KAZ,Kazakhstan,3
+37,KGZ,Kyrgyzstan,3
+38,MNG,Mongolia,3
+39,TJK,Tajikistan,3
+40,TKM,Turkmenistan,3
+41,UZB,Uzbekistan,3
+42,R8,Central Europe,2
+43,ALB,Albania,3
+44,BIH,Bosnia and Herzegovina,3
+45,BGR,Bulgaria,3
+46,HRV,Croatia,3
+47,CZE,Czech Republic,3
+48,HUN,Hungary,3
+49,MKD,Macedonia,3
+50,MNE,Montenegro,3
+51,POL,Poland,3
+53660,POL_53660,Dolnośląskie,4
+53661,POL_53661,Kujawsko-Pomorskie,4
+53662,POL_53662,Łódzkie,4
+53663,POL_53663,Lubelskie,4
+53664,POL_53664,Lubuskie,4
+53665,POL_53665,Małopolskie,4
+53666,POL_53666,Mazowieckie,4
+53667,POL_53667,Opolskie,4
+53668,POL_53668,Podkarpackie,4
+53669,POL_53669,Podlaskie,4
+53670,POL_53670,Pomorskie,4
+53671,POL_53671,Śląskie,4
+53672,POL_53672,Świętokrzyskie,4
+53673,POL_53673,Warmińsko-Mazurskie,4
+53674,POL_53674,Wielkopolskie,4
+53675,POL_53675,Zachodniopomorskie,4
+52,ROU,Romania,3
+53,SRB,Serbia,3
+54,SVK,Slovakia,3
+55,SVN,Slovenia,3
+56,R9,Eastern Europe,2
+57,BLR,Belarus,3
+58,EST,Estonia,3
+59,LVA,Latvia,3
+60,LTU,Lithuania,3
+61,MDA,Moldova,3
+62,RUS,Russian Federation,3
+44971,RUS_44971,Altai kray,4
+44983,RUS_44983,Amur oblast,4
+44924,RUS_44924,Arkhangelsk oblast without Nenets autonomous district,4
+44936,RUS_44936,Astrakhan oblast,4
+44903,RUS_44903,Belgorod oblast,4
+44904,RUS_44904,Bryansk oblast,4
+44945,RUS_44945,Chechen Republic,4
+44966,RUS_44966,Chelyabinsk oblast,4
+44987,RUS_44987,Chukchi autonomous area,4
+44952,RUS_44952,Chuvash Republic,4
+44974,RUS_44974,Irkutsk oblast,4
+44907,RUS_44907,Ivanovo oblast,4
+44986,RUS_44986,Jewish autonomous oblast,4
+44942,RUS_44942,Kabardian-Balkar Republic,4
+44926,RUS_44926,Kaliningrad oblast,4
+44908,RUS_44908,Kaluga oblast,4
+44980,RUS_44980,Kamchatka kray,4
+44943,RUS_44943,Karachaev-Chercassian Republic,4
+44975,RUS_44975,Kemerovo oblast,4
+44982,RUS_44982,Khabarovsk kray,4
+44963,RUS_44963,Khanty-Mansi autonomous area,4
+44954,RUS_44954,Kirov oblast,4
+44922,RUS_44922,Komi Republic,4
+44909,RUS_44909,Kostroma oblast,4
+44935,RUS_44935,Krasnodar kray,4
+44973,RUS_44973,Krasnoyarsk kray,4
+44961,RUS_44961,Kurgan oblast,4
+44910,RUS_44910,Kursk oblast,4
+44927,RUS_44927,Leningrad oblast,4
+44911,RUS_44911,Lipetzk oblast,4
+44984,RUS_44984,Magadan oblast,4
+44920,RUS_44920,Moscow City,4
+44912,RUS_44912,Moscow oblast,4
+44928,RUS_44928,Murmansk oblast,4
+44923,RUS_44923,Nenets autonomous district,4
+44955,RUS_44955,Nizhny Novgorod oblast,4
+44929,RUS_44929,Novgorod oblast,4
+44976,RUS_44976,Novosibirsk oblast,4
+44977,RUS_44977,Omsk oblast,4
+44956,RUS_44956,Orenburg oblast,4
+44913,RUS_44913,Oryol oblast,4
+44957,RUS_44957,Penza oblast,4
+44953,RUS_44953,Perm kray,4
+44981,RUS_44981,Primorsky kray,4
+44930,RUS_44930,Pskov oblast,4
+44932,RUS_44932,Republic of Adygeya,4
+44967,RUS_44967,Republic of Altai,4
+44947,RUS_44947,Republic of Bashkortostan,4
+44968,RUS_44968,Republic of Buryatia,4
+44940,RUS_44940,Republic of Dagestan,4
+44941,RUS_44941,Republic of Ingushetia,4
+44933,RUS_44933,Republic of Kalmykia,4
+44921,RUS_44921,Republic of Karelia,4
+44970,RUS_44970,Republic of Khakasia,4
+44948,RUS_44948,Republic of Mariy El,4
+44949,RUS_44949,Republic of Mordovia,4
+44944,RUS_44944,Republic of North Ossetia-Alania,4
+44979,RUS_44979,Republic of Sakha (Yakutia),4
+44950,RUS_44950,Republic of Tatarstan,4
+44969,RUS_44969,Republic of Tuva,4
+44938,RUS_44938,Rostov oblast,4
+44914,RUS_44914,Ryazan oblast,4
+44985,RUS_44985,Sakhalin oblast,4
+44958,RUS_44958,Samara oblast,4
+44931,RUS_44931,Sankt-Petersburg,4
+44959,RUS_44959,Saratov oblast,4
+44915,RUS_44915,Smolensk oblast,4
+44946,RUS_44946,Stavropol kray,4
+44962,RUS_44962,Sverdlovsk oblast,4
+44916,RUS_44916,Tambov oblast,4
+44978,RUS_44978,Tomsk oblast,4
+44918,RUS_44918,Tula oblast,4
+44917,RUS_44917,Tver oblast,4
+44965,RUS_44965,Tyumen oblast without autonomous areas,4
+44951,RUS_44951,Udmurt Republic,4
+44960,RUS_44960,Ulyanovsk oblast,4
+44905,RUS_44905,Vladimir oblast,4
+44937,RUS_44937,Volgograd oblast,4
+44925,RUS_44925,Vologda oblast,4
+44906,RUS_44906,Voronezh oblast,4
+44964,RUS_44964,Yamalo-Nenets autonomous area,4
+44919,RUS_44919,Yaroslavl oblast,4
+44972,RUS_44972,Zabaikalsk kray,4
+63,UKR,Ukraine,3
+44934,UKR_44934,Republic of Crimea,4
+44939,UKR_44939,Sevastopol,4
+50559,UKR_50559,Ukraine (without Crimea & Sevastopol),4
+64,S1,High-income,1
+70,R6,Australasia,2
+71,AUS,Australia,3
+72,NZL,New Zealand,3
+44850,NZL_44850,New Zealand Maori population,4
+44851,NZL_44851,New Zealand non-Maori population,4
+65,R1,High-income Asia Pacific,2
+66,BRN,Brunei,3
+67,JPN,Japan,3
+35446,JPN_35446,Aichi,4
+35428,JPN_35428,Akita,4
+35425,JPN_35425,Aomori,4
+35435,JPN_35435,Chiba,4
+35461,JPN_35461,Ehime,4
+35441,JPN_35441,Fukui,4
+35463,JPN_35463,Fukuoka,4
+35430,JPN_35430,Fukushima,4
+35444,JPN_35444,Gifu,4
+35433,JPN_35433,Gunma,4
+35457,JPN_35457,Hiroshima,4
+35424,JPN_35424,Hokkaidō,4
+35451,JPN_35451,Hyōgo,4
+35431,JPN_35431,Ibaraki,4
+35440,JPN_35440,Ishikawa,4
+35426,JPN_35426,Iwate,4
+35460,JPN_35460,Kagawa,4
+35469,JPN_35469,Kagoshima,4
+35437,JPN_35437,Kanagawa,4
+35462,JPN_35462,Kōchi,4
+35466,JPN_35466,Kumamoto,4
+35449,JPN_35449,Kyōto,4
+35447,JPN_35447,Mie,4
+35427,JPN_35427,Miyagi,4
+35468,JPN_35468,Miyazaki,4
+35443,JPN_35443,Nagano,4
+35465,JPN_35465,Nagasaki,4
+35452,JPN_35452,Nara,4
+35438,JPN_35438,Niigata,4
+35467,JPN_35467,Ōita,4
+35456,JPN_35456,Okayama,4
+35470,JPN_35470,Okinawa,4
+35450,JPN_35450,Ōsaka,4
+35464,JPN_35464,Saga,4
+35434,JPN_35434,Saitama,4
+35448,JPN_35448,Shiga,4
+35455,JPN_35455,Shimane,4
+35445,JPN_35445,Shizuoka,4
+35432,JPN_35432,Tochigi,4
+35459,JPN_35459,Tokushima,4
+35436,JPN_35436,Tōkyō,4
+35454,JPN_35454,Tottori,4
+35439,JPN_35439,Toyama,4
+35453,JPN_35453,Wakayama,4
+35429,JPN_35429,Yamagata,4
+35458,JPN_35458,Yamaguchi,4
+35442,JPN_35442,Yamanashi,4
+68,KOR,South Korea,3
+69,SGP,Singapore,3
+100,R16,High-income North America,2
+101,CAN,Canada,3
+349,GRL,Greenland,3
+102,USA,United States,3
+523,USA_523,Alabama,4
+524,USA_524,Alaska,4
+525,USA_525,Arizona,4
+526,USA_526,Arkansas,4
+527,USA_527,California,4
+528,USA_528,Colorado,4
+529,USA_529,Connecticut,4
+530,USA_530,Delaware,4
+531,USA_531,District of Columbia,4
+532,USA_532,Florida,4
+533,USA_533,Georgia,4
+534,USA_534,Hawaii,4
+535,USA_535,Idaho,4
+536,USA_536,Illinois,4
+537,USA_537,Indiana,4
+538,USA_538,Iowa,4
+539,USA_539,Kansas,4
+540,USA_540,Kentucky,4
+541,USA_541,Louisiana,4
+542,USA_542,Maine,4
+543,USA_543,Maryland,4
+544,USA_544,Massachusetts,4
+545,USA_545,Michigan,4
+546,USA_546,Minnesota,4
+547,USA_547,Mississippi,4
+548,USA_548,Missouri,4
+549,USA_549,Montana,4
+550,USA_550,Nebraska,4
+551,USA_551,Nevada,4
+552,USA_552,New Hampshire,4
+553,USA_553,New Jersey,4
+554,USA_554,New Mexico,4
+555,USA_555,New York,4
+556,USA_556,North Carolina,4
+557,USA_557,North Dakota,4
+558,USA_558,Ohio,4
+559,USA_559,Oklahoma,4
+560,USA_560,Oregon,4
+561,USA_561,Pennsylvania,4
+562,USA_562,Rhode Island,4
+563,USA_563,South Carolina,4
+564,USA_564,South Dakota,4
+565,USA_565,Tennessee,4
+566,USA_566,Texas,4
+567,USA_567,Utah,4
+568,USA_568,Vermont,4
+569,USA_569,Virginia,4
+570,USA_570,Washington,4
+571,USA_571,West Virginia,4
+572,USA_572,Wisconsin,4
+573,USA_573,Wyoming,4
+96,R13,Southern Latin America,2
+97,ARG,Argentina,3
+98,CHL,Chile,3
+99,URY,Uruguay,3
+73,R10,Western Europe,2
+74,AND,Andorra,3
+75,AUT,Austria,3
+76,BEL,Belgium,3
+77,CYP,Cyprus,3
+78,DNK,Denmark,3
+79,FIN,Finland,3
+80,FRA,France,3
+81,DEU,Germany,3
+82,GRC,Greece,3
+83,ISL,Iceland,3
+84,IRL,Ireland,3
+85,ISR,Israel,3
+86,ITA,Italy,3
+35507,ITA_35507,Abruzzo,4
+35511,ITA_35511,Basilicata,4
+35512,ITA_35512,Calabria,4
+35509,ITA_35509,Campania,4
+35502,ITA_35502,Emilia-Romagna,4
+35501,ITA_35501,Friuli-Venezia Giulia,4
+35506,ITA_35506,Lazio,4
+35496,ITA_35496,Liguria,4
+35497,ITA_35497,Lombardia,4
+35505,ITA_35505,Marche,4
+35508,ITA_35508,Molise,4
+35494,ITA_35494,Piemonte,4
+35498,ITA_35498,Provincia autonoma di Bolzano,4
+35499,ITA_35499,Provincia autonoma di Trento,4
+35510,ITA_35510,Puglia,4
+35514,ITA_35514,Sardegna,4
+35513,ITA_35513,Sicilia,4
+35503,ITA_35503,Toscana,4
+35504,ITA_35504,Umbria,4
+35495,ITA_35495,Valle d'Aosta,4
+35500,ITA_35500,Veneto,4
+87,LUX,Luxembourg,3
+88,MLT,Malta,3
+89,NLD,Netherlands,3
+90,NOR,Norway,3
+4914,NOR_4914,Østfold,4
+4911,NOR_4911,Akershus,4
+4918,NOR_4918,Aust-Agder,4
+4915,NOR_4915,Buskerud,4
+4928,NOR_4928,Finnmark,4
+4912,NOR_4912,Hedmark,4
+4921,NOR_4921,Hordaland,4
+4923,NOR_4923,Møre og Romsdal,4
+4926,NOR_4926,Nordland,4
+4913,NOR_4913,Oppland,4
+4910,NOR_4910,Oslo,4
+4920,NOR_4920,Rogaland,4
+4922,NOR_4922,Sogn og Fjordane,4
+4917,NOR_4917,Telemark,4
+53432,NOR_53432,Trøndelag,4
+4927,NOR_4927,Troms,4
+4919,NOR_4919,Vest-Agder,4
+4916,NOR_4916,Vestfold,4
+91,PRT,Portugal,3
+367,MCO,Monaco,3
+92,ESP,Spain,3
+93,SWE,Sweden,3
+4944,SWE_4944,Stockholm,4
+4940,SWE_4940,Sweden except Stockholm,4
+94,CHE,Switzerland,3
+396,SMR,San Marino,3
+95,GBR,United Kingdom,3
+4749,GBR_4749,England,4
+4621,GBR_4621,East Midlands,5
+44697,GBR_44697,Derby,6
+44698,GBR_44698,Derbyshire,6
+44701,GBR_44701,Leicester,6
+44694,GBR_44694,Leicestershire,6
+44695,GBR_44695,Lincolnshire,6
+44693,GBR_44693,Northamptonshire,6
+44700,GBR_44700,Nottingham,6
+44699,GBR_44699,Nottinghamshire,6
+44696,GBR_44696,Rutland,6
+4623,GBR_4623,East of England,5
+44716,GBR_44716,Bedford,6
+44721,GBR_44721,Cambridgeshire,6
+44717,GBR_44717,Central Bedfordshire,6
+44720,GBR_44720,Essex,6
+44719,GBR_44719,Hertfordshire,6
+44726,GBR_44726,Luton,6
+44723,GBR_44723,Norfolk,6
+44725,GBR_44725,Peterborough,6
+44724,GBR_44724,Southend-on-Sea,6
+44718,GBR_44718,Suffolk,6
+44722,GBR_44722,Thurrock,6
+4624,GBR_4624,Greater London,5
+44754,GBR_44754,Barking and Dagenham,6
+44729,GBR_44729,Barnet,6
+44732,GBR_44732,Bexley,6
+44735,GBR_44735,Brent,6
+44731,GBR_44731,Bromley,6
+44748,GBR_44748,Camden,6
+44742,GBR_44742,Croydon,6
+44744,GBR_44744,Ealing,6
+44741,GBR_44741,Enfield,6
+44745,GBR_44745,Greenwich,6
+44756,GBR_44756,Hackney,6
+44743,GBR_44743,Hammersmith and Fulham,6
+44755,GBR_44755,Haringey,6
+44740,GBR_44740,Harrow,6
+44737,GBR_44737,Havering,6
+44736,GBR_44736,Hillingdon,6
+44751,GBR_44751,Hounslow,6
+44757,GBR_44757,Islington,6
+44728,GBR_44728,Kensington and Chelsea,6
+44738,GBR_44738,Kingston upon Thames,6
+44749,GBR_44749,Lambeth,6
+44750,GBR_44750,Lewisham,6
+44734,GBR_44734,Merton,6
+44753,GBR_44753,Newham,6
+44733,GBR_44733,Redbridge,6
+44727,GBR_44727,Richmond upon Thames,6
+44752,GBR_44752,Southwark,6
+44739,GBR_44739,Sutton,6
+44758,GBR_44758,Tower Hamlets,6
+44747,GBR_44747,Waltham Forest,6
+44746,GBR_44746,Wandsworth,6
+44730,GBR_44730,Westminster,6
+4618,GBR_4618,North East England,5
+44649,GBR_44649,County Durham,6
+44643,GBR_44643,Darlington,6
+44650,GBR_44650,Gateshead,6
+44654,GBR_44654,Hartlepool,6
+44651,GBR_44651,Middlesbrough,6
+44646,GBR_44646,Newcastle upon Tyne,6
+44647,GBR_44647,North Tyneside,6
+44644,GBR_44644,Northumberland,6
+44648,GBR_44648,Redcar and Cleveland,6
+44652,GBR_44652,South Tyneside,6
+44645,GBR_44645,Stockton-on-Tees,6
+44653,GBR_44653,Sunderland,6
+4619,GBR_4619,North West England,5
+44674,GBR_44674,Blackburn with Darwen,6
+44676,GBR_44676,Blackpool,6
+44662,GBR_44662,Bolton,6
+44664,GBR_44664,Bury,6
+44655,GBR_44655,Cheshire East,6
+44658,GBR_44658,Cheshire West and Chester,6
+44661,GBR_44661,Cumbria,6
+44670,GBR_44670,Halton,6
+44675,GBR_44675,Knowsley,6
+44660,GBR_44660,Lancashire,6
+44671,GBR_44671,Liverpool,6
+44677,GBR_44677,Manchester,6
+44667,GBR_44667,Oldham,6
+44668,GBR_44668,Rochdale,6
+44673,GBR_44673,Salford,6
+44659,GBR_44659,Sefton,6
+44665,GBR_44665,St Helens,6
+44656,GBR_44656,Stockport,6
+44672,GBR_44672,Tameside,6
+44657,GBR_44657,Trafford,6
+44666,GBR_44666,Warrington,6
+44669,GBR_44669,Wigan,6
+44663,GBR_44663,Wirral,6
+4625,GBR_4625,South East England,5
+44765,GBR_44765,Bracknell Forest,6
+44770,GBR_44770,Brighton and Hove,6
+44760,GBR_44760,Buckinghamshire,6
+44772,GBR_44772,East Sussex,6
+44764,GBR_44764,Hampshire,6
+44774,GBR_44774,Isle of Wight,6
+44769,GBR_44769,Kent,6
+44771,GBR_44771,Medway,6
+44775,GBR_44775,Milton Keynes,6
+44767,GBR_44767,Oxfordshire,6
+44773,GBR_44773,Portsmouth,6
+44768,GBR_44768,Reading,6
+44777,GBR_44777,Slough,6
+44776,GBR_44776,Southampton,6
+44761,GBR_44761,Surrey,6
+44763,GBR_44763,West Berkshire,6
+44766,GBR_44766,West Sussex,6
+44762,GBR_44762,Windsor and Maidenhead,6
+44759,GBR_44759,Wokingham,6
+4626,GBR_4626,South West England,5
+44784,GBR_44784,Bath and North East Somerset,6
+44790,GBR_44790,Bournemouth,6
+44789,GBR_44789,"Bristol, City of",6
+44791,GBR_44791,Cornwall,6
+44782,GBR_44782,Devon,6
+44779,GBR_44779,Dorset,6
+44785,GBR_44785,Gloucestershire,6
+44781,GBR_44781,North Somerset,6
+44792,GBR_44792,Plymouth,6
+44783,GBR_44783,Poole,6
+44786,GBR_44786,Somerset,6
+44778,GBR_44778,South Gloucestershire,6
+44787,GBR_44787,Swindon,6
+44788,GBR_44788,Torbay,6
+44780,GBR_44780,Wiltshire,6
+4622,GBR_4622,West Midlands,5
+44714,GBR_44714,Birmingham,6
+44709,GBR_44709,Coventry,6
+44708,GBR_44708,Dudley,6
+44703,GBR_44703,"Herefordshire, County of",6
+44715,GBR_44715,Sandwell,6
+44705,GBR_44705,Shropshire,6
+44704,GBR_44704,Solihull,6
+44707,GBR_44707,Staffordshire,6
+44711,GBR_44711,Stoke-on-Trent,6
+44710,GBR_44710,Telford and Wrekin,6
+44712,GBR_44712,Walsall,6
+44702,GBR_44702,Warwickshire,6
+44713,GBR_44713,Wolverhampton,6
+44706,GBR_44706,Worcestershire,6
+4620,GBR_4620,Yorkshire and the Humber,5
+44692,GBR_44692,Barnsley,6
+44684,GBR_44684,Bradford,6
+44682,GBR_44682,Calderdale,6
+44690,GBR_44690,Doncaster,6
+44679,GBR_44679,East Riding of Yorkshire,6
+44691,GBR_44691,"Kingston upon Hull, City of",6
+44685,GBR_44685,Kirklees,6
+44686,GBR_44686,Leeds,6
+44681,GBR_44681,North East Lincolnshire,6
+44683,GBR_44683,North Lincolnshire,6
+44678,GBR_44678,North Yorkshire,6
+44689,GBR_44689,Rotherham,6
+44687,GBR_44687,Sheffield,6
+44688,GBR_44688,Wakefield,6
+44680,GBR_44680,York,6
+433,GBR_433,Northern Ireland,4
+434,GBR_434,Scotland,4
+4636,GBR_4636,Wales,4
+103,S7,Latin America and Caribbean,1
+120,R11,Andean Latin America,2
+121,BOL,Bolivia,3
+122,ECU,Ecuador,3
+123,PER,Peru,3
+104,R7,Caribbean,2
+105,ATG,Antigua and Barbuda,3
+106,BHS,The Bahamas,3
+107,BRB,Barbados,3
+108,BLZ,Belize,3
+305,BMU,Bermuda,3
+109,CUB,Cuba,3
+110,DMA,Dominica,3
+111,DOM,Dominican Republic,3
+112,GRD,Grenada,3
+113,GUY,Guyana,3
+114,HTI,Haiti,3
+115,JAM,Jamaica,3
+385,PRI,Puerto Rico,3
+393,KNA,Saint Kitts and Nevis,3
+116,LCA,Saint Lucia,3
+117,VCT,Saint Vincent and the Grenadines,3
+118,SUR,Suriname,3
+119,TTO,Trinidad and Tobago,3
+422,VIR,"Virgin Islands, U.S.",3
+124,R12,Central Latin America,2
+125,COL,Colombia,3
+126,CRI,Costa Rica,3
+127,SLV,El Salvador,3
+128,GTM,Guatemala,3
+129,HND,Honduras,3
+130,MEX,Mexico,3
+4643,MEX_4643,Aguascalientes,4
+4644,MEX_4644,Baja California,4
+4645,MEX_4645,Baja California Sur,4
+4646,MEX_4646,Campeche,4
+4649,MEX_4649,Chiapas,4
+4650,MEX_4650,Chihuahua,4
+4647,MEX_4647,Coahuila,4
+4648,MEX_4648,Colima,4
+4652,MEX_4652,Durango,4
+4653,MEX_4653,Guanajuato,4
+4654,MEX_4654,Guerrero,4
+4655,MEX_4655,Hidalgo,4
+4656,MEX_4656,Jalisco,4
+4657,MEX_4657,México,4
+4651,MEX_4651,Mexico City,4
+4658,MEX_4658,Michoacán de Ocampo,4
+4659,MEX_4659,Morelos,4
+4660,MEX_4660,Nayarit,4
+4661,MEX_4661,Nuevo León,4
+4662,MEX_4662,Oaxaca,4
+4663,MEX_4663,Puebla,4
+4664,MEX_4664,Querétaro,4
+4665,MEX_4665,Quintana Roo,4
+4666,MEX_4666,San Luis Potosí,4
+4667,MEX_4667,Sinaloa,4
+4668,MEX_4668,Sonora,4
+4669,MEX_4669,Tabasco,4
+4670,MEX_4670,Tamaulipas,4
+4671,MEX_4671,Tlaxcala,4
+4672,MEX_4672,Veracruz de Ignacio de la Llave,4
+4673,MEX_4673,Yucatán,4
+4674,MEX_4674,Zacatecas,4
+131,NIC,Nicaragua,3
+132,PAN,Panama,3
+133,VEN,Venezuela,3
+134,R14,Tropical Latin America,2
+135,BRA,Brazil,3
+4750,BRA_4750,Acre,4
+4751,BRA_4751,Alagoas,4
+4753,BRA_4753,Amapá,4
+4752,BRA_4752,Amazonas,4
+4754,BRA_4754,Bahia,4
+4755,BRA_4755,Ceará,4
+4756,BRA_4756,Distrito Federal,4
+4757,BRA_4757,Espírito Santo,4
+4758,BRA_4758,Goiás,4
+4759,BRA_4759,Maranhão,4
+4762,BRA_4762,Mato Grosso,4
+4761,BRA_4761,Mato Grosso do Sul,4
+4760,BRA_4760,Minas Gerais,4
+4763,BRA_4763,Pará,4
+4764,BRA_4764,Paraíba,4
+4765,BRA_4765,Paraná,4
+4766,BRA_4766,Pernambuco,4
+4767,BRA_4767,Piaui,4
+4768,BRA_4768,Rio de Janeiro,4
+4769,BRA_4769,Rio Grande do Norte,4
+4772,BRA_4772,Rio Grande do Sul,4
+4770,BRA_4770,Rondônia,4
+4771,BRA_4771,Roraima,4
+4773,BRA_4773,Santa Catarina,4
+4775,BRA_4775,São Paulo,4
+4774,BRA_4774,Sergipe,4
+4776,BRA_4776,Tocantins,4
+136,PRY,Paraguay,3
+137,S4,North Africa and Middle East,1
+138,R15,North Africa and Middle East,2
+160,AFG,Afghanistan,3
+139,DZA,Algeria,3
+140,BHR,Bahrain,3
+141,EGY,Egypt,3
+142,IRN,Iran,3
+44864,IRN_44864,Alborz,4
+44865,IRN_44865,Ardebil,4
+44868,IRN_44868,Bushehr,4
+44869,IRN_44869,Chahar Mahaal and Bakhtiari,4
+44866,IRN_44866,East Azarbayejan,4
+44870,IRN_44870,Fars,4
+44871,IRN_44871,Gilan,4
+44872,IRN_44872,Golestan,4
+44873,IRN_44873,Hamadan,4
+44874,IRN_44874,Hormozgan,4
+44875,IRN_44875,Ilam,4
+44876,IRN_44876,Isfahan,4
+44877,IRN_44877,Kerman,4
+44878,IRN_44878,Kermanshah,4
+44880,IRN_44880,Khorasan-e-Razavi,4
+44882,IRN_44882,Khuzestan,4
+44883,IRN_44883,Kohgiluyeh and Boyer-Ahmad,4
+44884,IRN_44884,Kurdistan,4
+44885,IRN_44885,Lorestan,4
+44886,IRN_44886,Markazi,4
+44887,IRN_44887,Mazandaran,4
+44879,IRN_44879,North Khorasan,4
+44888,IRN_44888,Qazvin,4
+44889,IRN_44889,Qom,4
+44890,IRN_44890,Semnan,4
+44891,IRN_44891,Sistan and Baluchistan,4
+44881,IRN_44881,South Khorasan,4
+44892,IRN_44892,Tehran,4
+44867,IRN_44867,West Azarbayejan,4
+44893,IRN_44893,Yazd,4
+44894,IRN_44894,Zanjan,4
+143,IRQ,Iraq,3
+144,JOR,Jordan,3
+145,KWT,Kuwait,3
+146,LBN,Lebanon,3
+147,LBY,Libya,3
+148,MAR,Morocco,3
+149,PSE,Palestine,3
+150,OMN,Oman,3
+151,QAT,Qatar,3
+152,SAU,Saudi Arabia,3
+522,SDN,Sudan,3
+153,SYR,Syria,3
+154,TUN,Tunisia,3
+155,TUR,Turkey,3
+156,ARE,United Arab Emirates,3
+157,YEM,Yemen,3
+158,S5,South Asia,1
+159,R4,South Asia,2
+161,BGD,Bangladesh,3
+162,BTN,Bhutan,3
+163,IND,India,3
+4841,IND_4841,Andhra Pradesh,4
+43908,IND_43908,"Andhra Pradesh, Rural",5
+43872,IND_43872,"Andhra Pradesh, Urban",5
+4842,IND_4842,Arunachal Pradesh,4
+43909,IND_43909,"Arunachal Pradesh, Rural",5
+43873,IND_43873,"Arunachal Pradesh, Urban",5
+4843,IND_4843,Assam,4
+43910,IND_43910,"Assam, Rural",5
+43874,IND_43874,"Assam, Urban",5
+4844,IND_4844,Bihar,4
+43911,IND_43911,"Bihar, Rural",5
+43875,IND_43875,"Bihar, Urban",5
+4846,IND_4846,Chhattisgarh,4
+43913,IND_43913,"Chhattisgarh, Rural",5
+43877,IND_43877,"Chhattisgarh, Urban",5
+4849,IND_4849,Delhi,4
+43916,IND_43916,"Delhi, Rural",5
+43880,IND_43880,"Delhi, Urban",5
+4850,IND_4850,Goa,4
+43917,IND_43917,"Goa, Rural",5
+43881,IND_43881,"Goa, Urban",5
+4851,IND_4851,Gujarat,4
+43918,IND_43918,"Gujarat, Rural",5
+43882,IND_43882,"Gujarat, Urban",5
+4852,IND_4852,Haryana,4
+43919,IND_43919,"Haryana, Rural",5
+43883,IND_43883,"Haryana, Urban",5
+4853,IND_4853,Himachal Pradesh,4
+43920,IND_43920,"Himachal Pradesh, Rural",5
+43884,IND_43884,"Himachal Pradesh, Urban",5
+4854,IND_4854,Jammu and Kashmir,4
+43921,IND_43921,"Jammu and Kashmir, Rural",5
+43885,IND_43885,"Jammu and Kashmir, Urban",5
+4855,IND_4855,Jharkhand,4
+43922,IND_43922,"Jharkhand, Rural",5
+43886,IND_43886,"Jharkhand, Urban",5
+4856,IND_4856,Karnataka,4
+43923,IND_43923,"Karnataka, Rural",5
+43887,IND_43887,"Karnataka, Urban",5
+4857,IND_4857,Kerala,4
+43924,IND_43924,"Kerala, Rural",5
+43888,IND_43888,"Kerala, Urban",5
+4859,IND_4859,Madhya Pradesh,4
+43926,IND_43926,"Madhya Pradesh, Rural",5
+43890,IND_43890,"Madhya Pradesh, Urban",5
+4860,IND_4860,Maharashtra,4
+43927,IND_43927,"Maharashtra, Rural",5
+43891,IND_43891,"Maharashtra, Urban",5
+4861,IND_4861,Manipur,4
+43928,IND_43928,"Manipur, Rural",5
+43892,IND_43892,"Manipur, Urban",5
+4862,IND_4862,Meghalaya,4
+43929,IND_43929,"Meghalaya, Rural",5
+43893,IND_43893,"Meghalaya, Urban",5
+4863,IND_4863,Mizoram,4
+43930,IND_43930,"Mizoram, Rural",5
+43894,IND_43894,"Mizoram, Urban",5
+4864,IND_4864,Nagaland,4
+43931,IND_43931,"Nagaland, Rural",5
+43895,IND_43895,"Nagaland, Urban",5
+4865,IND_4865,Odisha,4
+43932,IND_43932,"Odisha, Rural",5
+43896,IND_43896,"Odisha, Urban",5
+4867,IND_4867,Punjab,4
+43934,IND_43934,"Punjab, Rural",5
+43898,IND_43898,"Punjab, Urban",5
+4868,IND_4868,Rajasthan,4
+43935,IND_43935,"Rajasthan, Rural",5
+43899,IND_43899,"Rajasthan, Urban",5
+4869,IND_4869,Sikkim,4
+43936,IND_43936,"Sikkim, Rural",5
+43900,IND_43900,"Sikkim, Urban",5
+4870,IND_4870,Tamil Nadu,4
+43937,IND_43937,"Tamil Nadu, Rural",5
+43901,IND_43901,"Tamil Nadu, Urban",5
+4871,IND_4871,Telangana,4
+43938,IND_43938,"Telangana, Rural",5
+43902,IND_43902,"Telangana, Urban",5
+4872,IND_4872,Tripura,4
+43939,IND_43939,"Tripura, Rural",5
+43903,IND_43903,"Tripura, Urban",5
+44538,IND_44538,Union Territories other than Delhi,4
+44539,IND_44539,"Union Territories other than Delhi, Rural",5
+44540,IND_44540,"Union Territories other than Delhi, Urban",5
+4873,IND_4873,Uttar Pradesh,4
+43940,IND_43940,"Uttar Pradesh, Rural",5
+43904,IND_43904,"Uttar Pradesh, Urban",5
+4874,IND_4874,Uttarakhand,4
+43941,IND_43941,"Uttarakhand, Rural",5
+43905,IND_43905,"Uttarakhand, Urban",5
+4875,IND_4875,West Bengal,4
+43942,IND_43942,"West Bengal, Rural",5
+43906,IND_43906,"West Bengal, Urban",5
+164,NPL,Nepal,3
+165,PAK,Pakistan,3
+53615,PAK_53615,Azad Jammu & Kashmir,4
+53616,PAK_53616,Balochistan,4
+53617,PAK_53617,Gilgit-Baltistan,4
+53618,PAK_53618,Islamabad Capital Territory,4
+53619,PAK_53619,Khyber Pakhtunkhwa,4
+53620,PAK_53620,Punjab,4
+53621,PAK_53621,Sindh,4
+4,S6,"Southeast Asia, East Asia, and Oceania",1
+5,R3,East Asia,2
+6,CHN,China,3
+491,CHN_491,Anhui,4
+492,CHN_492,Beijing,4
+493,CHN_493,Chongqing,4
+494,CHN_494,Fujian,4
+495,CHN_495,Gansu,4
+496,CHN_496,Guangdong,4
+497,CHN_497,Guangxi,4
+498,CHN_498,Guizhou,4
+499,CHN_499,Hainan,4
+500,CHN_500,Hebei,4
+501,CHN_501,Heilongjiang,4
+502,CHN_502,Henan,4
+354,CHN_354,Hong Kong Special Administrative Region of China,4
+503,CHN_503,Hubei,4
+504,CHN_504,Hunan,4
+505,CHN_505,Inner Mongolia,4
+506,CHN_506,Jiangsu,4
+507,CHN_507,Jiangxi,4
+508,CHN_508,Jilin,4
+509,CHN_509,Liaoning,4
+361,CHN_361,Macao Special Administrative Region of China,4
+510,CHN_510,Ningxia,4
+511,CHN_511,Qinghai,4
+512,CHN_512,Shaanxi,4
+513,CHN_513,Shandong,4
+514,CHN_514,Shanghai,4
+515,CHN_515,Shanxi,4
+516,CHN_516,Sichuan,4
+517,CHN_517,Tianjin,4
+518,CHN_518,Tibet,4
+519,CHN_519,Xinjiang,4
+520,CHN_520,Yunnan,4
+521,CHN_521,Zhejiang,4
+7,PRK,North Korea,3
+8,TWN,Taiwan,3
+21,R17,Oceania,2
+298,ASM,American Samoa,3
+320,COK,Cook Islands,3
+25,FSM,Federated States of Micronesia,3
+22,FJI,Fiji,3
+351,GUM,Guam,3
+23,KIR,Kiribati,3
+24,MHL,Marshall Islands,3
+376,MNP,Northern Mariana Islands,3
+26,PNG,Papua New Guinea,3
+369,NRU,Nauru,3
+374,NIU,Niue,3
+380,PLW,Palau,3
+27,WSM,Samoa,3
+28,SLB,Solomon Islands,3
+413,TKL,Tokelau,3
+29,TON,Tonga,3
+416,TUV,Tuvalu,3
+30,VUT,Vanuatu,3
+9,R5,Southeast Asia,2
+10,KHM,Cambodia,3
+11,IDN,Indonesia,3
+4709,IDN_4709,Aceh,4
+4726,IDN_4726,Bali,4
+4717,IDN_4717,Bangka-Belitung Islands,4
+4725,IDN_4725,Banten,4
+4715,IDN_4715,Bengkulu,4
+4737,IDN_4737,Gorontalo,4
+4720,IDN_4720,Jakarta,4
+4713,IDN_4713,Jambi,4
+4721,IDN_4721,West Java,4
+4722,IDN_4722,Central Java,4
+4724,IDN_4724,East Java,4
+4729,IDN_4729,West Kalimantan,4
+4731,IDN_4731,South Kalimantan,4
+4730,IDN_4730,Central Kalimantan,4
+4732,IDN_4732,East Kalimantan,4
+4719,IDN_4719,North Kalimantan,4
+4718,IDN_4718,Riau Islands,4
+4716,IDN_4716,Lampung,4
+4739,IDN_4739,Maluku,4
+4740,IDN_4740,North Maluku,4
+4727,IDN_4727,West Nusa Tenggara,4
+4728,IDN_4728,East Nusa Tenggara,4
+4742,IDN_4742,Papua,4
+4741,IDN_4741,West Papua,4
+4712,IDN_4712,Riau,4
+4738,IDN_4738,West Sulawesi,4
+4735,IDN_4735,South Sulawesi,4
+4734,IDN_4734,Central Sulawesi,4
+4736,IDN_4736,Southeast Sulawesi,4
+4733,IDN_4733,North Sulawesi,4
+4711,IDN_4711,West Sumatra,4
+4714,IDN_4714,South Sumatra,4
+4710,IDN_4710,North Sumatra,4
+4723,IDN_4723,Yogyakarta,4
+12,LAO,Laos,3
+13,MYS,Malaysia,3
+14,MDV,Maldives,3
+183,MUS,Mauritius,3
+15,MMR,Myanmar,3
+16,PHL,Philippines,3
+53536,PHL_53536,Abra,4
+53604,PHL_53604,Agusan Del Norte,4
+53605,PHL_53605,Agusan Del Sur,4
+53572,PHL_53572,Aklan,4
+53568,PHL_53568,Albay,4
+53573,PHL_53573,Antique,4
+53537,PHL_53537,Apayao,4
+53554,PHL_53554,Aurora,4
+53610,PHL_53610,Basilan,4
+53548,PHL_53548,Bataan,4
+53547,PHL_53547,Batanes,4
+53558,PHL_53558,Batangas,4
+53535,PHL_53535,Benguet,4
+53586,PHL_53586,Biliran,4
+53579,PHL_53579,Bohol,4
+53591,PHL_53591,Bukidnon,4
+53552,PHL_53552,Bulacan,4
+53544,PHL_53544,Cagayan,4
+53566,PHL_53566,Camarines Norte,4
+53570,PHL_53570,Camarines Sur,4
+53594,PHL_53594,Camiguin,4
+53571,PHL_53571,Capiz,4
+53565,PHL_53565,Catanduanes,4
+53556,PHL_53556,Cavite,4
+53578,PHL_53578,Cebu,4
+53596,PHL_53596,Compostela Valley,4
+53602,PHL_53602,Cotabato (North Cotabato),4
+53599,PHL_53599,Davao Del Norte,4
+53597,PHL_53597,Davao Del Sur,4
+53598,PHL_53598,Davao Occidental,4
+53595,PHL_53595,Davao Oriental,4
+53608,PHL_53608,Dinagat Islands,4
+53582,PHL_53582,Eastern Samar,4
+53576,PHL_53576,Guimaras,4
+53534,PHL_53534,Ifugao,4
+53540,PHL_53540,Ilocos Norte,4
+53541,PHL_53541,Ilocos Sur,4
+53575,PHL_53575,Iloilo,4
+53545,PHL_53545,Isabela,4
+53538,PHL_53538,Kalinga,4
+53539,PHL_53539,La Union,4
+53557,PHL_53557,Laguna,4
+53592,PHL_53592,Lanao Del Norte,4
+53613,PHL_53613,Lanao Del Sur,4
+53585,PHL_53585,Leyte,4
+53612,PHL_53612,Maguindanao,4
+53564,PHL_53564,Marinduque,4
+53569,PHL_53569,Masbate,4
+53590,PHL_53590,Misamis Occidental,4
+53593,PHL_53593,Misamis Oriental,4
+53533,PHL_53533,Mountain Province,4
+53614,PHL_53614,National Capital Region,4
+53574,PHL_53574,Negros Occidental,4
+53577,PHL_53577,Negros Oriental,4
+53583,PHL_53583,Northern Samar,4
+53553,PHL_53553,Nueva Ecija,4
+53543,PHL_53543,Nueva Vizcaya,4
+53560,PHL_53560,Occidental Mindoro,4
+53561,PHL_53561,Oriental Mindoro,4
+53563,PHL_53563,Palawan,4
+53551,PHL_53551,Pampanga,4
+53542,PHL_53542,Pangasinan,4
+53559,PHL_53559,Quezon,4
+53546,PHL_53546,Quirino,4
+53555,PHL_53555,Rizal,4
+53562,PHL_53562,Romblon,4
+53584,PHL_53584,Samar (Western Samar),4
+53603,PHL_53603,Sarangani,4
+53580,PHL_53580,Siquijor,4
+53567,PHL_53567,Sorsogon,4
+53600,PHL_53600,South Cotabato,4
+53581,PHL_53581,Southern Leyte,4
+53601,PHL_53601,Sultan Kudarat,4
+53611,PHL_53611,Sulu,4
+53607,PHL_53607,Surigao Del Norte,4
+53606,PHL_53606,Surigao Del Sur,4
+53550,PHL_53550,Tarlac,4
+53609,PHL_53609,Tawi-Tawi,4
+53549,PHL_53549,Zambales,4
+53588,PHL_53588,Zamboanga Del Norte,4
+53589,PHL_53589,Zamboanga Del Sur,4
+53587,PHL_53587,Zamboanga Sibugay,4
+17,LKA,Sri Lanka,3
+186,SYC,Seychelles,3
+18,THA,Thailand,3
+19,TLS,Timor-Leste,3
+20,VNM,Vietnam,3
+166,S3,Sub-Saharan Africa,1
+167,R18,Central Sub-Saharan Africa,2
+168,AGO,Angola,3
+169,CAF,Central African Republic,3
+170,COG,Congo,3
+171,COD,Democratic Republic of the Congo,3
+172,GNQ,Equatorial Guinea,3
+173,GAB,Gabon,3
+174,R19,Eastern Sub-Saharan Africa,2
+175,BDI,Burundi,3
+176,COM,Comoros,3
+177,DJI,Djibouti,3
+178,ERI,Eritrea,3
+179,ETH,Ethiopia,3
+44861,ETH_44861,Addis Ababa,4
+44853,ETH_44853,Afar,4
+44854,ETH_44854,Amhara,4
+44857,ETH_44857,Benishangul-Gumuz,4
+44862,ETH_44862,Dire Dawa,4
+44860,ETH_44860,Gambella,4
+44859,ETH_44859,Harari,4
+44855,ETH_44855,Oromia,4
+44856,ETH_44856,Somali,4
+44858,ETH_44858,"Southern Nations, Nationalities, and Peoples",4
+44852,ETH_44852,Tigray,4
+180,KEN,Kenya,3
+35617,KEN_35617,Baringo,4
+35618,KEN_35618,Bomet,4
+35619,KEN_35619,Bungoma,4
+35620,KEN_35620,Busia,4
+35621,KEN_35621,Elgeyo-Marakwet,4
+35622,KEN_35622,Embu,4
+35623,KEN_35623,Garissa,4
+35624,KEN_35624,HomaBay,4
+35625,KEN_35625,Isiolo,4
+35626,KEN_35626,Kajiado,4
+35627,KEN_35627,Kakamega,4
+35628,KEN_35628,Kericho,4
+35629,KEN_35629,Kiambu,4
+35630,KEN_35630,Kilifi,4
+35631,KEN_35631,Kirinyaga,4
+35632,KEN_35632,Kisii,4
+35633,KEN_35633,Kisumu,4
+35634,KEN_35634,Kitui,4
+35635,KEN_35635,Kwale,4
+35636,KEN_35636,Laikipia,4
+35637,KEN_35637,Lamu,4
+35638,KEN_35638,Machakos,4
+35639,KEN_35639,Makueni,4
+35640,KEN_35640,Mandera,4
+35641,KEN_35641,Marsabit,4
+35642,KEN_35642,Meru,4
+35643,KEN_35643,Migori,4
+35644,KEN_35644,Mombasa,4
+35645,KEN_35645,Murang’a,4
+35646,KEN_35646,Nairobi,4
+35647,KEN_35647,Nakuru,4
+35648,KEN_35648,Nandi,4
+35649,KEN_35649,Narok,4
+35650,KEN_35650,Nyamira,4
+35651,KEN_35651,Nyandarua,4
+35652,KEN_35652,Nyeri,4
+35653,KEN_35653,Samburu,4
+35654,KEN_35654,Siaya,4
+35655,KEN_35655,TaitaTaveta,4
+35656,KEN_35656,TanaRiver,4
+35657,KEN_35657,TharakaNithi,4
+35658,KEN_35658,TransNzoia,4
+35659,KEN_35659,Turkana,4
+35660,KEN_35660,UasinGishu,4
+35661,KEN_35661,Vihiga,4
+35662,KEN_35662,Wajir,4
+35663,KEN_35663,WestPokot,4
+181,MDG,Madagascar,3
+182,MWI,Malawi,3
+184,MOZ,Mozambique,3
+185,RWA,Rwanda,3
+187,SOM,Somalia,3
+435,SSD,South Sudan,3
+189,TZA,Tanzania,3
+190,UGA,Uganda,3
+191,ZMB,Zambia,3
+192,R20,Southern Sub-Saharan Africa,2
+193,BWA,Botswana,3
+194,LSO,Lesotho,3
+195,NAM,Namibia,3
+196,ZAF,South Africa,3
+482,ZAF_482,Eastern Cape,4
+483,ZAF_483,Free State,4
+484,ZAF_484,Gauteng,4
+485,ZAF_485,KwaZulu-Natal,4
+486,ZAF_486,Limpopo,4
+487,ZAF_487,Mpumalanga,4
+488,ZAF_488,North-West,4
+489,ZAF_489,Northern Cape,4
+490,ZAF_490,Western Cape,4
+197,SWZ,Swaziland,3
+198,ZWE,Zimbabwe,3
+199,R21,Western Sub-Saharan Africa,2
+200,BEN,Benin,3
+201,BFA,Burkina Faso,3
+202,CMR,Cameroon,3
+203,CPV,Cape Verde,3
+204,TCD,Chad,3
+205,CIV,Cote d'Ivoire,3
+206,GMB,The Gambia,3
+207,GHA,Ghana,3
+208,GIN,Guinea,3
+209,GNB,Guinea-Bissau,3
+210,LBR,Liberia,3
+211,MLI,Mali,3
+212,MRT,Mauritania,3
+213,NER,Niger,3
+214,NGA,Nigeria,3
+25318,NGA_25318,Abia,4
+25319,NGA_25319,Adamawa,4
+25320,NGA_25320,Akwa Ibom,4
+25321,NGA_25321,Anambra,4
+25322,NGA_25322,Bauchi,4
+25323,NGA_25323,Bayelsa,4
+25324,NGA_25324,Benue,4
+25325,NGA_25325,Borno,4
+25326,NGA_25326,Cross River,4
+25327,NGA_25327,Delta,4
+25328,NGA_25328,Ebonyi,4
+25329,NGA_25329,Edo,4
+25330,NGA_25330,Ekiti,4
+25331,NGA_25331,Enugu,4
+25332,NGA_25332,FCT (Abuja),4
+25333,NGA_25333,Gombe,4
+25334,NGA_25334,Imo,4
+25335,NGA_25335,Jigawa,4
+25336,NGA_25336,Kaduna,4
+25337,NGA_25337,Kano,4
+25338,NGA_25338,Katsina,4
+25339,NGA_25339,Kebbi,4
+25340,NGA_25340,Kogi,4
+25341,NGA_25341,Kwara,4
+25342,NGA_25342,Lagos,4
+25343,NGA_25343,Nasarawa,4
+25344,NGA_25344,Niger,4
+25345,NGA_25345,Ogun,4
+25346,NGA_25346,Ondo,4
+25347,NGA_25347,Osun,4
+25348,NGA_25348,Oyo,4
+25349,NGA_25349,Plateau,4
+25350,NGA_25350,Rivers,4
+25351,NGA_25351,Sokoto,4
+25352,NGA_25352,Taraba,4
+25353,NGA_25353,Yobe,4
+25354,NGA_25354,Zamfara,4
+215,STP,Sao Tome and Principe,3
+216,SEN,Senegal,3
+217,SLE,Sierra Leone,3
+218,TGO,Togo,3
