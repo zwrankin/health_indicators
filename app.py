@@ -62,7 +62,7 @@ app.layout = html.Div([
             max=7,
             step=1,
             marks={i: str(i) for i in range(2, 7 + 1)},
-            value=3,
+            value=6,
         ),
         html.P('_'),
         dcc.RadioItems(
@@ -114,31 +114,32 @@ app.layout = html.Div([
             ]),
             dcc.Tab(label='Comparisons', children=[
                 # RIGHT SIDE
-                # html.Div([
+                dcc.Markdown('*Locations to compare*'),
                 dcc.RadioItems(
                     id='entity-type',
                     options=[{'label': i, 'value': i} for i in ['Countries', 'Clusters']],
                     value='Countries',
                     labelStyle={'display': 'inline-block'},
                 ),
+                dcc.Markdown('*Whether to plot value or comparison to selected location*'),
                 dcc.RadioItems(
                     id='comparison-type',
                     options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
                     value='Value',
                     labelStyle={'display': 'inline-block'},
                 ),
-        html.P('Additional countries'),
-            dcc.Dropdown(
-            id='countries',
-            options=[{'label': i, 'value': i} for i in df_wide.location_name.unique()],
-            multi=True,
-            # value=[i for i in indicators]
-        ),
+                dcc.Markdown('*Additional countries to plot*'),
+                dcc.Dropdown(
+                    id='countries',
+                    options=[{'label': i, 'value': i} for i in df_wide.location_name.unique()],
+                    multi=True,
+                ),
                 dcc.Graph(id='similarity_scatter'),
 
             ]),
 
             dcc.Tab(label='Time Trends', children=[
+                dcc.Markdown('*For Under-5 Mortality forecasted until 2030, see [SDG Visualization](http://ihmeuw.org/4prj)*'),
                 dcc.Graph(id='time-series'),
             ]),
 
