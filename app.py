@@ -209,10 +209,10 @@ def update_map(data_json):
             showscale=False,  # Color key unnecessary since clusters are arbitrary and have key in scatterplot
         )],
         layout=dict(
-            title='Hover over map to select scatterplot country or cluster',
+            title='Hover over map to select country to plot',
             height=500,
             geo=dict(showframe=False,
-                     projection={'type': 'Mercator'}))  # 'natural earth
+                     projection={'type': 'Mercator'}))
     )
 
 
@@ -220,9 +220,19 @@ def update_map(data_json):
     dash.dependencies.Output('scatterplot', 'figure'),
     [dash.dependencies.Input('xaxis-column', 'value'),
      dash.dependencies.Input('yaxis-column', 'value'),
+     dash.dependencies.Input('county-choropleth', 'hoverData'),
      dash.dependencies.Input('clustered-data', 'children')])
-def update_graph(xaxis_column_name, yaxis_column_name, data_json):
+def update_graph(xaxis_column_name, yaxis_column_name, hoverData, data_json):
+    if hoverData is None:  # Initialize before any hovering
+        location_name = 'Nigeria'
+    else:
+        location_name = hoverData['points'][0]['text']
     df_c = pd.read_json(data_json).sort_values('cluster')
+    # Make size of marker respond to map hover
+    df_c['size'] = 12
+    df_c.loc[df_c.location_name == location_name, 'size'] = 30
+    # Make selected country last (so it plots on top)
+    df_c = pd.concat([df_c[df_c.location_name != location_name], df_c[df_c.location_name == location_name]])
     return {
         'data': [
             go.Scatter(
@@ -232,7 +242,7 @@ def update_graph(xaxis_column_name, yaxis_column_name, data_json):
                 mode='markers',
                 opacity=0.7,
                 marker={
-                    'size': 12,
+                    'size': df_c[df_c['cluster'] == i]['size'], # 12,
                     'color': df_c[df_c['cluster'] == i]['color'],  # palette[i], #
                     'line': {'width': 0.5, 'color': 'white'}
                 },
@@ -282,7 +292,8 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
             title = f'Indicators of countries relative to {location_name}'
         df_similar = df_similar.reset_index().melt(id_vars='location_name', var_name='indicator')
         df_similar.sort_values(['location_name', 'indicator'], ascending=[True, False], inplace=True)
-
+        df_similar['size'] = 10
+        df_similar.loc[df_similar.location_name == location_name, 'size'] = 14
         plot = [go.Scatter(
             x=df_similar[df_similar['location_name'] == i]['value'],
             y=df_similar[df_similar['location_name'] == i]['indicator'],
@@ -290,7 +301,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
             mode='markers',
             opacity=0.7,
             marker={
-                'size': 10,
+                'size': df_similar[df_similar['location_name'] == i]['size'],
                 'line': {'width': 0.5, 'color': 'white'}
             },
             name=str(i)
