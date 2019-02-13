@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 import plotly.graph_objs as go
-from src.visualization.utils import get_palette, palette
+from src.visualization.utils import get_palette
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -35,16 +35,18 @@ top_markdown_text = '''
 '''
 
 overview_markdown_text = '''
-The Global Burden of Disease estimates many indicators relevant to child health. Understanding temporal and geographic 
+The Global Burden of Disease estimates many child health indicators. Understanding temporal and geographic 
 patterns can provide insights to attaining Sustainable Development Goal 3.2 (reduce child mortality to <25 per 100K births).  
-This clustering analysis examines how epidemiologic patterns can both follow and defy geographic proximity. 
+This clustering analysis examines how epidemiologic patterns can both follow and defy traditional geographic categories. 
 Clusters are assigned by a k-means clustering algorithm using selected indicators and number of clusters.  
-**Indicators values are scaled 0-100**: 0 represents the lowest globally observed value and 100 the highest.
+**Indicators values are scaled 0-100 with 100 representing highest burden**: 
 '''
+# 0 represents the 2.5th percentile of globally observed values and 100 the 97.5th percentile.
+# Available indicators include the top global risks and causes from 2017.
 
 bottom_markdown_text = '''
 Estimates by the [Institute for Health Metrics and Evaluation](http://www.healthdata.org/) and available 
-[here](http://ghdx.healthdata.org/gbd-2016)  
+[here](http://ghdx.healthdata.org/gbd-2017)  
 Visualization by [Zane Rankin](https://github.com/zwrankin/health_indicators)
 '''
 
@@ -68,7 +70,7 @@ app.layout = html.Div([
         dcc.RadioItems(
             id='year',
             options=[{'label': i, 'value': i} for i in year_ids],
-            value=2016,
+            value=2017,
             labelStyle={'display': 'inline-block'},
         ),
 
@@ -81,6 +83,7 @@ app.layout = html.Div([
         ),
 
         dcc.Graph(id='county-choropleth'),
+        dcc.Markdown(children=bottom_markdown_text)
     ], style={'float': 'left', 'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
 
     # RIGHT - Tabs
@@ -99,11 +102,11 @@ app.layout = html.Div([
                     # Dropdown options are set dynamically through callback
                     dcc.Dropdown(
                         id='xaxis-column',
-                        value='log_LDI'
+                        value='Low GDP per capita'
                     ),
                     dcc.Dropdown(
                         id='yaxis-column',
-                        value='U5MR'
+                        value='Under-5 Mortality Rate'
                     ),
                 ]),
 
@@ -139,16 +142,13 @@ app.layout = html.Div([
             ]),
 
             dcc.Tab(label='Time Trends', children=[
-                dcc.Markdown('*For Under-5 Mortality forecasted until 2030, see [SDG Visualization](http://ihmeuw.org/4prj)*'),
+                dcc.Markdown(
+                    '*For Under-5 Mortality forecasted until 2030, see [SDG Visualization](http://ihmeuw.org/4prj)*'),
                 dcc.Graph(id='time-series'),
             ]),
 
         ]),
     ], style={'float': 'right', 'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
-
-    html.Div([
-        dcc.Markdown(children=bottom_markdown_text),
-    ], style={'float': 'left'}),
 
 ])
 
@@ -177,8 +177,9 @@ def cluster_kmeans(n_clusters, indicators, year):
     # Get U5MR by cluster and map cluster number to rank
     df_ordered = df_wide.query(f'year_id == {year}')
     df_ordered['cluster'] = kmean.labels_
-    df_ordered = df_ordered.groupby('cluster')['U5MR'].mean().reset_index()
-    df_ordered['U5MR_rank'] = df_ordered['U5MR'].rank().astype('int') - 1  # rank starts at 1, we want 0-indexed
+    df_ordered = df_ordered.groupby('cluster')['Under-5 Mortality Rate'].mean().reset_index()
+    df_ordered['U5MR_rank'] = df_ordered['Under-5 Mortality Rate'].rank().astype(
+        'int') - 1  # rank starts at 1, we want 0-indexed
     cluster_map = df_ordered.set_index('cluster')['U5MR_rank'].to_dict()
 
     # Set cluster equal to U5MR rank
@@ -210,7 +211,7 @@ def update_map(data_json):
         )],
         layout=dict(
             title='Hover over map to select country to plot',
-            height=500,
+            height=600,
             geo=dict(showframe=False,
                      projection={'type': 'Mercator'}))
     )
@@ -242,7 +243,7 @@ def update_graph(xaxis_column_name, yaxis_column_name, hoverData, data_json):
                 mode='markers',
                 opacity=0.7,
                 marker={
-                    'size': df_c[df_c['cluster'] == i]['size'], # 12,
+                    'size': df_c[df_c['cluster'] == i]['size'],  # 12,
                     'color': df_c[df_c['cluster'] == i]['color'],  # palette[i], #
                     'line': {'width': 0.5, 'color': 'white'}
                 },
@@ -341,7 +342,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
         'layout': go.Layout(
             title=title,
             height=150 + 20 * len(indicators),
-            margin={'l': 220, 'b': 30, 't': 30, 'r': 0},
+            margin={'l': 200, 'b': 30, 't': 30, 'r': 0},
             hovermode='closest'
         )
     }
@@ -374,7 +375,7 @@ def update_timeseries(hoverData, indicators):
         ],
         'layout': go.Layout(
             title=location_name,
-            height=550,
+            height=650,
             margin={'l': 22, 'b': 30, 't': 30, 'r': 0},
             hovermode='closest',
         )
