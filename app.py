@@ -89,7 +89,7 @@ app.layout = html.Div([
     # RIGHT - Tabs
     html.Div([
         dcc.Tabs(id="tabs", style={
-            'textAlign': 'left', 'margin': '48px 0', 'fontFamily': 'system-ui'}, children=[
+            'textAlign': 'left', 'margin': '48px 0', 'fontSize': 18, 'color': 'blue'}, children=[
 
             dcc.Tab(label='Clustering', children=[
 
