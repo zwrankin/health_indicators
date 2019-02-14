@@ -1,6 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
@@ -153,22 +154,22 @@ app.layout = html.Div([
 ])
 
 
-@app.callback(dash.dependencies.Output('xaxis-column', 'options'),
-              [dash.dependencies.Input('indicators', 'value')])
+@app.callback(Output('xaxis-column', 'options'),
+              [Input('indicators', 'value')])
 def set_xaxis_options(indicators):
     return [{'label': i, 'value': i} for i in indicators]
 
 
-@app.callback(dash.dependencies.Output('yaxis-column', 'options'),
-              [dash.dependencies.Input('indicators', 'value')])
+@app.callback(Output('yaxis-column', 'options'),
+              [Input('indicators', 'value')])
 def set_yaxis_options(indicators):
     return [{'label': i, 'value': i} for i in indicators]
 
 
-@app.callback(dash.dependencies.Output('clustered-data', 'children'),
-              [dash.dependencies.Input('n-clusters', 'value'),
-               dash.dependencies.Input('indicators', 'value'),
-               dash.dependencies.Input('year', 'value')])
+@app.callback(Output('clustered-data', 'children'),
+              [Input('n-clusters', 'value'),
+               Input('indicators', 'value'),
+               Input('year', 'value')])
 def cluster_kmeans(n_clusters, indicators, year):
     df_c = df_wide.query(f'year_id == {year}')[['location_name'] + indicators].set_index('location_name')
     kmean = KMeans(n_clusters=n_clusters, random_state=0)
@@ -191,8 +192,8 @@ def cluster_kmeans(n_clusters, indicators, year):
 
 
 @app.callback(
-    dash.dependencies.Output('county-choropleth', 'figure'),
-    [dash.dependencies.Input('clustered-data', 'children')])
+    Output('county-choropleth', 'figure'),
+    [Input('clustered-data', 'children')])
 def update_map(data_json):
     df_c = pd.read_json(data_json)
     n_clusters = len(df_c.cluster.unique())
@@ -218,11 +219,11 @@ def update_map(data_json):
 
 
 @app.callback(
-    dash.dependencies.Output('scatterplot', 'figure'),
-    [dash.dependencies.Input('xaxis-column', 'value'),
-     dash.dependencies.Input('yaxis-column', 'value'),
-     dash.dependencies.Input('county-choropleth', 'hoverData'),
-     dash.dependencies.Input('clustered-data', 'children')])
+    Output('scatterplot', 'figure'),
+    [Input('xaxis-column', 'value'),
+     Input('yaxis-column', 'value'),
+     Input('county-choropleth', 'hoverData'),
+     Input('clustered-data', 'children')])
 def update_graph(xaxis_column_name, yaxis_column_name, hoverData, data_json):
     if hoverData is None:  # Initialize before any hovering
         location_name = 'Nigeria'
@@ -262,14 +263,14 @@ def update_graph(xaxis_column_name, yaxis_column_name, hoverData, data_json):
 
 
 @app.callback(
-    dash.dependencies.Output('similarity_scatter', 'figure'),
-    [dash.dependencies.Input('county-choropleth', 'hoverData'),
-     dash.dependencies.Input('entity-type', 'value'),
-     dash.dependencies.Input('comparison-type', 'value'),
-     dash.dependencies.Input('indicators', 'value'),
-     dash.dependencies.Input('year', 'value'),
-     dash.dependencies.Input('countries', 'value'),
-     dash.dependencies.Input('clustered-data', 'children')])
+    Output('similarity_scatter', 'figure'),
+    [Input('county-choropleth', 'hoverData'),
+     Input('entity-type', 'value'),
+     Input('comparison-type', 'value'),
+     Input('indicators', 'value'),
+     Input('year', 'value'),
+     Input('countries', 'value'),
+     Input('clustered-data', 'children')])
 def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year, countries, data_json):
     if hoverData is None:  # Initialize before any hovering
         location_name = 'Nigeria'
@@ -349,9 +350,9 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
 
 
 @app.callback(
-    dash.dependencies.Output('time-series', 'figure'),
-    [dash.dependencies.Input('county-choropleth', 'hoverData'),
-     dash.dependencies.Input('indicators', 'value'), ])
+    Output('time-series', 'figure'),
+    [Input('county-choropleth', 'hoverData'),
+     Input('indicators', 'value'), ])
 def update_timeseries(hoverData, indicators):
     if hoverData is None:  # Initialize before any hovering
         location_name = 'Nigeria'
