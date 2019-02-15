@@ -1,6 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_daq as daq
 from dash.dependencies import Input, Output
 import numpy as np
 import pandas as pd
@@ -30,7 +31,6 @@ df_wide = df.pivot_table(index=index_vars, columns='indicator', values='val').re
 df_wide = pd.merge(location_metadata, df_wide)
 ################################################################################################################
 
-
 top_markdown_text = '''
 ### Global Burden of Disease - Child Health Indicators
 '''
@@ -40,7 +40,7 @@ The Global Burden of Disease estimates many child health indicators. Understandi
 patterns can provide insights to attaining Sustainable Development Goal 3.2 (reduce child mortality to <25 per 100K births).  
 This clustering analysis examines how epidemiologic patterns can both follow and defy traditional geographic categories. 
 Clusters are assigned by a k-means clustering algorithm using selected indicators and number of clusters.  
-**Indicators values are scaled 0-100 with 100 representing highest burden**: 
+**Indicator values are scaled 0-100 with 100 representing highest burden**: 
 '''
 # 0 represents the 2.5th percentile of globally observed values and 100 the 97.5th percentile.
 # Available indicators include the top global risks and causes from 2017.
@@ -48,8 +48,15 @@ Clusters are assigned by a k-means clustering algorithm using selected indicator
 bottom_markdown_text = '''
 Estimates by the [Institute for Health Metrics and Evaluation](http://www.healthdata.org/) and available 
 [here](http://ghdx.healthdata.org/gbd-2017)  
-Visualization by [Zane Rankin](https://github.com/zwrankin/health_indicators)
+Visualization by [Zane Rankin](https://github.com/zwrankin/health_indicators)  
 '''
+# Visit [GBD Compare](https://vizhub.healthdata.org/gbd-compare/#) for complete GBD results visualization.
+
+
+def make_colorscale(n):
+    """Maps [0,n] palette to [0,1] scale to fit Plotly colorscale"""
+    return [[k / (n - 1), get_palette(n)[k]] for k in range(0, n)]
+
 
 app.layout = html.Div([
 
@@ -116,8 +123,8 @@ app.layout = html.Div([
                 ]),
 
             ]),
+
             dcc.Tab(label='Comparisons', children=[
-                # RIGHT SIDE
                 dcc.Markdown('*Locations to compare*'),
                 dcc.RadioItems(
                     id='entity-type',
@@ -131,6 +138,11 @@ app.layout = html.Div([
                     options=[{'label': i, 'value': i} for i in ['Value', 'Comparison']],
                     value='Value',
                     labelStyle={'display': 'inline-block'},
+                ),
+                daq.BooleanSwitch(
+                    id='connect-dots',
+                    label="Connect Dots",
+                    on=True,
                 ),
                 dcc.Markdown('*Additional countries to plot*'),
                 dcc.Dropdown(
@@ -180,7 +192,7 @@ def cluster_kmeans(n_clusters, indicators, year):
     kmean = KMeans(n_clusters=n_clusters, random_state=0)
     kmean.fit(df_c)
 
-    # Get U5MR by cluster and map cluster number to rank
+    # Rank cluster ids by mean U5MR within cluster
     df_ordered = df_wide.query(f'year_id == {year}')
     df_ordered['cluster'] = kmean.labels_
     df_ordered = df_ordered.groupby('cluster')['Under-5 Mortality Rate'].mean().reset_index()
@@ -202,8 +214,7 @@ def cluster_kmeans(n_clusters, indicators, year):
 def update_map(data_json):
     df_c = pd.read_json(data_json)
     n_clusters = len(df_c.cluster.unique())
-    colorscale = [[k / (n_clusters - 1), get_palette(n_clusters)[k]] for k in
-                  range(0, n_clusters)]  # choropleth colorscale seems to need 0-1 range
+    colorscale = make_colorscale(n_clusters)
 
     return dict(
         data=[dict(
@@ -275,14 +286,20 @@ def update_graph(xaxis_column_name, yaxis_column_name, hoverData, data_json):
      Input('indicators', 'value'),
      Input('year', 'value'),
      Input('countries', 'value'),
+     Input('connect-dots', 'on'),
      Input('clustered-data', 'children')])
-def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year, countries, data_json):
+def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year, countries, connect_dots, data_json):
     if hoverData is None:  # Initialize before any hovering
         location_name = 'Nigeria'
         cluster = 0
     else:
         location_name = hoverData['points'][0]['text']
         cluster = hoverData['points'][0]['z']
+
+    if connect_dots:
+        mode = 'lines+markers'
+    else:
+        mode = 'markers'
 
     if entity_type == 'Countries':
         data = df_wide.query(f'year_id == {year}')[['location_name'] + indicators].set_index('location_name')
@@ -305,7 +322,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
             x=df_similar[df_similar['location_name'] == i]['value'],
             y=df_similar[df_similar['location_name'] == i]['indicator'],
             text=str(i),
-            mode='markers',
+            mode=mode,
             opacity=0.7,
             marker={
                 'size': df_similar[df_similar['location_name'] == i]['size'],
@@ -333,7 +350,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
             x=df_cluster[df_cluster['cluster'] == i]['value'],
             y=df_cluster[df_cluster['cluster'] == i]['variable'],
             text=str(i),
-            mode='markers',
+            mode=mode,
             opacity=0.7,
             marker={
                 'size': 10,
@@ -395,8 +412,7 @@ def update_timeseries(hoverData, indicators):
 def update_parallel_coords(indicators, data_json):
     df_c = pd.read_json(data_json).sort_values('cluster')
     n_clusters = len(df_c.cluster.unique())
-    colorscale = [[k / (n_clusters - 1), get_palette(n_clusters)[k]] for k in
-                  range(0, n_clusters)]  # choropleth colorscale seems to need 0-1 range
+    colorscale = make_colorscale(n_clusters)
 
     # Since I can't seem to get vertical axis labels, only plot a subset of indicators for clarity
     if 'Under-5 Mortality Rate' in indicators:
@@ -427,7 +443,7 @@ def update_parallel_coords(indicators, data_json):
         ],
         'layout': go.Layout(
             title='Beta version - Only first 10 indicators are plotted ',
-            xaxis=dict(visible=False, tickangle=-90),  # , range=(0, 10), title='TEST'
+            xaxis=dict(visible=False, tickangle=-90),  # Can't seem to rotate axis tick labels
             height=650,
         )
     }
