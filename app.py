@@ -35,8 +35,9 @@ top_markdown_text = '''
 '''
 
 overview_markdown_text = '''
-*[Sustainable Development Goal 3.2](https://www.who.int/sdg/targets/en/): By 2030, end preventable deaths of newborns and children under 5 years of age, with all countries aiming to reduce [...] under-5 mortality to at least as low as 25 per 1000 live births.*  
-The Global Burden of Disease estimates many child health indicators that inform efforts to achieve SDG 3.2.  
+The Global Burden of Disease estimates many child health indicators that inform efforts to achieve [Sustainable Development Goal 3.2](https://www.who.int/sdg/targets/en/).  
+> By 2030, end preventable deaths of newborns and children under 5 years of age, with all countries aiming to reduce [...] under-5 mortality to at least as low as 25 per 1000 live births.  
+
 This clustering analysis examines how epidemiologic patterns can both follow and defy traditional geographic categories. 
 Clusters are assigned by a k-means clustering algorithm using selected indicators and number of clusters.  
 **Indicator values are scaled 0-100 with 100 representing highest burden** 
