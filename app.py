@@ -57,6 +57,9 @@ def make_colorscale(n):
     return [[k / (n - 1), get_palette(n)[k]] for k in range(0, n)]
 
 
+# Style settings for Plotly graphs (Plotly does not provide CSS interface - https://community.plot.ly/t/set-plot-colours-with-external-css/6319)
+plotly_font_size = 16
+
 app.layout = html.Div([
 
     # LEFT - Global options and map
@@ -73,7 +76,7 @@ app.layout = html.Div([
             marks={i: str(i) for i in range(2, 7 + 1)},
             value=6,
         ),
-        html.P('_'),
+        html.P('.'),
         dcc.RadioItems(
             id='year',
             options=[{'label': i, 'value': i} for i in year_ids],
@@ -119,7 +122,7 @@ app.layout = html.Div([
 
                 html.Div([
                     dcc.Graph(id='scatterplot'),
-                ]),
+                ], style={'fontSize': plotly_font_size}),
 
             ]),
 
@@ -236,6 +239,7 @@ def update_map(data_json):
         layout=dict(
             title='Hover over map to select country to plot',
             height=600,
+            font=dict(size=plotly_font_size),
             geo=dict(showframe=False,
                      projection={'type': 'Mercator'}))
     )
@@ -278,9 +282,10 @@ def update_graph(xaxis_column_name, yaxis_column_name, hoverData, data_json):
             height=500,
             xaxis={'title': xaxis_column_name},
             yaxis={'title': yaxis_column_name},
-            margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
+            margin={'l': 80, 'b': 60, 't': 10, 'r': 10},
             legend={'x': 0, 'y': 1},
-            hovermode='closest'
+            hovermode='closest',
+            font=dict(size=plotly_font_size),
         )
     }
 
@@ -379,8 +384,9 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
         'layout': go.Layout(
             title=title,
             height=150 + 20 * len(indicators),
-            margin={'l': 200, 'b': 30, 't': 30, 'r': 0},
-            hovermode='closest'
+            margin={'l': 300, 'b': 30, 't': 50, 'r': 0},
+            hovermode='closest',
+            font=dict(size=plotly_font_size),
         )
     }
 
@@ -413,8 +419,9 @@ def update_timeseries(hoverData, indicators):
         'layout': go.Layout(
             title=location_name,
             height=650,
-            margin={'l': 22, 'b': 30, 't': 30, 'r': 0},
+            margin={'l': 30, 'b': 30, 't': 40, 'r': 0},
             hovermode='closest',
+            font=dict(size=plotly_font_size),
         )
     }
 
@@ -459,6 +466,7 @@ def update_parallel_coords(indicators, data_json):
             title='Beta version - Only first 10 indicators are plotted ',
             xaxis=dict(visible=False, tickangle=-90),  # Can't seem to rotate axis tick labels
             height=650,
+            font=dict(size=plotly_font_size),
         )
     }
 
