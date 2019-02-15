@@ -350,7 +350,8 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
 
         df_cluster = df_cluster.reset_index().melt(id_vars='cluster')
         n_clusters = len(df_c.cluster.unique())
-        df_cluster['color'] = df_cluster.cluster.map(get_palette(n_clusters))
+        palette = get_palette(n_clusters)
+        df_cluster['color'] = df_cluster.cluster.map(palette)
         df_cluster.sort_values(['cluster', 'variable'], ascending=[True, False], inplace=True)
 
         plot = [go.Scatter(
@@ -363,6 +364,10 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
                 'size': 10,
                 'color': df_cluster[df_cluster['cluster'] == i]['color'],
                 'line': {'width': 0.5, 'color': 'white'}
+            },
+            line={
+                'width': 2,
+                'color': palette[i],
             },
             name=f'Cluster {i}'
         ) for i in df_cluster.cluster.unique()
