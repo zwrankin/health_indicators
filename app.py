@@ -322,7 +322,9 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
             df_similar = (df_similar - l_data)
             title = f'Indicators of countries relative to {location_name}'
         df_similar = df_similar.reset_index().melt(id_vars='location_name', var_name='indicator')
-        df_similar.sort_values(['location_name', 'indicator'], ascending=[True, False], inplace=True)
+        # Sort by similarity
+        df_similar = pd.merge(df_similar, pd.Series(similarity, name='similarity').reset_index())
+        df_similar.sort_values(['similarity', 'indicator'], ascending=[True, False], inplace=True)
         df_similar['size'] = 10
         df_similar.loc[df_similar.location_name == location_name, 'size'] = 14
         plot = [go.Scatter(
@@ -330,7 +332,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
             y=df_similar[df_similar['location_name'] == i]['indicator'],
             text=str(i),
             mode=mode,
-            opacity=0.7,
+            opacity=1 if i == location_name else .5,
             marker={
                 'size': df_similar[df_similar['location_name'] == i]['size'],
                 'line': {'width': 0.5, 'color': 'white'}
