@@ -6,6 +6,7 @@ Click==7.0
 colorama==0.4.1
 dash==0.35.1
 dash-core-components==0.42.1
+dash-daq==0.1.0
 dash-html-components==0.13.4
 dash-renderer==0.17.0
 dash-table==3.1.11
