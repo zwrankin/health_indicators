@@ -139,15 +139,23 @@ app.layout = html.Div([
                     value='Value',
                     labelStyle={'display': 'inline-block'},
                 ),
-                daq.BooleanSwitch(
+                dcc.Markdown('*Connect dots*'),
+                dcc.RadioItems(
                     id='connect-dots',
-                    label="Connect Dots",
-                    on=True,
+                    options=[{'label': 'No', 'value': False}, {'label': 'Yes', 'value': True}],
+                    value=True,
+                    labelStyle={'display': 'inline-block'},
                 ),
-                dcc.Markdown('*Additional countries to plot*'),
+                # daq seems to have Heroku compatibility issues
+                # daq.BooleanSwitch(
+                #     id='connect-dots',
+                #     label="Connect Dots",
+                #     on=True,
+                # ),
                 dcc.Dropdown(
                     id='countries',
                     options=[{'label': i, 'value': i} for i in df_wide.location_name.unique()],
+                    placeholder="Select additional countries to plot",
                     multi=True,
                 ),
                 dcc.Graph(id='similarity_scatter'),
@@ -286,7 +294,7 @@ def update_graph(xaxis_column_name, yaxis_column_name, hoverData, data_json):
      Input('indicators', 'value'),
      Input('year', 'value'),
      Input('countries', 'value'),
-     Input('connect-dots', 'on'),
+     Input('connect-dots', 'value'),
      Input('clustered-data', 'children')])
 def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year, countries, connect_dots, data_json):
     if hoverData is None:  # Initialize before any hovering
