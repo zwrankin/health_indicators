@@ -92,6 +92,8 @@ app.layout = html.Div([
             value=[i for i in indicators]
         ),
 
+        html.P('.'),
+        dcc.Markdown('*Hover over map to select country for plots*'),
         dcc.Graph(id='county-choropleth'),
         dcc.Markdown(children=bottom_markdown_text)
     ], style={'float': 'left', 'width': '39%', 'display': 'inline-block', 'padding': '0 20'}),
@@ -240,9 +242,10 @@ def update_map(data_json):
             showscale=False,  # Color key unnecessary since clusters are arbitrary and have key in scatterplot
         )],
         layout=dict(
-            title='Hover over map to select country to plot',
-            height=600,
+            # title='Hover over map to select country to plot',
+            height=500,
             font=dict(size=plotly_font_size),
+            margin={'l': 0, 'b': 0, 't': 0, 'r': 0},
             geo=dict(showframe=False,
                      projection={'type': 'Mercator'}))
     )
