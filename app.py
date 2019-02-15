@@ -170,10 +170,10 @@ app.layout = html.Div([
                 dcc.Graph(id='time-series'),
             ]),
 
-            dcc.Tab(label='Parallel Coordinates', children=[
-                dcc.Graph(id='parallel-coords'),
-                dcc.Markdown('*Tips: drag along y axis to subset lines, and drag indicator names to reorder columns*')
-            ]),
+            # dcc.Tab(label='Parallel Coordinates', children=[
+            #     dcc.Graph(id='parallel-coords'),
+            #     dcc.Markdown('*Tips: drag along y axis to subset lines, and drag indicator names to reorder columns*')
+            # ]),
 
         ]),
     ], style={'float': 'right', 'width': '59%', 'display': 'inline-block', 'padding': '0 20'}),
@@ -425,50 +425,50 @@ def update_timeseries(hoverData, indicators):
         )
     }
 
-
-@app.callback(
-    Output('parallel-coords', 'figure'),
-    [Input('indicators', 'value'),
-     Input('clustered-data', 'children')])
-def update_parallel_coords(indicators, data_json):
-    df_c = pd.read_json(data_json).sort_values('cluster')
-    n_clusters = len(df_c.cluster.unique())
-    colorscale = make_colorscale(n_clusters)
-
-    # Since I can't seem to get vertical axis labels, only plot a subset of indicators for clarity
-    if 'Under-5 Mortality Rate' in indicators:
-        indicators = ['Under-5 Mortality Rate'] + indicators[:9]
-    else:
-        indicators = indicators[:10]
-
-    # Want U5MR to be the first column with special constraint range, if in indicator list
-    dims = list([dict(
-        range=[0, 100],
-        tickvals=[100],
-        name=i,
-        label=i, values=df_c[i], )
-        for i in indicators if i != 'Under-5 Mortality Rate'])
-    if 'Under-5 Mortality Rate' in indicators:
-        dims = [dict(
-            range=[0, 100], constraintrange=[0, 100],
-            name='U5MR',
-            label='U5MR', values=df_c['Under-5 Mortality Rate'])] + dims
-
-    return {
-        'data': [
-            go.Parcoords(
-                line=dict(color=df_c['cluster'], colorscale=colorscale),
-                dimensions=dims,
-                # hoverinfo='name', hovering doesn't seem to work for paarcords
-            )
-        ],
-        'layout': go.Layout(
-            title='Beta version - Only first 10 indicators are plotted ',
-            xaxis=dict(visible=False, tickangle=-90),  # Can't seem to rotate axis tick labels
-            height=650,
-            font=dict(size=plotly_font_size),
-        )
-    }
+#
+# @app.callback(
+#     Output('parallel-coords', 'figure'),
+#     [Input('indicators', 'value'),
+#      Input('clustered-data', 'children')])
+# def update_parallel_coords(indicators, data_json):
+#     df_c = pd.read_json(data_json).sort_values('cluster')
+#     n_clusters = len(df_c.cluster.unique())
+#     colorscale = make_colorscale(n_clusters)
+#
+#     # Since I can't seem to get vertical axis labels, only plot a subset of indicators for clarity
+#     if 'Under-5 Mortality Rate' in indicators:
+#         indicators = ['Under-5 Mortality Rate'] + indicators[:9]
+#     else:
+#         indicators = indicators[:10]
+#
+#     # Want U5MR to be the first column with special constraint range, if in indicator list
+#     dims = list([dict(
+#         range=[0, 100],
+#         tickvals=[100],
+#         name=i,
+#         label=i, values=df_c[i], )
+#         for i in indicators if i != 'Under-5 Mortality Rate'])
+#     if 'Under-5 Mortality Rate' in indicators:
+#         dims = [dict(
+#             range=[0, 100], constraintrange=[0, 100],
+#             name='U5MR',
+#             label='U5MR', values=df_c['Under-5 Mortality Rate'])] + dims
+#
+#     return {
+#         'data': [
+#             go.Parcoords(
+#                 line=dict(color=df_c['cluster'], colorscale=colorscale),
+#                 dimensions=dims,
+#                 # hoverinfo='name', hovering doesn't seem to work for paarcords
+#             )
+#         ],
+#         'layout': go.Layout(
+#             title='Beta version - Only first 10 indicators are plotted ',
+#             xaxis=dict(visible=False, tickangle=-90),  # Can't seem to rotate axis tick labels
+#             height=650,
+#             font=dict(size=plotly_font_size),
+#         )
+#     }
 
 
 if __name__ == '__main__':
