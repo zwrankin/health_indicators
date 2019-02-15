@@ -35,11 +35,11 @@ top_markdown_text = '''
 '''
 
 overview_markdown_text = '''
-The Global Burden of Disease estimates many child health indicators. Understanding temporal and geographic 
-patterns can provide insights to attaining Sustainable Development Goal 3.2 (reduce child mortality to <25 per 100K births).  
+*[Sustainable Development Goal 3.2](https://www.who.int/sdg/targets/en/): By 2030, end preventable deaths of newborns and children under 5 years of age, with all countries aiming to reduce [...] under-5 mortality to at least as low as 25 per 1000 live births.*  
+The Global Burden of Disease estimates many child health indicators that inform efforts to achieve SDG 3.2.  
 This clustering analysis examines how epidemiologic patterns can both follow and defy traditional geographic categories. 
 Clusters are assigned by a k-means clustering algorithm using selected indicators and number of clusters.  
-**Indicator values are scaled 0-100 with 100 representing highest burden**: 
+**Indicator values are scaled 0-100 with 100 representing highest burden** 
 '''
 # 0 represents the 2.5th percentile of globally observed values and 100 the 97.5th percentile.
 # Available indicators include the top global risks and causes from 2017.
@@ -96,6 +96,10 @@ app.layout = html.Div([
         dcc.Markdown(children=bottom_markdown_text)
     ], style={'float': 'left', 'width': '39%', 'display': 'inline-block', 'padding': '0 20'}),
 
+html.Div([
+    dcc.Markdown(children=overview_markdown_text),
+], style={'float': 'right', 'width': '59%', 'display': 'inline-block', 'padding': '0 20'}),
+
     # RIGHT - Tabs
     html.Div([
         dcc.Tabs(id="tabs", style={
@@ -107,7 +111,6 @@ app.layout = html.Div([
                 html.Div(id='clustered-data', style={'display': 'none'}),
 
                 html.Div([
-                    dcc.Markdown(children=overview_markdown_text),
 
                     # Dropdown options are set dynamically through callback
                     dcc.Dropdown(
