@@ -20,7 +20,9 @@ server = app.server
 # Load
 df = pd.read_csv('./data/processed/GBD_child_health_indicators.csv')
 location_metadata = pd.read_csv('./data/metadata/gbd_location_metadata.csv')
-indicators = list(df.indicator.unique())
+all_indicators = list(df.indicator.unique())
+# There are some wonky indicators to not include in default list
+my_inds = [x for x in all_indicators if x not in ['Low birth weight for gestation', 'Short gestation for birth weight']]
 n_neighbors = 4
 year_ids = list(df.year_id.unique())
 
@@ -88,9 +90,9 @@ app.layout = html.Div([
         html.P('Indicators to include in clustering algorithm'),
         dcc.Dropdown(
             id='indicators',
-            options=[{'label': i, 'value': i} for i in indicators],
+            options=[{'label': i, 'value': i} for i in all_indicators],
             multi=True,
-            value=[i for i in indicators]
+            value=[i for i in my_inds]
         ),
 
         html.P('.'),
@@ -244,7 +246,7 @@ def update_map(data_json):
         )],
         layout=dict(
             # title='Hover over map to select country to plot',
-            height=500,
+            height=400,
             font=dict(size=plotly_font_size),
             margin={'l': 0, 'b': 0, 't': 0, 'r': 0},
             geo=dict(showframe=False,
