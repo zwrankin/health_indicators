@@ -3,9 +3,8 @@ health_indicators
 
 Exploring national health indicators using primary data sources (the Demographic and Health Survey API) and global estimates (the Global Burden of Disease)
 
-## Visualization
-Interactive visualization for clustering of child health indicators: 
-https://sdg-indicators.herokuapp.com/
+This repo supports the article on [Data, Science, and Sustainable Development](https://medium.com/@zwrankin/data-science-and-sustainable-development-challenging-historical-paradigms-with-k-means-b1b39305e3e7)
+and corresponding interactive visualization on Heroku: https://sdg-3.herokuapp.com/
 ![Alt text](readme_images/app_snapsnot.JPG?raw=true "App snapshot")
 
 ### Data sources

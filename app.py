@@ -37,12 +37,13 @@ top_markdown_text = '''
 '''
 
 overview_markdown_text = '''
-The Global Burden of Disease estimates many child health indicators that inform efforts to achieve [Sustainable Development Goal 3.2](https://www.who.int/sdg/targets/en/).  
+The Global Burden of Disease estimates many child health indicators that inform efforts to achieve Sustainable Development Goal 3.2:  
 > By 2030, end preventable deaths of newborns and children under 5 years of age, with all countries aiming to reduce [...] under-5 mortality to at least as low as 25 per 1000 live births.  
 
 This clustering analysis examines how epidemiologic patterns can both follow and defy traditional geographic categories. 
 Clusters are assigned by a k-means clustering algorithm using selected indicators and number of clusters.  
-**Indicator values are scaled 0-100 with 100 representing highest burden** 
+**Indicator values are scaled 0-100 with 100 representing highest burden**  
+*To learn more, here is the corresponding blog post on [Data, Science, and Sustainable Development](https://medium.com/@zwrankin/data-science-and-sustainable-development-challenging-historical-paradigms-with-k-means-b1b39305e3e7)*
 '''
 # 0 represents the 2.5th percentile of globally observed values and 100 the 97.5th percentile.
 # Available indicators include the top global risks and causes from 2017.
@@ -346,7 +347,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
             y=df_similar[df_similar['location_name'] == i]['indicator'],
             text=str(i),
             mode=mode,
-            opacity=1 if i == location_name else .5,
+            opacity=1 if i == location_name else .75,
             marker={
                 'size': df_similar[df_similar['location_name'] == i]['size'],
                 'line': {'width': 0.5, 'color': 'white'}
