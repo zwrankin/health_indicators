@@ -20,7 +20,9 @@ server = app.server
 # Load
 df = pd.read_csv('./data/processed/GBD_child_health_indicators.csv')
 location_metadata = pd.read_csv('./data/metadata/gbd_location_metadata.csv')
-indicators = list(df.indicator.unique())
+all_indicators = list(df.indicator.unique())
+# There are some wonky indicators to not include in default list
+my_inds = [x for x in all_indicators if x not in ['Low birth weight for gestation', 'Short gestation for birth weight']]
 n_neighbors = 4
 year_ids = list(df.year_id.unique())
 
@@ -35,11 +37,13 @@ top_markdown_text = '''
 '''
 
 overview_markdown_text = '''
-The Global Burden of Disease estimates many child health indicators. Understanding temporal and geographic 
-patterns can provide insights to attaining Sustainable Development Goal 3.2 (reduce child mortality to <25 per 100K births).  
+The Global Burden of Disease estimates many child health indicators that inform efforts to achieve Sustainable Development Goal 3.2:  
+> By 2030, end preventable deaths of newborns and children under 5 years of age, with all countries aiming to reduce [...] under-5 mortality to at least as low as 25 per 1000 live births.  
+
 This clustering analysis examines how epidemiologic patterns can both follow and defy traditional geographic categories. 
 Clusters are assigned by a k-means clustering algorithm using selected indicators and number of clusters.  
-**Indicator values are scaled 0-100 with 100 representing highest burden**: 
+**Indicator values are scaled 0-100 with 100 representing highest burden**  
+*To learn more, here is the corresponding blog post on [Data, Science, and Sustainable Development](https://medium.com/@zwrankin/data-science-and-sustainable-development-challenging-historical-paradigms-with-k-means-b1b39305e3e7)*
 '''
 # 0 represents the 2.5th percentile of globally observed values and 100 the 97.5th percentile.
 # Available indicators include the top global risks and causes from 2017.
@@ -57,6 +61,9 @@ def make_colorscale(n):
     return [[k / (n - 1), get_palette(n)[k]] for k in range(0, n)]
 
 
+# Style settings for Plotly graphs (Plotly does not provide CSS interface - https://community.plot.ly/t/set-plot-colours-with-external-css/6319)
+plotly_font_size = 16
+
 app.layout = html.Div([
 
     # LEFT - Global options and map
@@ -73,7 +80,7 @@ app.layout = html.Div([
             marks={i: str(i) for i in range(2, 7 + 1)},
             value=6,
         ),
-        html.P('_'),
+        html.P('.'),
         dcc.RadioItems(
             id='year',
             options=[{'label': i, 'value': i} for i in year_ids],
@@ -84,14 +91,20 @@ app.layout = html.Div([
         html.P('Indicators to include in clustering algorithm'),
         dcc.Dropdown(
             id='indicators',
-            options=[{'label': i, 'value': i} for i in indicators],
+            options=[{'label': i, 'value': i} for i in all_indicators],
             multi=True,
-            value=[i for i in indicators]
+            value=[i for i in my_inds]
         ),
 
+        html.P('.'),
+        dcc.Markdown('*Hover over map to select country for plots*'),
         dcc.Graph(id='county-choropleth'),
         dcc.Markdown(children=bottom_markdown_text)
     ], style={'float': 'left', 'width': '39%', 'display': 'inline-block', 'padding': '0 20'}),
+
+html.Div([
+    dcc.Markdown(children=overview_markdown_text),
+], style={'float': 'right', 'width': '59%', 'display': 'inline-block', 'padding': '0 20'}),
 
     # RIGHT - Tabs
     html.Div([
@@ -104,7 +117,6 @@ app.layout = html.Div([
                 html.Div(id='clustered-data', style={'display': 'none'}),
 
                 html.Div([
-                    dcc.Markdown(children=overview_markdown_text),
 
                     # Dropdown options are set dynamically through callback
                     dcc.Dropdown(
@@ -119,7 +131,7 @@ app.layout = html.Div([
 
                 html.Div([
                     dcc.Graph(id='scatterplot'),
-                ]),
+                ], style={'fontSize': plotly_font_size}),
 
             ]),
 
@@ -167,10 +179,10 @@ app.layout = html.Div([
                 dcc.Graph(id='time-series'),
             ]),
 
-            dcc.Tab(label='Parallel Coordinates', children=[
-                dcc.Graph(id='parallel-coords'),
-                dcc.Markdown('*Tips: drag along y axis to subset lines, and drag indicator names to reorder columns*')
-            ]),
+            # dcc.Tab(label='Parallel Coordinates', children=[
+            #     dcc.Graph(id='parallel-coords'),
+            #     dcc.Markdown('*Tips: drag along y axis to subset lines, and drag indicator names to reorder columns*')
+            # ]),
 
         ]),
     ], style={'float': 'right', 'width': '59%', 'display': 'inline-block', 'padding': '0 20'}),
@@ -234,8 +246,10 @@ def update_map(data_json):
             showscale=False,  # Color key unnecessary since clusters are arbitrary and have key in scatterplot
         )],
         layout=dict(
-            title='Hover over map to select country to plot',
-            height=600,
+            # title='Hover over map to select country to plot',
+            height=400,
+            font=dict(size=plotly_font_size),
+            margin={'l': 0, 'b': 0, 't': 0, 'r': 0},
             geo=dict(showframe=False,
                      projection={'type': 'Mercator'}))
     )
@@ -278,9 +292,10 @@ def update_graph(xaxis_column_name, yaxis_column_name, hoverData, data_json):
             height=500,
             xaxis={'title': xaxis_column_name},
             yaxis={'title': yaxis_column_name},
-            margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
+            margin={'l': 80, 'b': 60, 't': 10, 'r': 10},
             legend={'x': 0, 'y': 1},
-            hovermode='closest'
+            hovermode='closest',
+            font=dict(size=plotly_font_size),
         )
     }
 
@@ -332,7 +347,7 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
             y=df_similar[df_similar['location_name'] == i]['indicator'],
             text=str(i),
             mode=mode,
-            opacity=1 if i == location_name else .5,
+            opacity=1 if i == location_name else .75,
             marker={
                 'size': df_similar[df_similar['location_name'] == i]['size'],
                 'line': {'width': 0.5, 'color': 'white'}
@@ -379,8 +394,9 @@ def update_scatterplot(hoverData, entity_type, comparison_type, indicators, year
         'layout': go.Layout(
             title=title,
             height=150 + 20 * len(indicators),
-            margin={'l': 200, 'b': 30, 't': 30, 'r': 0},
-            hovermode='closest'
+            margin={'l': 300, 'b': 30, 't': 50, 'r': 0},
+            hovermode='closest',
+            font=dict(size=plotly_font_size),
         )
     }
 
@@ -413,54 +429,56 @@ def update_timeseries(hoverData, indicators):
         'layout': go.Layout(
             title=location_name,
             height=650,
-            margin={'l': 22, 'b': 30, 't': 30, 'r': 0},
+            margin={'l': 30, 'b': 30, 't': 40, 'r': 0},
             hovermode='closest',
+            font=dict(size=plotly_font_size),
         )
     }
 
-
-@app.callback(
-    Output('parallel-coords', 'figure'),
-    [Input('indicators', 'value'),
-     Input('clustered-data', 'children')])
-def update_parallel_coords(indicators, data_json):
-    df_c = pd.read_json(data_json).sort_values('cluster')
-    n_clusters = len(df_c.cluster.unique())
-    colorscale = make_colorscale(n_clusters)
-
-    # Since I can't seem to get vertical axis labels, only plot a subset of indicators for clarity
-    if 'Under-5 Mortality Rate' in indicators:
-        indicators = ['Under-5 Mortality Rate'] + indicators[:9]
-    else:
-        indicators = indicators[:10]
-
-    # Want U5MR to be the first column with special constraint range, if in indicator list
-    dims = list([dict(
-        range=[0, 100],
-        tickvals=[100],
-        name=i,
-        label=i, values=df_c[i], )
-        for i in indicators if i != 'Under-5 Mortality Rate'])
-    if 'Under-5 Mortality Rate' in indicators:
-        dims = [dict(
-            range=[0, 100], constraintrange=[0, 100],
-            name='U5MR',
-            label='U5MR', values=df_c['Under-5 Mortality Rate'])] + dims
-
-    return {
-        'data': [
-            go.Parcoords(
-                line=dict(color=df_c['cluster'], colorscale=colorscale),
-                dimensions=dims,
-                # hoverinfo='name', hovering doesn't seem to work for paarcords
-            )
-        ],
-        'layout': go.Layout(
-            title='Beta version - Only first 10 indicators are plotted ',
-            xaxis=dict(visible=False, tickangle=-90),  # Can't seem to rotate axis tick labels
-            height=650,
-        )
-    }
+#
+# @app.callback(
+#     Output('parallel-coords', 'figure'),
+#     [Input('indicators', 'value'),
+#      Input('clustered-data', 'children')])
+# def update_parallel_coords(indicators, data_json):
+#     df_c = pd.read_json(data_json).sort_values('cluster')
+#     n_clusters = len(df_c.cluster.unique())
+#     colorscale = make_colorscale(n_clusters)
+#
+#     # Since I can't seem to get vertical axis labels, only plot a subset of indicators for clarity
+#     if 'Under-5 Mortality Rate' in indicators:
+#         indicators = ['Under-5 Mortality Rate'] + indicators[:9]
+#     else:
+#         indicators = indicators[:10]
+#
+#     # Want U5MR to be the first column with special constraint range, if in indicator list
+#     dims = list([dict(
+#         range=[0, 100],
+#         tickvals=[100],
+#         name=i,
+#         label=i, values=df_c[i], )
+#         for i in indicators if i != 'Under-5 Mortality Rate'])
+#     if 'Under-5 Mortality Rate' in indicators:
+#         dims = [dict(
+#             range=[0, 100], constraintrange=[0, 100],
+#             name='U5MR',
+#             label='U5MR', values=df_c['Under-5 Mortality Rate'])] + dims
+#
+#     return {
+#         'data': [
+#             go.Parcoords(
+#                 line=dict(color=df_c['cluster'], colorscale=colorscale),
+#                 dimensions=dims,
+#                 # hoverinfo='name', hovering doesn't seem to work for paarcords
+#             )
+#         ],
+#         'layout': go.Layout(
+#             title='Beta version - Only first 10 indicators are plotted ',
+#             xaxis=dict(visible=False, tickangle=-90),  # Can't seem to rotate axis tick labels
+#             height=650,
+#             font=dict(size=plotly_font_size),
+#         )
+#     }
 
 
 if __name__ == '__main__':
