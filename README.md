@@ -5,7 +5,7 @@ Exploring national health indicators using primary data sources (the Demographic
 
 This repo supports the article on [Data, Science, and Sustainable Development](https://medium.com/@zwrankin/data-science-and-sustainable-development-challenging-historical-paradigms-with-k-means-b1b39305e3e7)
 and corresponding interactive visualization on Heroku: https://sdg-3.herokuapp.com/
-![](readme_images/app_capture.GIF)
+![](readme_images/app_capture.gif)
 
 ### Data sources
 There are four data sources queried by `src/data`
